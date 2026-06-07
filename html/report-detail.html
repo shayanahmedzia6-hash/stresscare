@@ -4,103 +4,432 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Report Detail</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/report.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="../css/report-detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="history.html" class="back-btn">←</a>
-      <h1>Session Report</h1>
+
+  <div class="phone-frame">
+    <div class="rd-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </div>
+      </div>
+
+      <!-- ── Scrollable ─────────────────────────── -->
+      <div class="rd-scroll">
+
+        <!-- Page Header -->
+        <div class="rd-page-header">
+          <div class="rd-header-left">
+            <a href="history.html" class="rd-back-btn">
+              <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div>
+              <h1 class="rd-title">Report Detail</h1>
+              <div class="rd-date">May 22, 2025</div>
+            </div>
+          </div>
+          <button class="rd-cal-btn">
+            <i class="fa-regular fa-calendar"></i>
+          </button>
+        </div>
+
+        <!-- ── Tabs ──────────────────────────────── -->
+        <div class="rd-tabs">
+          <button class="rd-tab rd-tab-active" onclick="switchTab(this,'overview')">Overview</button>
+          <button class="rd-tab" onclick="switchTab(this,'vitals')">Vitals</button>
+          <button class="rd-tab" onclick="switchTab(this,'sleep')">Sleep</button>
+          <button class="rd-tab" onclick="switchTab(this,'risk')">Risk</button>
+        </div>
+
+        <!-- ══════════ OVERVIEW TAB ══════════════ -->
+        <div id="tab-overview" class="rd-tab-panel">
+
+          <!-- Summary section title -->
+          <div class="rd-section-title">Summary</div>
+
+          <!-- Summary 3x2 grid -->
+          <div class="rd-card rd-summary-grid">
+
+            <!-- Stress gauge -->
+            <div class="rd-metric-cell">
+              <div class="rd-gauge-wrap">
+                <svg viewBox="0 0 80 80" width="60" height="60">
+                  <defs>
+                    <linearGradient id="gaugeG" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%"   stop-color="#22c55e"/>
+                      <stop offset="55%"  stop-color="#f59e0b"/>
+                      <stop offset="100%" stop-color="#ef4444"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="40" cy="40" r="32" fill="none" stroke="#f0f4fa" stroke-width="7"/>
+                  <circle cx="40" cy="40" r="32" fill="none" stroke="url(#gaugeG)"
+                    stroke-width="7" stroke-linecap="round"
+                    stroke-dasharray="201" stroke-dashoffset="82"
+                    transform="rotate(-90 40 40)"/>
+                </svg>
+                <div class="rd-gauge-center">
+                  <span style="font-size:12px;font-weight:800;color:#1a2b4b;">58%</span>
+                </div>
+              </div>
+              <div class="rd-metric-info">
+                <div class="rd-metric-lbl">Stress Summary</div>
+                <div class="rd-moderate-badge">Moderate</div>
+              </div>
+            </div>
+
+            <!-- Heart Rate -->
+            <div class="rd-metric-cell">
+              <div class="rd-icon-wrap rd-icon-red">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <div class="rd-metric-info">
+                <div class="rd-metric-lbl">Heart Rate Avg</div>
+                <div class="rd-metric-big">78 <span class="rd-unit">bpm</span></div>
+              </div>
+            </div>
+
+            <!-- GSR -->
+            <div class="rd-metric-cell">
+              <div class="rd-icon-wrap rd-icon-blue">
+                <i class="fa-solid fa-droplet"></i>
+              </div>
+              <div class="rd-metric-info">
+                <div class="rd-metric-lbl">GSR Avg</div>
+                <div class="rd-metric-big">5.2 <span class="rd-unit">μS</span></div>
+              </div>
+            </div>
+
+            <!-- Temperature -->
+            <div class="rd-metric-cell">
+              <div class="rd-icon-wrap rd-icon-orange">
+                <i class="fa-solid fa-temperature-half"></i>
+              </div>
+              <div class="rd-metric-info">
+                <div class="rd-metric-lbl">Temperature Avg</div>
+                <div class="rd-metric-big">33.6 <span class="rd-unit">°C</span></div>
+              </div>
+            </div>
+
+            <!-- Sleep Duration -->
+            <div class="rd-metric-cell">
+              <div class="rd-icon-wrap rd-icon-indigo">
+                <i class="fa-solid fa-moon"></i>
+              </div>
+              <div class="rd-metric-info">
+                <div class="rd-metric-lbl">Sleep Duration</div>
+                <div class="rd-metric-big">7h <span>20m</span></div>
+              </div>
+            </div>
+
+            <!-- Migraine Risk -->
+            <div class="rd-metric-cell">
+              <div class="rd-icon-wrap rd-icon-teal">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <div class="rd-metric-info">
+                <div class="rd-metric-lbl">Migraine Risk</div>
+                <div class="rd-metric-big rd-green-val">Low <span class="rd-unit rd-green-val">(12%)</span></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Stress Distribution -->
+          <div class="rd-card">
+            <div class="rd-card-header">
+              <div class="rd-card-title">Stress Distribution</div>
+              <i class="fa-solid fa-chevron-right rd-chevron-icon"></i>
+            </div>
+            <div class="rd-dist-bar">
+              <div style="width:28%;background:#22c55e;border-radius:6px 0 0 6px;"></div>
+              <div style="width:54%;background:#f59e0b;margin:0 1px;"></div>
+              <div style="width:14%;background:#f97316;margin:0 1px;"></div>
+              <div style="width:4%;background:#ef4444;border-radius:0 6px 6px 0;"></div>
+            </div>
+            <div class="rd-dist-legend">
+              <div class="rd-legend-item">
+                <span class="rd-ldot" style="background:#22c55e;"></span>
+                <span class="rd-llabel">Low</span>
+                <span class="rd-lpct">28%</span>
+              </div>
+              <div class="rd-legend-item">
+                <span class="rd-ldot" style="background:#f59e0b;"></span>
+                <span class="rd-llabel">Moderate</span>
+                <span class="rd-lpct">54%</span>
+              </div>
+              <div class="rd-legend-item">
+                <span class="rd-ldot" style="background:#f97316;"></span>
+                <span class="rd-llabel">High</span>
+                <span class="rd-lpct">14%</span>
+              </div>
+              <div class="rd-legend-item">
+                <span class="rd-ldot" style="background:#ef4444;"></span>
+                <span class="rd-llabel">Very High</span>
+                <span class="rd-lpct">4%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stress Timeline -->
+          <div class="rd-card">
+            <div class="rd-card-title" style="margin-bottom:10px;">Stress Timeline</div>
+            <div style="width:100%;overflow:hidden;">
+              <svg viewBox="0 0 310 115" preserveAspectRatio="none" style="width:100%;height:115px;">
+                <defs>
+                  <linearGradient id="tlGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stop-color="#f97316" stop-opacity="0.30"/>
+                    <stop offset="100%" stop-color="#f97316" stop-opacity="0.00"/>
+                  </linearGradient>
+                </defs>
+                <!-- Y labels -->
+                <text x="0" y="10"  font-size="7" fill="#b0bcd4">100%</text>
+                <text x="2" y="54"  font-size="7" fill="#b0bcd4">50%</text>
+                <text x="6" y="97"  font-size="7" fill="#b0bcd4">0%</text>
+                <!-- Grid -->
+                <line x1="26" y1="6"  x2="308" y2="6"  stroke="#f0f4fa" stroke-width="1"/>
+                <line x1="26" y1="50" x2="308" y2="50" stroke="#f0f4fa" stroke-width="1"/>
+                <line x1="26" y1="94" x2="308" y2="94" stroke="#f0f4fa" stroke-width="1"/>
+                <!-- Area fill -->
+                <polygon
+                  points="26,82 50,78 70,72 90,68 110,64 130,58 145,52 160,44 172,36 182,24 190,14 198,10 205,22 215,46 230,64 248,70 265,72 285,76 308,78 308,94 26,94"
+                  fill="url(#tlGrad)"/>
+                <!-- Line -->
+                <polyline
+                  points="26,82 50,78 70,72 90,68 110,64 130,58 145,52 160,44 172,36 182,24 190,14 198,10 205,22 215,46 230,64 248,70 265,72 285,76 308,78"
+                  fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Peak dot -->
+                <circle cx="198" cy="10" r="4.5" fill="#ef4444"/>
+                <!-- Tooltip -->
+                <rect x="205" y="2" width="48" height="22" rx="6" fill="#1a2b4b"/>
+                <text x="229" y="11" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">72%</text>
+                <text x="229" y="20" font-size="6.5" fill="#9aadc9" text-anchor="middle">2:45 PM</text>
+                <!-- X labels -->
+                <text x="26"  y="107" font-size="7" fill="#9aadc9" text-anchor="middle">12 AM</text>
+                <text x="90"  y="107" font-size="7" fill="#9aadc9" text-anchor="middle">6 AM</text>
+                <text x="168" y="107" font-size="7" fill="#9aadc9" text-anchor="middle">12 PM</text>
+                <text x="230" y="107" font-size="7" fill="#9aadc9" text-anchor="middle">6 PM</text>
+                <text x="308" y="107" font-size="7" fill="#9aadc9" text-anchor="middle">12 AM</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Insights -->
+          <div class="rd-section-title">Insights</div>
+          <div class="rd-card rd-insight-card">
+            <div class="rd-insight-icon-wrap">
+              <i class="fa-regular fa-lightbulb"></i>
+            </div>
+            <div class="rd-insight-text">
+              <span class="rd-insight-bold">Most stress occurred between 2 PM–5 PM.</span>
+              Consider taking short breaks during this period.
+            </div>
+          </div>
+
+          <!-- Export -->
+          <button class="rd-export-btn">
+            <i class="fa-solid fa-download"></i>
+            Export Report
+          </button>
+
+          <div style="height:80px;"></div>
+        </div>
+
+        <!-- ══════════ VITALS TAB ══════════════ -->
+        <div id="tab-vitals" class="rd-tab-panel rd-hidden">
+          <div class="rd-card" style="margin-top:4px;">
+            <div class="rd-card-title" style="margin-bottom:12px;">Vitals Overview</div>
+            <div class="rd-vitals-list">
+              <div class="rd-vital-row">
+                <div class="rd-icon-wrap rd-icon-red"><i class="fa-solid fa-heart"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">Heart Rate</div>
+                  <div class="rd-vital-sub">Resting average</div>
+                </div>
+                <div class="rd-metric-big">78 <span class="rd-unit">bpm</span></div>
+              </div>
+              <div class="rd-vital-row">
+                <div class="rd-icon-wrap rd-icon-blue"><i class="fa-solid fa-droplet"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">GSR</div>
+                  <div class="rd-vital-sub">Skin conductance</div>
+                </div>
+                <div class="rd-metric-big">5.2 <span class="rd-unit">μS</span></div>
+              </div>
+              <div class="rd-vital-row">
+                <div class="rd-icon-wrap rd-icon-orange"><i class="fa-solid fa-temperature-half"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">Skin Temperature</div>
+                  <div class="rd-vital-sub">Daily average</div>
+                </div>
+                <div class="rd-metric-big">33.6 <span class="rd-unit">°C</span></div>
+              </div>
+              <div class="rd-vital-row">
+                <div class="rd-icon-wrap rd-icon-indigo"><i class="fa-solid fa-wave-square"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">HRV</div>
+                  <div class="rd-vital-sub">Heart rate variability</div>
+                </div>
+                <div class="rd-metric-big">42 <span class="rd-unit">ms</span></div>
+              </div>
+              <div class="rd-vital-row" style="border:none;">
+                <div class="rd-icon-wrap rd-icon-teal"><i class="fa-solid fa-lungs"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">SpO₂</div>
+                  <div class="rd-vital-sub">Blood oxygen</div>
+                </div>
+                <div class="rd-metric-big">98 <span class="rd-unit">%</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="height:80px;"></div>
+        </div>
+
+        <!-- ══════════ SLEEP TAB ══════════════ -->
+        <div id="tab-sleep" class="rd-tab-panel rd-hidden">
+          <div class="rd-card" style="margin-top:4px;">
+            <div class="rd-card-title" style="margin-bottom:12px;">Sleep Summary</div>
+            <div class="rd-sleep-stats">
+              <div>
+                <div class="rd-sleep-val">7h 20m</div>
+                <div class="rd-sleep-lbl">Duration</div>
+              </div>
+              <div>
+                <div class="rd-sleep-val" style="color:#22c55e;">78</div>
+                <div class="rd-sleep-lbl">Quality Score</div>
+              </div>
+              <div>
+                <div class="rd-sleep-val">85%</div>
+                <div class="rd-sleep-lbl">Efficiency</div>
+              </div>
+            </div>
+          </div>
+          <div class="rd-card">
+            <div class="rd-card-title" style="margin-bottom:12px;">Sleep Stages</div>
+            <div class="rd-stages-list">
+              <div class="rd-stage-row">
+                <span class="rd-sdot" style="background:#2563eb;"></span>
+                <span class="rd-sname">Deep Sleep</span>
+                <div class="rd-sbar-t"><div class="rd-sbar-f" style="width:27%;background:#2563eb;"></div></div>
+                <span class="rd-sdur">2h 01m</span>
+                <span class="rd-spct">27%</span>
+              </div>
+              <div class="rd-stage-row">
+                <span class="rd-sdot" style="background:#60a5fa;"></span>
+                <span class="rd-sname">Light Sleep</span>
+                <div class="rd-sbar-t"><div class="rd-sbar-f" style="width:53%;background:#60a5fa;"></div></div>
+                <span class="rd-sdur">3h 56m</span>
+                <span class="rd-spct">53%</span>
+              </div>
+              <div class="rd-stage-row">
+                <span class="rd-sdot" style="background:#a855f7;"></span>
+                <span class="rd-sname">REM Sleep</span>
+                <div class="rd-sbar-t"><div class="rd-sbar-f" style="width:20%;background:#a855f7;"></div></div>
+                <span class="rd-sdur">1h 31m</span>
+                <span class="rd-spct">20%</span>
+              </div>
+              <div class="rd-stage-row">
+                <span class="rd-sdot" style="background:#f87171;"></span>
+                <span class="rd-sname">Awake</span>
+                <div class="rd-sbar-t"><div class="rd-sbar-f" style="width:3%;background:#f87171;"></div></div>
+                <span class="rd-sdur">12m</span>
+                <span class="rd-spct">3%</span>
+              </div>
+            </div>
+          </div>
+          <div style="height:80px;"></div>
+        </div>
+
+        <!-- ══════════ RISK TAB ══════════════ -->
+        <div id="tab-risk" class="rd-tab-panel rd-hidden">
+          <div class="rd-card" style="margin-top:4px;">
+            <div class="rd-card-title" style="margin-bottom:12px;">Risk Assessment</div>
+            <div class="rd-vitals-list">
+              <div class="rd-vital-row">
+                <div class="rd-icon-wrap rd-icon-teal"><i class="fa-solid fa-brain"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">Migraine Risk</div>
+                  <div class="rd-vital-sub">Based on HRV + stress patterns</div>
+                </div>
+                <div class="rd-badge rd-badge-green">Low 12%</div>
+              </div>
+              <div class="rd-vital-row">
+                <div class="rd-icon-wrap rd-icon-orange"><i class="fa-solid fa-heart-pulse"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">Cardiovascular Stress</div>
+                  <div class="rd-vital-sub">Based on HR + GSR trends</div>
+                </div>
+                <div class="rd-badge rd-badge-yellow">Moderate</div>
+              </div>
+              <div class="rd-vital-row" style="border:none;">
+                <div class="rd-icon-wrap rd-icon-indigo"><i class="fa-solid fa-moon"></i></div>
+                <div class="rd-vital-info">
+                  <div class="rd-vital-name">Sleep Deprivation</div>
+                  <div class="rd-vital-sub">Based on sleep duration trends</div>
+                </div>
+                <div class="rd-badge rd-badge-green">Low</div>
+              </div>
+            </div>
+          </div>
+          <div style="height:80px;"></div>
+        </div>
+
+      </div><!-- /rd-scroll -->
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item nav-active">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
     </div>
-
-    <div class="screen-main">
-      <!-- Session Summary -->
-      <div class="report-header">
-        <div class="report-date">June 5, 2024 • 10:30 AM</div>
-        <div class="report-duration">Duration: 15 minutes</div>
-      </div>
-
-      <!-- Key Metrics -->
-      <h3 class="section-title">Key Metrics</h3>
-      <div class="metrics-grid">
-        <div class="metric-box">
-          <div class="metric-label">Avg Stress</div>
-          <div class="metric-value">65</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-label">Peak Stress</div>
-          <div class="metric-value">78</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-label">Avg HR</div>
-          <div class="metric-value">72</div>
-        </div>
-        <div class="metric-box">
-          <div class="metric-label">Respiration</div>
-          <div class="metric-value">16</div>
-        </div>
-      </div>
-
-      <!-- Stress Progression -->
-      <h3 class="section-title">Stress Progression</h3>
-      <div class="chart-box">
-        <svg viewBox="0 0 300 150" style="width: 100%; height: 150px;">
-          <polyline points="10,80 40,70 70,60 100,75 130,55 160,65 190,50 220,70 250,60 280,75" 
-                    fill="none" stroke="#6C63FF" stroke-width="3" stroke-linejoin="round"/>
-          <circle cx="10" cy="80" r="3" fill="#6C63FF"/>
-          <circle cx="280" cy="75" r="3" fill="#FF6B6B"/>
-        </svg>
-      </div>
-
-      <!-- Observations -->
-      <h3 class="section-title">Observations</h3>
-      <div class="observation-card">
-        <div class="obs-item">
-          <span class="obs-icon">💡</span>
-          <p>Your stress peaked at 10:42 AM. This coincided with your email check.</p>
-        </div>
-        <div class="obs-item">
-          <span class="obs-icon">✓</span>
-          <p>You recovered well after the exercise. Great job!</p>
-        </div>
-        <div class="obs-item">
-          <span class="obs-icon">⚠️</span>
-          <p>Your respiration rate increased towards the end. Consider relaxation techniques.</p>
-        </div>
-      </div>
-
-      <!-- Actions -->
-      <h3 class="section-title">Recommendations</h3>
-      <div class="recommendations">
-        <a href="interventions.html" class="btn btn-primary btn-block">Try Relaxation Exercise</a>
-        <a href="feedback.html" class="btn btn-outline btn-block">Give Feedback</a>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item active">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
+
+  <script>
+    function switchTab(btn, tabId) {
+      document.querySelectorAll('.rd-tab').forEach(t => t.classList.remove('rd-tab-active'));
+      document.querySelectorAll('.rd-tab-panel').forEach(p => p.classList.add('rd-hidden'));
+      btn.classList.add('rd-tab-active');
+      document.getElementById('tab-' + tabId).classList.remove('rd-hidden');
+    }
+  </script>
+
 </body>
 </html>
