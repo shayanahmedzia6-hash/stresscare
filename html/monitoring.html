@@ -4,99 +4,233 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Monitoring</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/monitoring.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="home.html" class="back-btn">←</a>
-      <h1>Real-Time Monitor</h1>
+
+  <div class="phone-frame">
+    <div class="mon-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="mon-topnav">
+        <span class="mon-title">Monitoring</span>
+        <div class="mon-ble-badge">
+          <i class="fa-brands fa-bluetooth-b"></i>
+          <span>Wearable Connected</span>
+          <span class="ble-dot"></span>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="mon-scroll">
+
+        <!-- Stress Level Card -->
+        <div class="mon-stress-card">
+          <div class="mon-gauge-wrap">
+            <svg class="mon-gauge-svg" viewBox="0 0 160 160">
+              <defs>
+                <linearGradient id="monGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#3b82f6"/>
+                  <stop offset="35%"  stop-color="#22c55e"/>
+                  <stop offset="65%"  stop-color="#f59e0b"/>
+                  <stop offset="100%" stop-color="#f97316"/>
+                </linearGradient>
+              </defs>
+              <circle class="mon-gauge-bg" cx="80" cy="80" r="64"/>
+              <circle class="mon-gauge-fill" id="monGaugeArc" cx="80" cy="80" r="64"/>
+            </svg>
+            <div class="mon-gauge-center">
+              <span class="mon-gauge-pct">62<span class="mon-gauge-sym">%</span></span>
+              <span class="mon-gauge-lbl">Stress Level</span>
+            </div>
+          </div>
+
+          <div class="mon-stress-info">
+            <div class="mon-stress-title-row">
+              <i class="fa-solid fa-wave-square mon-wave-icon"></i>
+              <span class="mon-stress-label">Moderate Stress</span>
+            </div>
+            <p class="mon-stress-desc">Your stress is moderate. Keep breathing and stay mindful.</p>
+            <div class="mon-updated-row">
+              <span class="mon-update-dot"></span>
+              <span class="mon-update-text">Updated every 5 sec</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="mon-metrics-row">
+
+          <!-- Heart Rate -->
+          <div class="mon-metric-card">
+            <div class="mon-metric-icon icon-red-bg">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <div class="mon-metric-name">Heart Rate</div>
+            <div class="mon-metric-value">87 <span class="mon-metric-unit">bpm</span></div>
+            <div class="mon-metric-status status-red">↑ Slightly High</div>
+            <svg class="mon-metric-wave" viewBox="0 0 80 28" preserveAspectRatio="none">
+              <polyline points="0,18 10,14 18,20 26,10 34,18 42,22 50,12 58,16 68,8 80,16" fill="none" stroke="#fca5a5" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- GSR -->
+          <div class="mon-metric-card">
+            <div class="mon-metric-icon icon-teal-bg">
+              <i class="fa-solid fa-droplet"></i>
+            </div>
+            <div class="mon-metric-name">GSR</div>
+            <div class="mon-metric-value">5.18 <span class="mon-metric-unit">μS</span></div>
+            <div class="mon-metric-status status-green">Normal</div>
+            <svg class="mon-metric-wave" viewBox="0 0 80 28" preserveAspectRatio="none">
+              <polyline points="0,14 12,10 22,18 32,12 42,16 52,10 62,14 72,12 80,15" fill="none" stroke="#5eead4" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- Skin Temp -->
+          <div class="mon-metric-card">
+            <div class="mon-metric-icon icon-purple-bg">
+              <i class="fa-solid fa-temperature-half"></i>
+            </div>
+            <div class="mon-metric-name">Skin Temp.</div>
+            <div class="mon-metric-value">33.1 <span class="mon-metric-unit">°C</span></div>
+            <div class="mon-metric-status status-green">Normal</div>
+            <svg class="mon-metric-wave" viewBox="0 0 80 28" preserveAspectRatio="none">
+              <polyline points="0,16 14,12 24,17 36,13 46,15 56,11 66,14 76,13 80,14" fill="none" stroke="#c4b5fd" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- Motion Activity -->
+          <div class="mon-metric-card">
+            <div class="mon-metric-icon icon-blue-bg">
+              <i class="fa-solid fa-person-running"></i>
+            </div>
+            <div class="mon-metric-name">Motion Activity</div>
+            <div class="mon-metric-value">71 <span class="mon-metric-unit">/100</span></div>
+            <div class="mon-metric-status status-purple">Moderate</div>
+            <svg class="mon-metric-wave" viewBox="0 0 80 28" preserveAspectRatio="none">
+              <polyline points="0,12 10,18 20,10 30,16 40,8 50,14 60,10 70,16 80,12" fill="none" stroke="#a5b4fc" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+        </div>
+
+        <!-- Wearable Info Row -->
+        <div class="mon-wearable-row">
+          <div class="mon-wearable-img">
+            <i class="fa-solid fa-watch"></i>
+          </div>
+          <div class="mon-wearable-stat">
+            <div class="mon-wstat-icon"><i class="fa-solid fa-battery-three-quarters" style="color:#22c55e;"></i></div>
+            <div class="mon-wstat-val">78%</div>
+            <div class="mon-wstat-lbl">Battery</div>
+          </div>
+          <div class="mon-wearable-stat">
+            <div class="mon-wstat-icon"><i class="fa-brands fa-bluetooth-b" style="color:#2563eb;"></i></div>
+            <div class="mon-wstat-val">Connected</div>
+            <div class="mon-wstat-lbl">BLE</div>
+          </div>
+          <div class="mon-wearable-stat">
+            <div class="mon-wstat-icon"><i class="fa-regular fa-clock" style="color:#5a6882;"></i></div>
+            <div class="mon-wstat-val" id="sessionTimer">00:12:45</div>
+            <div class="mon-wstat-lbl">Session Time</div>
+          </div>
+        </div>
+
+        <!-- Wearable Display Sync -->
+        <div class="mon-sync-card">
+          <div class="mon-sync-icon">
+            <i class="fa-solid fa-rotate"></i>
+          </div>
+          <div class="mon-sync-info">
+            <div class="mon-sync-title">Wearable Display Sync</div>
+            <div class="mon-sync-desc">Predicted stress level is being sent to your band display.</div>
+          </div>
+          <div class="mon-sync-badge">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Active</span>
+          </div>
+        </div>
+
+        <!-- Stop Monitoring Button -->
+        <button class="mon-stop-btn" id="monStopBtn">
+          <i class="fa-solid fa-stop"></i>
+          Stop Monitoring
+        </button>
+
+        <div style="height: 80px;"></div>
+
+      </div><!-- /mon-scroll -->
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item nav-active">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
     </div>
-
-    <div class="screen-main">
-      <!-- Timer -->
-      <div class="monitoring-card">
-        <div class="timer">
-          <div class="time-display">12:34</div>
-          <div class="time-label">Session Time</div>
-        </div>
-        <div class="monitoring-controls">
-          <button class="btn btn-primary">Start</button>
-          <button class="btn btn-outline">Pause</button>
-          <button class="btn btn-secondary">Stop</button>
-        </div>
-      </div>
-
-      <!-- Live Metrics -->
-      <h3 class="section-title">Live Metrics</h3>
-      <div class="metrics-container">
-        <div class="metric-card">
-          <div class="metric-label">Heart Rate</div>
-          <div class="metric-value">72 <span>bpm</span></div>
-          <div class="metric-trend trend-up">↑ +2</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-label">Stress Level</div>
-          <div class="metric-value">62 <span>/100</span></div>
-          <div class="metric-trend trend-stable">→ stable</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-label">Respiration</div>
-          <div class="metric-value">16 <span>br/m</span></div>
-          <div class="metric-trend trend-down">↓ -1</div>
-        </div>
-      </div>
-
-      <!-- Alert -->
-      <div class="alert alert-warning">
-        ⚠️ Your stress level is elevated. Consider taking a break.
-      </div>
-
-      <!-- Trend Chart Placeholder -->
-      <h3 class="section-title">Stress Trend (Last 30 min)</h3>
-      <div class="chart-placeholder">
-        <svg viewBox="0 0 300 150" style="width: 100%; height: 150px;">
-          <polyline points="10,100 30,80 50,70 70,85 90,60 110,75 130,55 150,70 170,50 190,65 210,45 230,60 250,40 270,55 290,35" 
-                    fill="none" stroke="#6C63FF" stroke-width="3"/>
-          <line x1="10" y1="120" x2="290" y2="120" stroke="#E5E7EB" stroke-width="1"/>
-          <text x="5" y="140" font-size="10" fill="#999">0 min</text>
-          <text x="280" y="140" font-size="10" fill="#999">30 min</text>
-        </svg>
-      </div>
-
-      <!-- Notes -->
-      <div class="notes-section">
-        <label>Session Notes</label>
-        <textarea placeholder="What were you doing during this session?"></textarea>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item active">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
+
+  <script>
+    /* ── Gauge Arc (62%) ── */
+    const arc = document.getElementById('monGaugeArc');
+    const r = 64;
+    const circ = 2 * Math.PI * r;
+    const pct = 0.62;
+    arc.style.strokeDasharray  = circ;
+    arc.style.strokeDashoffset = circ * (1 - pct);
+
+    /* ── Live Session Timer ── */
+    let totalSecs = 12 * 60 + 45;
+    function formatTime(s) {
+      const h = Math.floor(s / 3600).toString().padStart(2,'0');
+      const m = Math.floor((s % 3600) / 60).toString().padStart(2,'0');
+      const sec = (s % 60).toString().padStart(2,'0');
+      return h + ':' + m + ':' + sec;
+    }
+    const timerEl = document.getElementById('sessionTimer');
+    setInterval(() => {
+      totalSecs++;
+      timerEl.textContent = formatTime(totalSecs);
+    }, 1000);
+
+    /* ── Stop Button ── */
+    document.getElementById('monStopBtn').addEventListener('click', function() {
+      window.location.href = 'home.html';
+    });
+  </script>
+
 </body>
 </html>

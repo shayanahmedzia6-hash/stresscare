@@ -1,112 +1,333 @@
-/* Monitoring Screen Styles */
+/* ── Monitoring Screen ─────────────────────────────────── */
 
-.monitoring-card {
-  background-color: var(--gray-50);
-  border-radius: var(--radius-xl);
-  padding: var(--spacing-2xl);
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
+.mon-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #deeeff 0%, #f0f6ff 18%, #f5f8ff 100%);
+  overflow: hidden;
+  position: relative;
 }
 
-.timer {
-  margin-bottom: var(--spacing-lg);
-}
-
-.time-display {
-  font-size: 3.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  font-family: 'Courier New', monospace;
-  margin-bottom: var(--spacing-sm);
-}
-
-.time-label {
-  color: var(--gray-600);
-  font-size: var(--font-size-sm);
-}
-
-.monitoring-controls {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-md);
-}
-
-.monitoring-controls .btn {
-  margin: 0;
-  padding: var(--spacing-md);
-}
-
-.metrics-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-lg);
-}
-
-.metric-card {
-  background-color: var(--white);
-  border: 2px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  display: grid;
-  grid-template-columns: 1fr auto;
+/* ── Top Nav ─────────────────────────────────────────── */
+.mon-topnav {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 6px 20px 10px;
+  flex-shrink: 0;
 }
 
-.metric-label {
-  color: var(--gray-600);
-  font-size: var(--font-size-sm);
+.mon-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a2b4b;
 }
 
-.metric-value {
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  color: var(--dark-color);
-}
-
-.metric-value span {
-  font-size: var(--font-size-base);
-  font-weight: normal;
-  color: var(--gray-600);
-}
-
-.metric-trend {
-  font-size: var(--font-size-sm);
+.mon-ble-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #fff;
+  border: 1.5px solid #d0dff0;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 11px;
   font-weight: 600;
-  text-align: right;
+  color: #1a2b4b;
 }
 
-.trend-up {
-  color: var(--danger-color);
+.mon-ble-badge i { color: #2563eb; font-size: 11px; }
+
+.ble-dot {
+  width: 8px; height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
 }
 
-.trend-down {
-  color: var(--success-color);
+/* ── Scrollable ──────────────────────────────────────── */
+.mon-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 16px;
+}
+.mon-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Stress Card ─────────────────────────────────────── */
+.mon-stress-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, #e8f3ff 0%, #dff0ff 100%);
+  border-radius: 20px;
+  padding: 16px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 14px rgba(37,99,235,0.10);
 }
 
-.trend-stable {
-  color: var(--warning-color);
+.mon-gauge-wrap {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  flex-shrink: 0;
 }
 
-.chart-placeholder {
-  background-color: var(--gray-50);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
-  border: 1px solid var(--gray-200);
+.mon-gauge-svg {
+  width: 130px; height: 130px;
+  transform: rotate(-90deg);
 }
 
-.notes-section {
-  margin-bottom: var(--spacing-lg);
+.mon-gauge-bg {
+  fill: none;
+  stroke: #dce8f8;
+  stroke-width: 12;
 }
 
-.notes-section label {
-  display: block;
-  margin-bottom: var(--spacing-sm);
+.mon-gauge-fill {
+  fill: none;
+  stroke: url(#monGaugeGrad);
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease;
 }
 
-@media (min-width: 768px) {
-  .metrics-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.mon-gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
+
+.mon-gauge-pct {
+  font-size: 30px;
+  font-weight: 800;
+  color: #1a2b4b;
+  line-height: 1;
+}
+
+.mon-gauge-sym { font-size: 16px; vertical-align: super; }
+
+.mon-gauge-lbl {
+  font-size: 11px;
+  color: #7a8cad;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* Stress info (right side) */
+.mon-stress-info { flex: 1; min-width: 0; }
+
+.mon-stress-title-row {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 6px;
+}
+
+.mon-wave-icon { color: #2563eb; font-size: 13px; }
+
+.mon-stress-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: #2563eb;
+}
+
+.mon-stress-desc {
+  font-size: 11.5px;
+  color: #5a6882;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.mon-updated-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mon-update-dot {
+  width: 7px; height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.mon-update-text {
+  font-size: 10.5px;
+  color: #5a6882;
+  font-weight: 500;
+}
+
+/* ── 4 Metric Cards ──────────────────────────────────── */
+.mon-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mon-metric-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px 8px 8px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 3px;
+}
+
+.mon-metric-icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.mon-metric-name  { font-size: 10px; color: #7a8cad; font-weight: 500; line-height: 1.2; }
+.mon-metric-value { font-size: 13px; font-weight: 800; color: #1a2b4b; line-height: 1.1; }
+.mon-metric-unit  { font-size: 9px; font-weight: 500; color: #9aadc9; }
+
+.mon-metric-status { font-size: 9.5px; font-weight: 600; }
+
+.mon-metric-wave {
+  width: 100%;
+  height: 20px;
+  margin-top: 4px;
+}
+
+/* ── Wearable Info Row ───────────────────────────────── */
+.mon-wearable-row {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 18px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+}
+
+.mon-wearable-img {
+  width: 50px; height: 50px;
+  background: #111;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-right: 14px;
+}
+
+.mon-wearable-img i { color: #fff; font-size: 22px; }
+
+.mon-wearable-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border-left: 1px solid #f0f4fa;
+  padding: 0 4px;
+}
+
+.mon-wstat-icon i { font-size: 14px; }
+
+.mon-wstat-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a2b4b;
+  line-height: 1.1;
+}
+
+.mon-wstat-lbl {
+  font-size: 9.5px;
+  color: #9aadc9;
+}
+
+/* ── Wearable Display Sync Card ──────────────────────── */
+.mon-sync-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+}
+
+.mon-sync-icon {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #e8f3ff;
+  display: flex; align-items: center; justify-content: center;
+  color: #2563eb;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.mon-sync-info { flex: 1; min-width: 0; }
+
+.mon-sync-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1a2b4b;
+  margin-bottom: 2px;
+}
+
+.mon-sync-desc {
+  font-size: 10.5px;
+  color: #7a8cad;
+  line-height: 1.4;
+}
+
+.mon-sync-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #16a34a;
+  font-size: 11.5px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.mon-sync-badge i { font-size: 18px; }
+
+/* ── Stop Button ─────────────────────────────────────── */
+.mon-stop-btn {
+  width: 100%;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.30);
+  transition: all 0.2s;
+}
+
+.mon-stop-btn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 6px 20px rgba(37,99,235,0.40);
+  transform: translateY(-1px);
+}
+
+.mon-stop-btn i { font-size: 14px; }
+
+/* Shared status colors (if not already defined) */
+.status-red    { color: #ef4444; }
+.status-green  { color: #16a34a; }
+.status-purple { color: #7c3aed; }
+
+/* Icon backgrounds (shared with home) */
+.icon-red-bg    { background: #fee2e2; color: #ef4444; }
+.icon-teal-bg   { background: #ccfbf1; color: #0d9488; }
+.icon-purple-bg { background: #ede9fe; color: #7c3aed; }
+.icon-blue-bg   { background: #dbeafe; color: #2563eb; }
