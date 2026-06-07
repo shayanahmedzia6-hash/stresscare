@@ -4,124 +4,214 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Profile</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="home.html" class="back-btn">←</a>
-      <h1>Profile</h1>
+
+  <div class="phone-frame">
+    <div class="pf-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <a href="notifications.html" class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </a>
+      </div>
+
+      <!-- ── Scrollable ─────────────────────────── -->
+      <div class="pf-scroll">
+
+        <!-- Page Title -->
+        <h1 class="pf-page-title">Profile</h1>
+
+        <!-- ── User Card ──────────────────────── -->
+        <div class="pf-user-card">
+          <div class="pf-avatar-wrap">
+            <div class="pf-avatar">
+              <div class="pf-avatar-fallback">
+                <i class="fa-solid fa-user"></i>
+              </div>
+            </div>
+          </div>
+          <div class="pf-user-info">
+            <div class="pf-user-name">Minhal Mukhtar</div>
+            <div class="pf-user-email">minhal.mukhtar@example.com</div>
+            <div class="pf-user-joined">
+              <i class="fa-regular fa-calendar"></i>
+              Joined May 12, 2025
+            </div>
+            <button class="pf-edit-btn">
+              <i class="fa-solid fa-pen"></i>
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Account & Settings ─────────────── -->
+        <div class="pf-section-label">Account &amp; Settings</div>
+
+        <div class="pf-menu-card">
+
+          <a href="#" class="pf-menu-row">
+            <div class="pf-menu-icon pf-mi-blue">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">Personal Information</div>
+              <div class="pf-menu-sub">Update your personal details</div>
+            </div>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+          <a href="#" class="pf-menu-row">
+            <div class="pf-menu-icon pf-mi-purple">
+              <i class="fa-solid fa-gem"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">Subscription &amp; Plan</div>
+              <div class="pf-menu-sub">Manage your plan and billing</div>
+            </div>
+            <span class="pf-badge pf-badge-green">Premium Plan</span>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+          <a href="device-pairing.html" class="pf-menu-row">
+            <div class="pf-menu-icon pf-mi-teal">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">Device Management</div>
+              <div class="pf-menu-sub">Manage your connected devices</div>
+            </div>
+            <span class="pf-badge-plain">1 Device</span>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+          <a href="notifications.html" class="pf-menu-row">
+            <div class="pf-menu-icon pf-mi-amber">
+              <i class="fa-regular fa-bell"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">Notifications</div>
+              <div class="pf-menu-sub">Manage app notifications and alerts</div>
+            </div>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+          <a href="#" class="pf-menu-row">
+            <div class="pf-menu-icon pf-mi-blue">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">Privacy &amp; Security</div>
+              <div class="pf-menu-sub">Manage privacy settings and data</div>
+            </div>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+          <a href="#" class="pf-menu-row pf-menu-row-last">
+            <div class="pf-menu-icon pf-mi-cyan">
+              <i class="fa-solid fa-cloud"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">Cloud Sync</div>
+              <div class="pf-menu-sub">Backup and sync your data</div>
+            </div>
+            <span class="pf-badge pf-badge-synced">Synced <i class="fa-solid fa-circle-check"></i></span>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+        </div>
+
+        <!-- ── Support & More ─────────────────── -->
+        <div class="pf-section-label">Support &amp; More</div>
+
+        <div class="pf-menu-card">
+
+          <a href="#" class="pf-menu-row">
+            <div class="pf-menu-icon pf-mi-purple">
+              <i class="fa-regular fa-circle-question"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">Help &amp; Support</div>
+              <div class="pf-menu-sub">FAQs, guides and contact support</div>
+            </div>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+          <a href="#" class="pf-menu-row pf-menu-row-last">
+            <div class="pf-menu-icon pf-mi-blue">
+              <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="pf-menu-info">
+              <div class="pf-menu-title">About StressCare</div>
+              <div class="pf-menu-sub">App version and information</div>
+            </div>
+            <span class="pf-version">v1.3.0</span>
+            <i class="fa-solid fa-chevron-right pf-menu-chev"></i>
+          </a>
+
+        </div>
+
+        <!-- ── Logout ─────────────────────────── -->
+        <button class="pf-logout-btn" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Logout
+        </button>
+
+        <div style="height:80px;"></div>
+      </div>
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item nav-active">
+          <i class="fa-solid fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
     </div>
-
-    <div class="screen-main">
-      <!-- User Info -->
-      <div class="user-card">
-        <div class="avatar">👤</div>
-        <div class="user-info">
-          <h2>John Doe</h2>
-          <p class="user-email">john@example.com</p>
-          <p class="user-plan">Premium Plan • Since June 2024</p>
-        </div>
-      </div>
-
-      <a href="#" class="btn btn-outline btn-block btn-sm">Edit Profile</a>
-
-      <!-- Stats -->
-      <h3 class="section-title">Your Statistics</h3>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Total Sessions</div>
-          <div class="stat-value">148</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Avg Stress</div>
-          <div class="stat-value">58</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Current Streak</div>
-          <div class="stat-value">7 days</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Stress Reduced</div>
-          <div class="stat-value">22%</div>
-        </div>
-      </div>
-
-      <!-- Menu Items -->
-      <h3 class="section-title">Account</h3>
-      <div class="menu-list">
-        <a href="settings.html" class="menu-item">
-          <span class="menu-icon">⚙️</span>
-          <span class="menu-text">Settings</span>
-          <span class="menu-arrow">→</span>
-        </a>
-
-        <a href="device-management.html" class="menu-item">
-          <span class="menu-icon">📱</span>
-          <span class="menu-text">Device Management</span>
-          <span class="menu-arrow">→</span>
-        </a>
-
-        <a href="cloud-sync.html" class="menu-item">
-          <span class="menu-icon">☁️</span>
-          <span class="menu-text">Cloud Sync & Backup</span>
-          <span class="menu-arrow">→</span>
-        </a>
-
-        <a href="subscription.html" class="menu-item">
-          <span class="menu-icon">💳</span>
-          <span class="menu-text">Subscription</span>
-          <span class="menu-arrow">→</span>
-        </a>
-      </div>
-
-      <h3 class="section-title">Support</h3>
-      <div class="menu-list">
-        <a href="help.html" class="menu-item">
-          <span class="menu-icon">❓</span>
-          <span class="menu-text">Help & Support</span>
-          <span class="menu-arrow">→</span>
-        </a>
-
-        <a href="#" class="menu-item" onclick="logout()">
-          <span class="menu-icon">🚪</span>
-          <span class="menu-text">Logout</span>
-          <span class="menu-arrow">→</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item active">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
 
   <script>
-    function logout() {
-      alert('Logged out successfully!');
-      window.location.href = '../html/splash.html';
+    function handleLogout() {
+      if (confirm('Are you sure you want to logout?')) {
+        window.location.href = 'login.html';
+      }
     }
   </script>
+
 </body>
 </html>
