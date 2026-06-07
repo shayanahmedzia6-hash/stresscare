@@ -14,7 +14,7 @@
   <div class="phone-frame">
     <div class="intv-screen">
 
-      <!-- ── Status Bar ─────────────────────────── -->
+      <!-- Status Bar -->
       <div class="dp-status-bar">
         <span class="status-time">10:30</span>
         <div class="status-icons">
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <!-- ── Top Nav ────────────────────────────── -->
+      <!-- Top Nav -->
       <div class="dp-topnav">
         <img src="../images/logo.png" alt="StressCare" class="dp-logo">
         <a href="notifications.html" class="dp-bell">
@@ -34,27 +34,22 @@
         </a>
       </div>
 
-      <!-- ── Scrollable Content ─────────────────── -->
+      <!-- ══════════ MAIN SCROLL ══════════ -->
       <div class="intv-scroll">
 
-        <!-- Title -->
         <h1 class="intv-title">Interventions</h1>
         <p class="intv-subtitle">Tools and techniques to help you relax and feel better.</p>
 
         <!-- High Stress Alert Banner -->
         <div class="intv-alert-banner">
           <div class="intv-alert-left">
-            <div class="intv-alert-icon">
-              <i class="fa-solid fa-heart-pulse"></i>
-            </div>
+            <div class="intv-alert-icon"><i class="fa-solid fa-heart-pulse"></i></div>
             <div>
               <div class="intv-alert-title">High Stress Detected</div>
               <div class="intv-alert-desc">Take a moment for yourself. A few minutes of relaxation can help bring you back to balance.</div>
             </div>
           </div>
-          <div class="intv-alert-figure">
-            <i class="fa-solid fa-person-praying"></i>
-          </div>
+          <div class="intv-alert-figure"><i class="fa-solid fa-person-praying"></i></div>
         </div>
 
         <!-- Guided Breathing Card -->
@@ -63,22 +58,13 @@
             <div class="intv-breathing-title">Guided Breathing</div>
             <div class="intv-breathing-desc">Calm your mind and body with our breathing exercise.</div>
             <div class="intv-breathing-tags">
-              <div class="intv-tag">
-                <i class="fa-regular fa-clock"></i>
-                <span>2 min</span>
-              </div>
-              <div class="intv-tag">
-                <i class="fa-solid fa-wave-square"></i>
-                <span>Reduces stress and anxiety</span>
-              </div>
+              <div class="intv-tag"><i class="fa-regular fa-clock"></i><span>2 min</span></div>
+              <div class="intv-tag"><i class="fa-solid fa-wave-square"></i><span>Reduces stress and anxiety</span></div>
             </div>
             <button class="intv-start-btn" id="breatheStartBtn" onclick="startBreathing()">
-              <i class="fa-solid fa-play"></i>
-              Start 2-Min Exercise
+              <i class="fa-solid fa-play"></i> Start 2-Min Exercise
             </button>
           </div>
-
-          <!-- Breathing Animated Circle -->
           <div class="intv-breathe-wrap">
             <svg class="intv-breathe-svg" viewBox="0 0 120 120">
               <defs>
@@ -91,7 +77,6 @@
               <circle cx="60" cy="60" r="50" fill="none" stroke="url(#breatheGrad)" stroke-width="8"
                 stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="78"
                 transform="rotate(-90 60 60)" id="breatheArc"/>
-              <!-- Blue dot on arc end -->
               <circle id="breatheDot" cx="110" cy="60" r="6" fill="#2563eb"/>
             </svg>
             <div class="intv-breathe-center">
@@ -102,13 +87,10 @@
           </div>
         </div>
 
-        <!-- 3 mini cards -->
+        <!-- 3 Mini Cards -->
         <div class="intv-mini-row">
-
-          <div class="intv-mini-card">
-            <div class="intv-mini-icon intv-mini-purple">
-              <i class="fa-solid fa-spa"></i>
-            </div>
+          <div class="intv-mini-card" onclick="openMeditation()">
+            <div class="intv-mini-icon intv-mini-purple"><i class="fa-solid fa-spa"></i></div>
             <div class="intv-mini-name">Meditation Session</div>
             <div class="intv-mini-desc">Guided meditations to help you relax and reset.</div>
             <div class="intv-mini-footer">
@@ -116,16 +98,14 @@
                 <span>10 min</span>
                 <span class="intv-mini-tags">Focus · Calm</span>
               </div>
-              <button class="intv-mini-play intv-play-blue">
+              <button class="intv-mini-play intv-play-blue" onclick="openMeditation(); event.stopPropagation();">
                 <i class="fa-solid fa-play"></i>
               </button>
             </div>
           </div>
 
-          <div class="intv-mini-card">
-            <div class="intv-mini-icon intv-mini-green">
-              <i class="fa-solid fa-music"></i>
-            </div>
+          <div class="intv-mini-card" onclick="openAudio()">
+            <div class="intv-mini-icon intv-mini-green"><i class="fa-solid fa-music"></i></div>
             <div class="intv-mini-name">Relaxation Audio</div>
             <div class="intv-mini-desc">Soothing sounds to ease your mind and body.</div>
             <div class="intv-mini-footer">
@@ -133,16 +113,14 @@
                 <span>15 min</span>
                 <span class="intv-mini-tags">Sleep · Relax</span>
               </div>
-              <button class="intv-mini-play intv-play-green">
+              <button class="intv-mini-play intv-play-green" onclick="openAudio(); event.stopPropagation();">
                 <i class="fa-solid fa-play"></i>
               </button>
             </div>
           </div>
 
-          <div class="intv-mini-card">
-            <div class="intv-mini-icon intv-mini-yellow">
-              <i class="fa-solid fa-lightbulb"></i>
-            </div>
+          <div class="intv-mini-card" onclick="openTips()">
+            <div class="intv-mini-icon intv-mini-yellow"><i class="fa-solid fa-lightbulb"></i></div>
             <div class="intv-mini-name">Wellness Tips</div>
             <div class="intv-mini-desc">Practical tips to manage stress in daily life.</div>
             <div class="intv-mini-footer">
@@ -150,21 +128,17 @@
                 <span>5 min read</span>
                 <span class="intv-mini-tags">Learn · Grow</span>
               </div>
-              <button class="intv-mini-play intv-play-yellow">
+              <button class="intv-mini-play intv-play-yellow" onclick="openTips(); event.stopPropagation();">
                 <i class="fa-solid fa-chevron-right"></i>
               </button>
             </div>
           </div>
-
         </div>
 
         <!-- Recommended Section -->
         <div class="intv-section-title">Recommended for your current stress level</div>
-
         <div class="intv-recommend-card">
-          <div class="intv-recommend-icon">
-            <i class="fa-solid fa-wind"></i>
-          </div>
+          <div class="intv-recommend-icon"><i class="fa-solid fa-wind"></i></div>
           <div class="intv-recommend-info">
             <div class="intv-recommend-name">Box Breathing</div>
             <div class="intv-recommend-desc">4-4-4-4 breathing technique to restore balance.</div>
@@ -173,16 +147,13 @@
             <div class="intv-match-label">Match</div>
             <div class="intv-match-val">95%</div>
           </div>
-          <button class="intv-try-btn">Try Now</button>
+          <button class="intv-try-btn" onclick="openBoxBreathing()">Try Now</button>
         </div>
 
         <!-- Recent Completion -->
         <div class="intv-section-title">Recent Completion</div>
-
-        <div class="intv-completion-card">
-          <div class="intv-completion-icon">
-            <i class="fa-solid fa-circle-check"></i>
-          </div>
+        <div class="intv-completion-card" onclick="openCompletion()">
+          <div class="intv-completion-icon"><i class="fa-solid fa-circle-check"></i></div>
           <div class="intv-completion-info">
             <div class="intv-completion-name">Guided Breathing – 2 Min</div>
             <div class="intv-completion-time">Completed today at 9:45 AM</div>
@@ -195,93 +166,488 @@
         </div>
 
         <div style="height:80px;"></div>
-
       </div><!-- /intv-scroll -->
 
-      <!-- ── Bottom Navigation ──────────────────── -->
+      <!-- Bottom Nav -->
       <div class="dp-bottom-nav">
-        <a href="home.html" class="nav-item">
-          <i class="fa-solid fa-house"></i>
-          <span>Home</span>
-        </a>
-        <a href="monitoring.html" class="nav-item">
-          <i class="fa-solid fa-heart-pulse"></i>
-          <span>Monitoring</span>
-        </a>
-        <a href="history.html" class="nav-item">
-          <i class="fa-solid fa-clock-rotate-left"></i>
-          <span>History</span>
-        </a>
-        <a href="interventions.html" class="nav-item nav-active">
-          <i class="fa-solid fa-spa"></i>
-          <span>Interventions</span>
-        </a>
-        <a href="profile.html" class="nav-item">
-          <i class="fa-regular fa-user"></i>
-          <span>Profile</span>
-        </a>
+        <a href="home.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="monitoring.html" class="nav-item"><i class="fa-solid fa-heart-pulse"></i><span>Monitoring</span></a>
+        <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></a>
+        <a href="interventions.html" class="nav-item nav-active"><i class="fa-solid fa-spa"></i><span>Interventions</span></a>
+        <a href="profile.html" class="nav-item"><i class="fa-regular fa-user"></i><span>Profile</span></a>
       </div>
 
-    </div>
-  </div>
+      <!-- ══════════════════════════════════════════════════════
+           MODAL: Meditation Session
+      ══════════════════════════════════════════════════════ -->
+      <div class="intv-modal" id="meditationModal">
+        <div class="intv-modal-inner">
+          <div class="intv-modal-header">
+            <button class="intv-modal-back" onclick="closeModal('meditationModal')"><i class="fa-solid fa-arrow-left"></i></button>
+            <span class="intv-modal-title">Meditation Session</span>
+            <div style="width:32px;"></div>
+          </div>
 
-  <script>
-    /* ── Breathing Exercise Animation ── */
-    const phases = [
-      { label: 'Breathe In',  secs: 4, offset: 78  },
-      { label: 'Hold',        secs: 4, offset: 157 },
-      { label: 'Breathe Out', secs: 4, offset: 236 },
-      { label: 'Hold',        secs: 4, offset: 314 },
-    ];
-    let phaseIdx = 0, countdown = 4, running = false, timer = null;
+          <!-- Track list -->
+          <div class="med-track-list" id="medTrackList">
+            <div class="med-hero">
+              <div class="med-hero-icon"><i class="fa-solid fa-spa"></i></div>
+              <div class="med-hero-label">Choose a Session</div>
+              <div class="med-hero-sub">Select a guided meditation to begin</div>
+            </div>
+            <div class="med-tracks">
+              <div class="med-track" onclick="startMeditation(0)">
+                <div class="med-track-icon" style="background:#ede9fe;color:#7c3aed;"><i class="fa-solid fa-cloud"></i></div>
+                <div class="med-track-info"><div class="med-track-name">Morning Calm</div><div class="med-track-meta">5 min · Beginner</div></div>
+                <button class="med-track-play"><i class="fa-solid fa-play"></i></button>
+              </div>
+              <div class="med-track" onclick="startMeditation(1)">
+                <div class="med-track-icon" style="background:#dbeafe;color:#2563eb;"><i class="fa-solid fa-brain"></i></div>
+                <div class="med-track-info"><div class="med-track-name">Deep Focus</div><div class="med-track-meta">10 min · Intermediate</div></div>
+                <button class="med-track-play"><i class="fa-solid fa-play"></i></button>
+              </div>
+              <div class="med-track" onclick="startMeditation(2)">
+                <div class="med-track-icon" style="background:#d1fae5;color:#059669;"><i class="fa-solid fa-leaf"></i></div>
+                <div class="med-track-info"><div class="med-track-name">Stress Release</div><div class="med-track-meta">15 min · All levels</div></div>
+                <button class="med-track-play"><i class="fa-solid fa-play"></i></button>
+              </div>
+              <div class="med-track" onclick="startMeditation(3)">
+                <div class="med-track-icon" style="background:#fce7f3;color:#db2777;"><i class="fa-solid fa-heart"></i></div>
+                <div class="med-track-info"><div class="med-track-name">Loving Kindness</div><div class="med-track-meta">12 min · All levels</div></div>
+                <button class="med-track-play"><i class="fa-solid fa-play"></i></button>
+              </div>
+              <div class="med-track" onclick="startMeditation(4)">
+                <div class="med-track-icon" style="background:#fef9c3;color:#ca8a04;"><i class="fa-solid fa-moon"></i></div>
+                <div class="med-track-info"><div class="med-track-name">Sleep Prep</div><div class="med-track-meta">20 min · Relaxation</div></div>
+                <button class="med-track-play"><i class="fa-solid fa-play"></i></button>
+              </div>
+            </div>
+          </div>
 
-    const phaseEl  = document.getElementById('breathePhase');
-    const countEl  = document.getElementById('breatheCount');
-    const arc      = document.getElementById('breatheArc');
-    const dot      = document.getElementById('breatheDot');
+          <!-- Player View -->
+          <div class="med-player" id="medPlayer" style="display:none;">
+            <div class="med-player-pulse" id="medPulse"></div>
+            <div class="med-player-icon"><i class="fa-solid fa-spa"></i></div>
+            <div class="med-player-name" id="medPlayerName">Deep Focus</div>
+            <div class="med-player-guide" id="medGuide">Close your eyes and breathe naturally…</div>
 
-    function updateDot(offset) {
-      const pct  = 1 - offset / 314;
-      const angle= pct * 2 * Math.PI - Math.PI / 2;
-      const r    = 50, cx = 60, cy = 60;
-      const x = cx + r * Math.cos(angle);
-      const y = cy + r * Math.sin(angle);
-      dot.setAttribute('cx', x.toFixed(2));
-      dot.setAttribute('cy', y.toFixed(2));
-    }
+            <div class="med-progress-wrap">
+              <span class="med-time" id="medCurrent">0:00</span>
+              <div class="med-progress-bar"><div class="med-progress-fill" id="medFill"></div></div>
+              <span class="med-time" id="medTotal">10:00</span>
+            </div>
 
-    function tick() {
-      const phase = phases[phaseIdx];
-      phaseEl.textContent = phase.label;
-      countEl.textContent = countdown;
+            <div class="med-controls">
+              <button class="med-ctrl-btn" onclick="medSkip(-30)"><i class="fa-solid fa-backward-step"></i></button>
+              <button class="med-play-btn" id="medPlayBtn" onclick="toggleMeditation()">
+                <i class="fa-solid fa-pause" id="medPlayIcon"></i>
+              </button>
+              <button class="med-ctrl-btn" onclick="medSkip(30)"><i class="fa-solid fa-forward-step"></i></button>
+            </div>
+            <button class="med-back-list" onclick="showMedTrackList()"><i class="fa-solid fa-list"></i> All Sessions</button>
+          </div>
+        </div>
+      </div>
 
-      const used    = phase.secs - countdown;
-      const prevOff = phaseIdx > 0 ? phases[phaseIdx-1].offset : 78;
-      const curOff  = phase.offset;
-      const stepOff = prevOff + (curOff - prevOff) * (used / phase.secs);
-      arc.style.strokeDashoffset = stepOff;
-      updateDot(stepOff);
+      <!-- ══════════════════════════════════════════════════════
+           MODAL: Relaxation Audio
+      ══════════════════════════════════════════════════════ -->
+      <div class="intv-modal" id="audioModal">
+        <div class="intv-modal-inner">
+          <div class="intv-modal-header">
+            <button class="intv-modal-back" onclick="closeModal('audioModal')"><i class="fa-solid fa-arrow-left"></i></button>
+            <span class="intv-modal-title">Relaxation Audio</span>
+            <div style="width:32px;"></div>
+          </div>
 
-      countdown--;
-      if (countdown < 0) {
-        phaseIdx = (phaseIdx + 1) % phases.length;
-        countdown = phases[phaseIdx].secs;
-        if (phaseIdx === 0) arc.style.strokeDashoffset = 78;
-      }
-    }
+          <div class="aud-now-playing">
+            <div class="aud-cover" id="audCover">
+              <i class="fa-solid fa-music" id="audCoverIcon"></i>
+            </div>
+            <div class="aud-track-name" id="audTrackName">Rain & Thunder</div>
+            <div class="aud-track-sub" id="audTrackSub">Nature Sounds · 15 min</div>
+            <div class="aud-waveform">
+              <div class="aud-bar"></div><div class="aud-bar"></div><div class="aud-bar"></div>
+              <div class="aud-bar"></div><div class="aud-bar"></div><div class="aud-bar"></div>
+              <div class="aud-bar"></div><div class="aud-bar"></div><div class="aud-bar"></div>
+              <div class="aud-bar"></div><div class="aud-bar"></div><div class="aud-bar"></div>
+            </div>
+            <div class="aud-progress-wrap">
+              <span class="aud-time" id="audCurrent">0:00</span>
+              <div class="aud-progress-bar" onclick="audSeek(event)">
+                <div class="aud-progress-fill" id="audFill"></div>
+                <div class="aud-progress-thumb" id="audThumb"></div>
+              </div>
+              <span class="aud-time" id="audTotal">15:00</span>
+            </div>
+            <div class="aud-controls">
+              <button class="aud-ctrl" onclick="audPrev()"><i class="fa-solid fa-backward-step"></i></button>
+              <button class="aud-play-btn" id="audPlayBtn" onclick="toggleAudio()">
+                <i class="fa-solid fa-play" id="audPlayIcon"></i>
+              </button>
+              <button class="aud-ctrl" onclick="audNext()"><i class="fa-solid fa-forward-step"></i></button>
+            </div>
+            <div class="aud-volume-row">
+              <i class="fa-solid fa-volume-low"></i>
+              <input type="range" class="aud-vol-slider" id="audVol" min="0" max="100" value="70">
+              <i class="fa-solid fa-volume-high"></i>
+            </div>
+          </div>
 
-    function startBreathing() {
-      if (running) { clearInterval(timer); running = false; document.getElementById('breatheStartBtn').innerHTML = '<i class="fa-solid fa-play"></i> Start 2-Min Exercise'; return; }
-      running = true;
-      document.getElementById('breatheStartBtn').innerHTML = '<i class="fa-solid fa-stop"></i> Stop Exercise';
-      phaseIdx = 0; countdown = 4;
-      tick();
-      timer = setInterval(tick, 1000);
-    }
+          <div class="aud-section-label">More Sounds</div>
+          <div class="aud-list" id="audList">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
 
-    /* Init dot position */
-    updateDot(78);
-  </script>
+      <!-- ══════════════════════════════════════════════════════
+           MODAL: Wellness Tips
+      ══════════════════════════════════════════════════════ -->
+      <div class="intv-modal" id="tipsModal">
+        <div class="intv-modal-inner">
+          <div class="intv-modal-header">
+            <button class="intv-modal-back" onclick="closeModal('tipsModal')"><i class="fa-solid fa-arrow-left"></i></button>
+            <span class="intv-modal-title">Wellness Tips</span>
+            <div style="width:32px;"></div>
+          </div>
+          <div class="tips-hero">
+            <div class="tips-hero-icon"><i class="fa-solid fa-lightbulb"></i></div>
+            <div class="tips-hero-text">Daily practices for a calmer, healthier you</div>
+          </div>
+          <div class="tips-list" id="tipsList"><!-- filled by JS --></div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           MODAL: Box Breathing
+      ══════════════════════════════════════════════════════ -->
+      <div class="intv-modal" id="boxModal">
+        <div class="intv-modal-inner">
+          <div class="intv-modal-header">
+            <button class="intv-modal-back" onclick="closeModal('boxModal'); stopBox()"><i class="fa-solid fa-arrow-left"></i></button>
+            <span class="intv-modal-title">Box Breathing</span>
+            <div style="width:32px;"></div>
+          </div>
+          <div class="box-desc">Inhale · Hold · Exhale · Hold — each for 4 seconds. Repeat to calm your nervous system.</div>
+          <div class="box-visual">
+            <svg class="box-svg" viewBox="0 0 200 200" id="boxSvg">
+              <rect x="20" y="20" width="160" height="160" rx="20" fill="none" stroke="#e0eaff" stroke-width="6"/>
+              <rect x="20" y="20" width="160" height="160" rx="20" fill="none" stroke="#2563eb" stroke-width="6"
+                stroke-dasharray="640" stroke-dashoffset="640" id="boxRect" stroke-linecap="round"/>
+              <circle r="10" fill="#2563eb" id="boxDot" cx="20" cy="20"/>
+            </svg>
+            <div class="box-center">
+              <div class="box-phase" id="boxPhase">Press Start</div>
+              <div class="box-count" id="boxCount">4</div>
+              <div class="box-unit">seconds</div>
+            </div>
+          </div>
+          <div class="box-round-info">Round <span id="boxRound">0</span> / 4</div>
+          <button class="intv-start-btn box-start-btn" id="boxStartBtn" onclick="toggleBox()">
+            <i class="fa-solid fa-play" id="boxBtnIcon"></i> Start Exercise
+          </button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           MODAL: Completion Detail
+      ══════════════════════════════════════════════════════ -->
+      <div class="intv-modal" id="completionModal">
+        <div class="intv-modal-inner">
+          <div class="intv-modal-header">
+            <button class="intv-modal-back" onclick="closeModal('completionModal')"><i class="fa-solid fa-arrow-left"></i></button>
+            <span class="intv-modal-title">Session Detail</span>
+            <div style="width:32px;"></div>
+          </div>
+          <div class="comp-hero">
+            <div class="comp-check"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="comp-title">Guided Breathing – 2 Min</div>
+            <div class="comp-time">Completed today at 9:45 AM</div>
+          </div>
+          <div class="comp-stats-grid">
+            <div class="comp-stat"><div class="comp-stat-val">2:00</div><div class="comp-stat-label">Duration</div></div>
+            <div class="comp-stat"><div class="comp-stat-val" style="color:#ef4444;">↓12%</div><div class="comp-stat-label">Stress Drop</div></div>
+            <div class="comp-stat"><div class="comp-stat-val">72</div><div class="comp-stat-label">HR Before</div></div>
+            <div class="comp-stat"><div class="comp-stat-val">64</div><div class="comp-stat-label">HR After</div></div>
+          </div>
+          <div class="comp-section-title">How you felt</div>
+          <div class="comp-mood-row">
+            <div class="comp-mood-item comp-mood-active">😌<span>Calm</span></div>
+            <div class="comp-mood-item">😊<span>Happy</span></div>
+            <div class="comp-mood-item">😤<span>Stressed</span></div>
+            <div class="comp-mood-item">😴<span>Sleepy</span></div>
+          </div>
+          <div class="comp-section-title">Notes</div>
+          <div class="comp-note">Felt significantly calmer after the session. The breathing rhythm helped slow down racing thoughts.</div>
+          <button class="intv-start-btn" style="width:100%;justify-content:center;margin-top:16px;" onclick="openMeditation()">
+            <i class="fa-solid fa-rotate-right"></i> Do it Again
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /intv-screen -->
+  </div><!-- /phone-frame -->
+
+<script>
+/* ══════════════════════════════════════
+   GUIDED BREATHING
+══════════════════════════════════════ */
+const phases = [
+  { label:'Breathe In',  secs:4, offset:78  },
+  { label:'Hold',        secs:4, offset:157 },
+  { label:'Breathe Out', secs:4, offset:236 },
+  { label:'Hold',        secs:4, offset:314 },
+];
+let phaseIdx=0, countdown=4, running=false, timer=null;
+const phaseEl=document.getElementById('breathePhase');
+const countEl=document.getElementById('breatheCount');
+const arc=document.getElementById('breatheArc');
+const dot=document.getElementById('breatheDot');
+
+function updateDot(offset){
+  const pct=1-offset/314, angle=pct*2*Math.PI-Math.PI/2;
+  const r=50,cx=60,cy=60;
+  dot.setAttribute('cx',(cx+r*Math.cos(angle)).toFixed(2));
+  dot.setAttribute('cy',(cy+r*Math.sin(angle)).toFixed(2));
+}
+function tick(){
+  const phase=phases[phaseIdx];
+  phaseEl.textContent=phase.label;
+  countEl.textContent=countdown;
+  const used=phase.secs-countdown;
+  const prevOff=phaseIdx>0?phases[phaseIdx-1].offset:78;
+  const stepOff=prevOff+(phase.offset-prevOff)*(used/phase.secs);
+  arc.style.strokeDashoffset=stepOff;
+  updateDot(stepOff);
+  countdown--;
+  if(countdown<0){
+    phaseIdx=(phaseIdx+1)%phases.length;
+    countdown=phases[phaseIdx].secs;
+    if(phaseIdx===0) arc.style.strokeDashoffset=78;
+  }
+}
+function startBreathing(){
+  if(running){ clearInterval(timer); running=false; document.getElementById('breatheStartBtn').innerHTML='<i class="fa-solid fa-play"></i> Start 2-Min Exercise'; return; }
+  running=true;
+  document.getElementById('breatheStartBtn').innerHTML='<i class="fa-solid fa-stop"></i> Stop Exercise';
+  phaseIdx=0; countdown=4; tick();
+  timer=setInterval(tick,1000);
+}
+updateDot(78);
+
+/* ══════════════════════════════════════
+   MODAL HELPERS
+══════════════════════════════════════ */
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+/* ══════════════════════════════════════
+   MEDITATION SESSION
+══════════════════════════════════════ */
+const medSessions=[
+  {name:'Morning Calm',   dur:5*60,  guide:['Close your eyes and take a deep breath…','Feel the warmth of the morning…','Let each thought pass like a cloud…','You are present, you are calm…']},
+  {name:'Deep Focus',     dur:10*60, guide:['Settle into your seat and relax your shoulders…','Direct your attention to your breath…','Notice each inhale and exhale…','Your mind is clear and focused…']},
+  {name:'Stress Release', dur:15*60, guide:['Let go of any tension in your body…','Breathe out the stress, breathe in peace…','Scan from your feet upward, releasing tightness…','You are safe and relaxed…']},
+  {name:'Loving Kindness',dur:12*60, guide:['Picture someone you love…','Send them warmth and goodwill…','Now extend that warmth to yourself…','Feel the compassion fill your heart…']},
+  {name:'Sleep Prep',     dur:20*60, guide:['Lie down comfortably and close your eyes…','Your body grows heavy and warm…','Each breath carries you deeper into rest…','Drift gently into peaceful sleep…']},
+];
+let medIdx=0, medElapsed=0, medPlaying=false, medTimer=null, medGuideIdx=0;
+
+function openMeditation(){
+  closeModal('completionModal');
+  showMedTrackList();
+  openModal('meditationModal');
+}
+function showMedTrackList(){
+  document.getElementById('medTrackList').style.display='';
+  document.getElementById('medPlayer').style.display='none';
+  clearInterval(medTimer); medPlaying=false;
+}
+function startMeditation(idx){
+  medIdx=idx; medElapsed=0; medGuideIdx=0;
+  const s=medSessions[idx];
+  document.getElementById('medPlayerName').textContent=s.name;
+  document.getElementById('medTotal').textContent=fmtTime(s.dur);
+  document.getElementById('medCurrent').textContent='0:00';
+  document.getElementById('medFill').style.width='0%';
+  document.getElementById('medGuide').textContent=s.guide[0];
+  document.getElementById('medPlayIcon').className='fa-solid fa-pause';
+  document.getElementById('medTrackList').style.display='none';
+  document.getElementById('medPlayer').style.display='';
+  clearInterval(medTimer); medPlaying=true;
+  medTimer=setInterval(medTick,1000);
+}
+function medTick(){
+  const s=medSessions[medIdx];
+  medElapsed++;
+  if(medElapsed>=s.dur){ clearInterval(medTimer); medPlaying=false; document.getElementById('medPlayIcon').className='fa-solid fa-play'; return; }
+  document.getElementById('medCurrent').textContent=fmtTime(medElapsed);
+  document.getElementById('medFill').style.width=(medElapsed/s.dur*100)+'%';
+  const guideInterval=Math.floor(s.dur/s.guide.length);
+  const gi=Math.min(Math.floor(medElapsed/guideInterval),s.guide.length-1);
+  if(gi!==medGuideIdx){ medGuideIdx=gi; document.getElementById('medGuide').textContent=s.guide[gi]; }
+}
+function toggleMeditation(){
+  if(medPlaying){ clearInterval(medTimer); medPlaying=false; document.getElementById('medPlayIcon').className='fa-solid fa-play'; }
+  else{ medPlaying=true; document.getElementById('medPlayIcon').className='fa-solid fa-pause'; medTimer=setInterval(medTick,1000); }
+}
+function medSkip(sec){
+  const s=medSessions[medIdx];
+  medElapsed=Math.max(0,Math.min(s.dur-1,medElapsed+sec));
+  document.getElementById('medCurrent').textContent=fmtTime(medElapsed);
+  document.getElementById('medFill').style.width=(medElapsed/s.dur*100)+'%';
+}
+
+/* ══════════════════════════════════════
+   RELAXATION AUDIO
+══════════════════════════════════════ */
+const audTracks=[
+  {name:'Rain & Thunder',   sub:'Nature Sounds · 15 min', dur:15*60, color:'#dbeafe', iconColor:'#2563eb', icon:'fa-cloud-rain'},
+  {name:'Ocean Waves',      sub:'Nature Sounds · 20 min', dur:20*60, color:'#ccfbf1', iconColor:'#0d9488', icon:'fa-water'},
+  {name:'Forest Birds',     sub:'Nature Sounds · 10 min', dur:10*60, color:'#d1fae5', iconColor:'#059669', icon:'fa-tree'},
+  {name:'White Noise',      sub:'Focus · 30 min',         dur:30*60, color:'#f3f4f6', iconColor:'#6b7280', icon:'fa-circle'},
+  {name:'Tibetan Bowls',    sub:'Meditation · 25 min',    dur:25*60, color:'#ede9fe', iconColor:'#7c3aed', icon:'fa-music'},
+  {name:'Soft Piano',       sub:'Relaxation · 18 min',    dur:18*60, color:'#fce7f3', iconColor:'#db2777', icon:'fa-piano'},
+];
+let audIdx=0, audElapsed=0, audIsPlaying=false, audTimer=null;
+
+function buildAudList(){
+  const list=document.getElementById('audList');
+  list.innerHTML=audTracks.map((t,i)=>`
+    <div class="aud-item ${i===audIdx?'aud-item-active':''}" onclick="selectTrack(${i})">
+      <div class="aud-item-icon" style="background:${t.color};color:${t.iconColor}"><i class="fa-solid ${t.icon}"></i></div>
+      <div class="aud-item-info"><div class="aud-item-name">${t.name}</div><div class="aud-item-sub">${t.sub}</div></div>
+      <i class="fa-solid ${i===audIdx&&audIsPlaying?'fa-pause':'fa-play'} aud-item-play"></i>
+    </div>`).join('');
+}
+function updateAudPlayer(){
+  const t=audTracks[audIdx];
+  document.getElementById('audTrackName').textContent=t.name;
+  document.getElementById('audTrackSub').textContent=t.sub;
+  document.getElementById('audTotal').textContent=fmtTime(t.dur);
+  document.getElementById('audCurrent').textContent=fmtTime(audElapsed);
+  document.getElementById('audFill').style.width=(audElapsed/t.dur*100)+'%';
+  document.getElementById('audThumb').style.left=(audElapsed/t.dur*100)+'%';
+  const cover=document.getElementById('audCover');
+  cover.style.background=t.color;
+  document.getElementById('audCoverIcon').className='fa-solid '+t.icon;
+  cover.style.color=t.iconColor;
+}
+function openAudio(){
+  buildAudList(); updateAudPlayer(); openModal('audioModal');
+}
+function toggleAudio(){
+  if(audIsPlaying){ clearInterval(audTimer); audIsPlaying=false; document.getElementById('audPlayIcon').className='fa-solid fa-play'; }
+  else{ audIsPlaying=true; document.getElementById('audPlayIcon').className='fa-solid fa-pause'; audTimer=setInterval(audTick,1000); }
+  buildAudList();
+}
+function audTick(){
+  const t=audTracks[audIdx];
+  audElapsed++;
+  if(audElapsed>=t.dur){ clearInterval(audTimer); audIsPlaying=false; document.getElementById('audPlayIcon').className='fa-solid fa-play'; audNext(); return; }
+  document.getElementById('audCurrent').textContent=fmtTime(audElapsed);
+  const pct=audElapsed/t.dur*100;
+  document.getElementById('audFill').style.width=pct+'%';
+  document.getElementById('audThumb').style.left=pct+'%';
+}
+function selectTrack(i){ clearInterval(audTimer); audIsPlaying=false; audIdx=i; audElapsed=0; updateAudPlayer(); buildAudList(); document.getElementById('audPlayIcon').className='fa-solid fa-play'; }
+function audNext(){ selectTrack((audIdx+1)%audTracks.length); }
+function audPrev(){ selectTrack((audIdx-1+audTracks.length)%audTracks.length); }
+function audSeek(e){
+  const bar=e.currentTarget; const rect=bar.getBoundingClientRect();
+  const pct=(e.clientX-rect.left)/rect.width;
+  audElapsed=Math.floor(pct*audTracks[audIdx].dur);
+  document.getElementById('audCurrent').textContent=fmtTime(audElapsed);
+  document.getElementById('audFill').style.width=(pct*100)+'%';
+  document.getElementById('audThumb').style.left=(pct*100)+'%';
+}
+
+/* ══════════════════════════════════════
+   WELLNESS TIPS
+══════════════════════════════════════ */
+const wellnessTips=[
+  {icon:'fa-bed',        color:'#dbeafe', ic:'#2563eb', title:'Prioritize Sleep',      body:'Aim for 7–9 hours of quality sleep. Create a consistent bedtime routine and avoid screens 30 minutes before bed.'},
+  {icon:'fa-droplet',    color:'#e0f2fe', ic:'#0284c7', title:'Stay Hydrated',         body:'Drink at least 8 glasses of water daily. Dehydration can increase cortisol levels and worsen stress.'},
+  {icon:'fa-person-walking',color:'#d1fae5',ic:'#059669',title:'Move Your Body',       body:'Even a 10-minute walk lowers stress hormones. Try to get 30 minutes of moderate exercise most days.'},
+  {icon:'fa-utensils',   color:'#fef9c3', ic:'#ca8a04', title:'Eat Mindfully',         body:'Reduce sugar and caffeine. Focus on whole foods rich in magnesium (dark chocolate, nuts) which combat stress.'},
+  {icon:'fa-users',      color:'#fce7f3', ic:'#db2777', title:'Social Connection',     body:'Spending time with people you care about releases oxytocin — a natural stress-reliever.'},
+  {icon:'fa-pen',        color:'#ede9fe', ic:'#7c3aed', title:'Journal Daily',         body:'Write 3 things you\'re grateful for each morning. Gratitude journaling reduces cortisol by up to 23%.'},
+  {icon:'fa-mobile-screen',color:'#fee2e2',ic:'#ef4444',title:'Limit Screen Time',     body:'Set a daily limit for social media. Endless scrolling elevates anxiety and disrupts sleep patterns.'},
+  {icon:'fa-wind',       color:'#f0fdf4', ic:'#22c55e', title:'Breathe Deeply',        body:'Practice diaphragmatic breathing for 5 minutes when stressed. It activates your parasympathetic nervous system.'},
+];
+let tipsExpanded=new Set();
+
+function buildTips(){
+  const list=document.getElementById('tipsList');
+  list.innerHTML=wellnessTips.map((t,i)=>`
+    <div class="tip-card ${tipsExpanded.has(i)?'tip-open':''}" onclick="toggleTip(${i})">
+      <div class="tip-header">
+        <div class="tip-icon" style="background:${t.color};color:${t.ic}"><i class="fa-solid ${t.icon}"></i></div>
+        <div class="tip-title">${t.title}</div>
+        <i class="fa-solid ${tipsExpanded.has(i)?'fa-chevron-up':'fa-chevron-down'} tip-chev"></i>
+      </div>
+      <div class="tip-body" style="display:${tipsExpanded.has(i)?'block':'none'}">${t.body}</div>
+    </div>`).join('');
+}
+function openTips(){ buildTips(); openModal('tipsModal'); }
+function toggleTip(i){ if(tipsExpanded.has(i)) tipsExpanded.delete(i); else tipsExpanded.add(i); buildTips(); }
+
+/* ══════════════════════════════════════
+   BOX BREATHING
+══════════════════════════════════════ */
+const boxPhases=[
+  {label:'Inhale',  secs:4},
+  {label:'Hold',    secs:4},
+  {label:'Exhale',  secs:4},
+  {label:'Hold',    secs:4},
+];
+/* Box path: perimeter of 160x160 rect = 640. Each side = 160 */
+const boxSides=[[{x:20,y:20},{x:180,y:20}],[{x:180,y:20},{x:180,y:180}],[{x:180,y:180},{x:20,y:180}],[{x:20,y:180},{x:20,y:20}]];
+let boxPhaseIdx=0,boxCount=4,boxRunning=false,boxTimer=null,boxRound=0,boxOffset=640;
+
+function openBoxBreathing(){ openModal('boxModal'); }
+function stopBox(){ clearInterval(boxTimer); boxRunning=false; boxPhaseIdx=0; boxCount=4; boxRound=0; boxOffset=640; document.getElementById('boxRect').style.strokeDashoffset=640; document.getElementById('boxDot').setAttribute('cx',20); document.getElementById('boxDot').setAttribute('cy',20); document.getElementById('boxPhase').textContent='Press Start'; document.getElementById('boxCount').textContent=4; document.getElementById('boxRound').textContent=0; document.getElementById('boxBtnIcon').className='fa-solid fa-play'; document.getElementById('boxStartBtn').innerHTML='<i class="fa-solid fa-play" id="boxBtnIcon"></i> Start Exercise'; }
+function toggleBox(){
+  if(boxRunning){ clearInterval(boxTimer); boxRunning=false; document.getElementById('boxStartBtn').innerHTML='<i class="fa-solid fa-play" id="boxBtnIcon"></i> Resume'; return; }
+  boxRunning=true;
+  document.getElementById('boxStartBtn').innerHTML='<i class="fa-solid fa-stop" id="boxBtnIcon"></i> Stop';
+  if(boxRound===0&&boxPhaseIdx===0&&boxCount===4) boxOffset=640;
+  boxTick(); boxTimer=setInterval(boxTick,1000);
+}
+function boxTick(){
+  const phase=boxPhases[boxPhaseIdx];
+  document.getElementById('boxPhase').textContent=phase.label;
+  document.getElementById('boxCount').textContent=boxCount;
+  /* Move dot along perimeter */
+  const sideIdx=boxPhaseIdx;
+  const used=phase.secs-boxCount;
+  const t=used/phase.secs;
+  const s=boxSides[sideIdx];
+  const x=s[0].x+(s[1].x-s[0].x)*t;
+  const y=s[0].y+(s[1].y-s[0].y)*t;
+  document.getElementById('boxDot').setAttribute('cx',x.toFixed(1));
+  document.getElementById('boxDot').setAttribute('cy',y.toFixed(1));
+  const filled=(boxPhaseIdx*160+160*t);
+  document.getElementById('boxRect').style.strokeDashoffset=Math.max(0,640-filled);
+  boxCount--;
+  if(boxCount<0){
+    boxPhaseIdx=(boxPhaseIdx+1)%4;
+    boxCount=boxPhases[boxPhaseIdx].secs;
+    if(boxPhaseIdx===0){ boxRound++; document.getElementById('boxRound').textContent=boxRound; if(boxRound>=4){ clearInterval(boxTimer); boxRunning=false; document.getElementById('boxPhase').textContent='Complete!'; document.getElementById('boxStartBtn').innerHTML='<i class="fa-solid fa-rotate-right"></i> Repeat'; boxRound=0; boxPhaseIdx=0; boxCount=4; } }
+  }
+}
+
+/* ══════════════════════════════════════
+   COMPLETION DETAIL
+══════════════════════════════════════ */
+function openCompletion(){ openModal('completionModal'); }
+
+/* ══════════════════════════════════════
+   UTILITY
+══════════════════════════════════════ */
+function fmtTime(s){ return Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60; }
+</script>
 
 </body>
 </html>
