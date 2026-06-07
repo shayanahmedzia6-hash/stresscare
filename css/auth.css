@@ -11,20 +11,15 @@ body {
   background: #d6e8f7;
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   padding: 20px;
-  overflow-y: auto;
-}
-
-@media (min-height: 900px) {
-  body { align-items: center; }
 }
 
 /* ─── Phone Frame ─────────────────────────────────── */
 .phone-frame {
-  width: min(390px, calc(100vw - 40px));
-  height: min(844px, calc(100vh - 40px));
+  width: 390px;
+  height: 844px;
   background: #f4f7fb;
   border-radius: 50px;
   box-shadow:
