@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare – Model Management</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4285F4;
+      --primary-light: #e8f0fe;
+      --secondary: #34A0D4;
+      --success: #34C759;
+      --warning: #FF9500;
+      --danger: #FF3B30;
+      --purple: #AF52DE;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --border: #e8edf5;
+      --text: #1a237e;
+      --text-muted: #6b7ca0;
+      --text-dim: #9fa8b8;
+      --active-bg: #e8f0fe;
+      --active-color: #4285F4;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px; background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      position: fixed; height: 100vh; left: 0; top: 0; z-index: 100;
+    }
+    .sidebar-logo {
+      padding: 1.4rem 1.2rem 1.2rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #4285F4, #34A0D4);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .logo-name { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1; }
+    .logo-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav { padding: 1rem 0.6rem; flex: 1; overflow-y: auto; }
+    .nav-section { font-size: 0.62rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 0.8rem 0.3rem; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.6rem 0.8rem; border-radius: 10px; cursor: pointer;
+      color: var(--text-muted); font-size: 0.85rem; font-weight: 500;
+      margin-bottom: 2px; text-decoration: none; transition: all 0.15s;
+    }
+    .nav-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-item.active { background: var(--active-bg); color: var(--active-color); font-weight: 600; }
+    .nav-icon { font-size: 0.95rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-status {
+      margin: 0.8rem; padding: 0.8rem;
+      background: linear-gradient(135deg, #e8f0fe, #f0f7ff);
+      border-radius: 12px; border: 1px solid rgba(66,133,244,0.15);
+    }
+    .status-dot-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.25rem; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); flex-shrink: 0; }
+    .status-title { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+    .status-val { font-size: 0.72rem; color: var(--success); font-weight: 600; }
+    .status-sub { font-size: 0.68rem; color: var(--text-muted); }
+
+    /* Main */
+    .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.8rem; display: flex; align-items: center; gap: 1rem;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .menu-btn {
+      width: 32px; height: 32px; border-radius: 8px; border: none;
+      background: none; cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+    }
+    .menu-btn span { width: 18px; height: 2px; background: var(--text-muted); border-radius: 2px; }
+    .search-bar {
+      flex: 1; max-width: 400px; display: flex; align-items: center; gap: 0.6rem;
+      background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.55rem 1rem;
+    }
+    .search-bar input { border: none; background: none; outline: none; font-size: 0.85rem; color: var(--text); width: 100%; font-family: inherit; }
+    .search-bar input::placeholder { color: var(--text-dim); }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+    .notif-btn {
+      width: 36px; height: 36px; border-radius: 9px; background: var(--bg);
+      border: 1.5px solid var(--border); display: flex; align-items: center;
+      justify-content: center; cursor: pointer; font-size: 1rem; position: relative;
+    }
+    .notif-badge { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--danger); border: 1.5px solid var(--surface); }
+    .admin-chip {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.7rem;
+      background: var(--bg); border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer;
+    }
+    .admin-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; color: white; font-weight: 600;
+    }
+    .admin-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .admin-role { font-size: 0.68rem; color: var(--text-muted); }
+
+    .content { padding: 1.8rem; flex: 1; }
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .page-title h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .page-title p { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    .upload-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.2rem; background: var(--primary); color: white;
+      border: none; border-radius: 10px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 600; font-family: inherit; transition: all 0.2s;
+    }
+    .upload-btn:hover { background: #3574e2; }
+
+    /* Model Cards */
+    .model-cards { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1.5rem; max-width: 600px; }
+
+    .model-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 1.3rem 1.5rem;
+    }
+    .model-card-top { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.8rem; }
+    .model-icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .model-info { flex: 1; }
+    .model-name { font-size: 1.05rem; font-weight: 600; color: var(--text); }
+    .model-version { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.15rem; }
+    .model-current { font-size: 0.7rem; color: var(--text-dim); }
+    .model-accuracy-col { text-align: right; }
+    .accuracy-label { font-size: 0.7rem; color: var(--text-muted); }
+    .accuracy-val { font-size: 1.1rem; font-weight: 600; color: var(--success); }
+    .model-meta { display: flex; gap: 1.5rem; margin-bottom: 0.8rem; }
+    .meta-item { }
+    .meta-label { font-size: 0.7rem; color: var(--text-dim); }
+    .meta-val { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+    .model-badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.7rem; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600;
+    }
+    .badge-active { background: #d4f5e2; color: #1a7a3a; }
+    .model-note {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 0.9rem;
+      background: #f0f7ff; border-radius: 10px;
+      font-size: 0.75rem; color: var(--text-muted);
+      border: 1px solid rgba(66,133,244,0.12);
+    }
+
+    /* Main grid */
+    .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 1rem; }
+
+    /* Versions Table */
+    .versions-section {
+      background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden;
+    }
+    .ver-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+    }
+    .ver-title { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .ver-filters { display: flex; align-items: center; gap: 0.5rem; }
+    .tab-group { display: flex; gap: 0.3rem; background: var(--bg); border-radius: 8px; padding: 0.2rem; }
+    .tab-btn {
+      padding: 0.3rem 0.8rem; border-radius: 6px; border: none; cursor: pointer;
+      font-size: 0.75rem; font-weight: 500; font-family: inherit;
+      background: none; color: var(--text-muted); transition: all 0.15s;
+    }
+    .tab-btn.active { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .status-filter {
+      padding: 0.3rem 0.7rem; border: 1.5px solid var(--border); border-radius: 7px;
+      font-size: 0.75rem; color: var(--text-muted); background: var(--bg);
+      font-family: inherit; cursor: pointer; outline: none;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 0.7rem 1.2rem; text-align: left; font-size: 0.72rem;
+      font-weight: 600; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 0.04em; background: #fafbff; border-bottom: 1px solid var(--border);
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafbff; }
+    tbody td { padding: 0.8rem 1.2rem; font-size: 0.82rem; vertical-align: middle; }
+
+    .model-row-icon { font-size: 1.1rem; }
+    .model-section-header {
+      background: #fafbff !important;
+    }
+    .model-section-label {
+      font-size: 0.82rem; font-weight: 600; color: var(--text);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+
+    .ver-badge {
+      display: inline-flex; align-items: center; padding: 0.18rem 0.55rem;
+      border-radius: 6px; font-size: 0.7rem; font-weight: 600;
+    }
+    .ver-current { background: #e8f0fe; color: var(--primary); }
+    .accuracy-cell { color: var(--success); font-weight: 600; }
+    .status-dot-cell { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; }
+    .sdot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .sdot-active { background: var(--success); }
+    .sdot-archived { background: var(--text-dim); }
+    .action-btn {
+      display: flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.8rem; border-radius: 7px; border: none;
+      font-size: 0.73rem; font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .deploy-btn { background: var(--active-bg); color: var(--primary); }
+    .deploy-btn:hover { background: var(--primary); color: white; }
+    .archive-btn { background: var(--bg); color: var(--text-muted); }
+    .archive-btn:hover { background: #e8edf5; color: var(--text); }
+    .more-btn { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1rem; padding: 0.3rem 0.5rem; border-radius: 6px; }
+    .actions-cell { display: flex; align-items: center; gap: 0.3rem; }
+
+    .ver-pagination {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 1.2rem; border-top: 1px solid var(--border);
+    }
+    .showing { font-size: 0.75rem; color: var(--text-muted); }
+    .page-controls { display: flex; align-items: center; gap: 0.4rem; }
+    .page-btn {
+      width: 28px; height: 28px; border-radius: 6px; border: 1.5px solid var(--border);
+      background: var(--bg); font-size: 0.75rem; color: var(--text-muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-family: inherit; transition: all 0.15s;
+    }
+    .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
+
+    /* Release Notes */
+    .release-section {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 1.2rem 1.3rem; overflow-y: auto;
+    }
+    .release-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .release-icon { font-size: 1rem; }
+
+    .release-block { margin-bottom: 1.3rem; }
+    .release-ver { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; display: flex; align-items: center; gap: 0.5rem; }
+    .latest-tag { background: #d4f5e2; color: #1a7a3a; font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 10px; }
+    .release-date { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.6rem; }
+    .release-section-label { font-size: 0.72rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+    .release-list { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.6rem; }
+    .release-item { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; }
+    .ri-check { color: var(--success); flex-shrink: 0; }
+    .ri-bug { color: var(--warning); flex-shrink: 0; }
+
+    .view-all-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.78rem; color: var(--primary); font-weight: 600;
+      background: none; border: none; cursor: pointer; font-family: inherit;
+      margin-top: 0.5rem; padding: 0;
+    }
+
+    .footer { padding: 1rem 1.8rem; text-align: center; font-size: 0.72rem; color: var(--text-dim); border-top: 1px solid var(--border); }
+
+    .logout-btn {
+      width: 100%; padding: 0.6rem 0.8rem; border-radius: 10px; border: none;
+      background: none; color: var(--text-muted); font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; text-align: left; display: flex; align-items: center; gap: 0.5rem;
+      transition: all 0.15s; font-family: inherit;
+    }
+    .logout-btn:hover { background: rgba(255,59,48,0.07); color: #FF3B30; }
+
+    /* Upload Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+      z-index: 9999; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: 20px; padding: 2rem; width: 480px; max-width: 95vw;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    }
+    .modal-title { font-size: 1.15rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+    .modal-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.4rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-label { font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; display: block; }
+    .form-input {
+      width: 100%; padding: 0.55rem 0.9rem; border: 1.5px solid var(--border);
+      border-radius: 9px; font-size: 0.85rem; color: var(--text); outline: none;
+      font-family: inherit; background: var(--bg); transition: border 0.15s;
+    }
+    .form-input:focus { border-color: var(--primary); background: #fff; }
+    .drop-zone {
+      border: 2px dashed var(--border); border-radius: 12px; padding: 2rem 1rem;
+      text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg);
+    }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--primary); background: #f0f5ff; }
+    .drop-zone-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .drop-zone-text { font-size: 0.82rem; color: var(--text-muted); }
+    .drop-zone-text b { color: var(--primary); }
+    .drop-zone input[type=file] { display: none; }
+    .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.4rem; }
+    .modal-cancel {
+      padding: 0.55rem 1.2rem; border-radius: 9px; border: 1.5px solid var(--border);
+      background: none; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; font-family: inherit;
+    }
+    .modal-submit {
+      padding: 0.55rem 1.4rem; border-radius: 9px; border: none;
+      background: var(--primary); color: #fff; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: background 0.15s;
+    }
+    .modal-submit:hover { background: #3574e2; }
+    .upload-progress { margin-top: 1rem; display: none; }
+    .progress-bar-wrap { height: 6px; background: var(--bg); border-radius: 99px; overflow: hidden; margin-bottom: 0.4rem; }
+    .progress-bar-fill { height: 100%; background: var(--primary); border-radius: 99px; width: 0%; transition: width 0.3s; }
+    .progress-label { font-size: 0.75rem; color: var(--text-muted); }
+    .upload-success { display: none; text-align: center; padding: 1rem 0; }
+    .upload-success .success-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .upload-success .success-msg { font-size: 0.9rem; font-weight: 600; color: var(--success); }
+    .upload-success .success-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem; }
+  
+    /* ── Sidebar nav groups ── */
+    .sidebar { width: 220px !important; }
+    .nav-section-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-dim); padding: 0.9rem 0.8rem 0.3rem; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-header { display: flex; align-items: center; justify-content: space-between; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; transition: all 0.15s; user-select: none; }
+    .nav-group-header:hover { background: #f5f7fd; color: var(--text); }
+    .nav-group-header.open { color: var(--text); }
+    .nav-group-left { display: flex; align-items: center; gap: 0.65rem; }
+    .nav-chevron { font-size: 0.6rem; transition: transform 0.2s; color: var(--text-dim); }
+    .nav-group-header.open .nav-chevron { transform: rotate(90deg); }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .nav-sub.open { max-height: 300px; }
+    .nav-sub-item { display: flex; align-items: center; gap: 0.55rem; padding: 0.48rem 0.8rem 0.48rem 2.3rem; border-radius: 9px; cursor: pointer; color: var(--text-muted); font-size: 0.81rem; font-weight: 500; margin-bottom: 1px; text-decoration: none; transition: all 0.15s; }
+    .nav-sub-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub-item.active { color: var(--primary); font-weight: 600; background: #e8f0fe; }
+
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="StressCare" style="height:40px;width:auto;object-fit:contain;display:block;">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a class="nav-item" href="admin-dashboard.html"><span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard</a>
+
+      <a class="nav-item" href="user-management.html"><span class="nav-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> User Management</a>
+
+      <div class="nav-section-label">Management</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="package" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Subscriptions</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="subscription-plans.html"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Plan</a>
+          <a class="nav-sub-item" href="subscription-records.html"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Records</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="wallet" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Finance</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="payment-management.html"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Payment Management</a>
+          <a class="nav-sub-item" href="revenue-analytics.html"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Revenue Analytics</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header open" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> AI & Cloud</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub open">
+          <a class="nav-sub-item active" href="model-management.html"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model Management</a>
+          <a class="nav-sub-item" href="cloud-sync-monitoring.html"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Cloud Sync</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Support</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="feedback-pss.html"><i data-lucide="file-text" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Feedback / PSS</a>
+          <a class="nav-sub-item" href="notification-management.html"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Notification Management</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Config</div>
+
+      <a class="nav-item" href="admin-settings.html"><span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings</a>
+
+    </nav>
+
+    <div style="margin:0.8rem;padding:0.8rem;background:linear-gradient(135deg,#e8f0fe,#f0f7ff);border-radius:12px;border:1px solid rgba(66,133,244,0.15);">
+      <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34C759;flex-shrink:0;"></div>
+        <span style="font-size:0.78rem;font-weight:700;color:var(--text);">System Status</span>
+      </div>
+      <div style="font-size:0.7rem;color:#34C759;font-weight:500;">All systems operational</div>
+    </div>
+
+    <div style="padding:0.5rem 0.6rem 0.8rem;">
+      <button class="logout-btn" onclick="logout()"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> &nbsp;Logout</button>
+    </div>
+  </aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <button class="menu-btn"><span></span><span></span><span></span></button>
+    <div class="search-bar">
+      <span><i data-lucide="search" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+      <input type="text" placeholder="Search models, versions, metrics...">
+    </div>
+    <div class="topbar-right">
+      <div class="notif-wrap">
+          <div class="notif-btn" id="notifBtn" onclick="toggleNotif(event)">
+            <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+            <div class="notif-badge" id="notifBadge"></div>
+          </div>
+          <div class="notif-drop" id="notifDrop">
+            <div class="notif-drop-head">
+              <span class="notif-drop-title">Notifications</span>
+              <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8f0fe;"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Ayesha Khan subscribed to <b>Premium Plan</b></div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8fff2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment of <b>PKR 6,999</b> received from Omar Farooq</div>
+                <div class="notif-time">15 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#fff8e8;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Tariq Mehmood's subscription is <b>expiring soon</b></div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#f5f7ff;"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">AI Model v2.4 update completed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#fff0f0;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment failed for Hira Noor — card declined</div>
+                <div class="notif-time">Yesterday, 6:30 PM</div>
+              </div>
+            </div>
+            <div class="notif-drop-foot">
+              <a href="notification-management.html">View all notifications →</a>
+            </div>
+          </div>
+        </div>
+      <div class="admin-chip">
+        <div class="admin-avatar">A</div>
+        <div>
+          <div class="admin-name">Admin User</div>
+          <div class="admin-role">Super Admin</div>
+        </div>
+        <span style="color:var(--text-dim);font-size:0.7rem;">▾</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Model Management</h1>
+        <p>Manage AI models, versions, deployments, and performance.</p>
+      </div>
+      <button class="upload-btn" onclick="openUploadModal()"><i data-lucide="upload" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Upload New Model</button>
+    </div>
+
+    <!-- Model Cards -->
+    <div class="model-cards">
+      <div class="model-card">
+        <div class="model-card-top">
+          <div class="model-icon" style="background:linear-gradient(135deg,#e8f0fe,#c8dffe);"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div class="model-info">
+            <div class="model-name">Stress Model</div>
+            <div class="model-version">v2.4.1</div>
+            <div class="model-current">Current Version</div>
+            <div style="margin-top:0.5rem;"><span class="model-badge badge-active">● Active</span></div>
+          </div>
+          <div class="model-accuracy-col">
+            <div class="accuracy-label">Accuracy</div>
+            <div class="accuracy-val">94.2%</div>
+            <div style="margin-top:0.4rem;">
+              <div class="meta-label">Release Date</div>
+              <div class="meta-val">22 May, 2025</div>
+            </div>
+            <div style="margin-top:0.3rem;">
+              <div class="meta-label">Last Update</div>
+              <div class="meta-val">22 May, 2025 10:15 AM</div>
+            </div>
+          </div>
+        </div>
+        <div class="model-note"><i data-lucide="shield" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model is secure, encrypted, and up to date.</div>
+      </div>
+
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Versions Table -->
+      <div class="versions-section">
+        <div class="ver-head">
+          <div class="ver-title">Model Versions</div>
+          <div class="ver-filters">
+            <div class="tab-group">
+              <button class="tab-btn active" onclick="filterVersions('all',this)">All Versions</button>
+              <button class="tab-btn" onclick="filterVersions('active',this)">Active</button>
+              <button class="tab-btn" onclick="filterVersions('archived',this)">Archived</button>
+            </div>
+            <select class="status-filter" onchange="filterVersionStatus(this.value)">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+        </div>
+
+        <table id="versionsTable">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Version</th>
+              <th>Accuracy</th>
+              <th>Release Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Stress Model Header -->
+            <tr class="model-section-header">
+              <td colspan="6">
+                <div class="model-section-label"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Stress Model</div>
+              </td>
+            </tr>
+            <tr data-status="active">
+              <td></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <span>v2.4.1</span>
+                  <span class="ver-badge ver-current">Current</span>
+                </div>
+              </td>
+              <td><span class="accuracy-cell">94.2%</span></td>
+              <td>22 May, 2025</td>
+              <td><div class="status-dot-cell"><div class="sdot sdot-active"></div> Active</div></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn deploy-btn">▶ Deploy</button>
+                  <button class="more-btn">⋮</button>
+                </div>
+              </td>
+            </tr>
+            <tr data-status="archived">
+              <td></td>
+              <td>v2.3.0</td>
+              <td>93.1%</td>
+              <td>05 May, 2025</td>
+              <td><div class="status-dot-cell"><div class="sdot sdot-archived"></div> Archived</div></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn archive-btn"><i data-lucide="file" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Archive</button>
+                  <button class="more-btn">⋮</button>
+                </div>
+              </td>
+            </tr>
+            <tr data-status="archived">
+              <td></td>
+              <td>v2.2.1</td>
+              <td>92.4%</td>
+              <td>18 Apr, 2025</td>
+              <td><div class="status-dot-cell"><div class="sdot sdot-archived"></div> Archived</div></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn archive-btn"><i data-lucide="file" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Archive</button>
+                  <button class="more-btn">⋮</button>
+                </div>
+              </td>
+            </tr>
+            <tr data-status="archived">
+              <td></td>
+              <td>v2.1.0</td>
+              <td>91.0%</td>
+              <td>01 Apr, 2025</td>
+              <td><div class="status-dot-cell"><div class="sdot sdot-archived"></div> Archived</div></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn archive-btn"><i data-lucide="file" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Archive</button>
+                  <button class="more-btn">⋮</button>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="ver-pagination">
+          <div class="showing">Showing 1 to 4 of 4 results</div>
+          <div class="page-controls">
+            <button class="page-btn">‹</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">›</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Release Notes -->
+      <div class="release-section">
+        <div class="release-title"><span class="release-icon"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Release Notes</div>
+
+        <div class="release-block">
+          <div class="release-ver">Stress Model v2.4.1 <span class="latest-tag">Latest</span></div>
+          <div class="release-date">Released: 22 May, 2025</div>
+
+          <div class="release-section-label">Improvements</div>
+          <div class="release-list">
+            <div class="release-item"><span class="ri-check">✓</span> Improved stress detection accuracy in high-variability heart rate scenarios</div>
+            <div class="release-item"><span class="ri-check">✓</span> Enhanced signal processing for better noise handling</div>
+            <div class="release-item"><span class="ri-check">✓</span> Added contextual features from sleep patterns</div>
+            <div class="release-item"><span class="ri-check">✓</span> Reduced false positives by 12%</div>
+          </div>
+
+          <div class="release-section-label">Bug Fixes</div>
+          <div class="release-list">
+            <div class="release-item"><span class="ri-bug"><i data-lucide="wrench" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Fixed issue with data sync on intermittent connectivity</div>
+            <div class="release-item"><span class="ri-bug"><i data-lucide="wrench" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Resolved edge case in device timestamp handling</div>
+          </div>
+        </div>
+
+        <button class="view-all-btn">View All Release Notes →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 StressCare AI. All rights reserved. · <a href="#" style="color:var(--primary);text-decoration:none;">Privacy Policy</a> · <a href="#" style="color:var(--primary);text-decoration:none;">Terms of Service</a></div>
+</div>
+
+<!-- Upload New Model Modal -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal-box">
+    <div id="uploadForm">
+      <div class="modal-title"><i data-lucide="upload" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Upload New Model</div>
+      <div class="modal-sub">Upload a new Stress Model version to deploy.</div>
+
+      <div class="form-group">
+        <label class="form-label">Model Name</label>
+        <input class="form-input" type="text" id="modelName" value="Stress Model" readonly>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Version Number</label>
+        <input class="form-input" type="text" id="modelVersion" placeholder="e.g. v2.5.0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <input class="form-input" type="text" id="modelDesc" placeholder="Brief description of changes...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Model File (.pkl, .h5, .onnx)</label>
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" accept=".pkl,.h5,.onnx,.pt,.bin" onchange="handleFileSelect(this)">
+          <div class="drop-zone-icon"><i data-lucide="folder" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div class="drop-zone-text" id="dropText"><b>Click to browse</b> or drag & drop your model file here</div>
+        </div>
+      </div>
+
+      <div class="upload-progress" id="uploadProgress">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-label" id="progressLabel">Uploading... 0%</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-cancel" onclick="closeUploadModal()">Cancel</button>
+        <button class="modal-submit" onclick="submitUpload()"><i data-lucide="upload" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Upload Model</button>
+      </div>
+    </div>
+
+    <div class="upload-success" id="uploadSuccess">
+      <div class="success-icon"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+      <div class="success-msg">Model Uploaded Successfully!</div>
+      <div class="success-sub" id="successSub">Stress Model has been uploaded and is ready for deployment.</div>
+      <div class="modal-actions" style="justify-content:center;margin-top:1.2rem;">
+        <button class="modal-submit" onclick="closeUploadModal()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function logout() {
+      sessionStorage.removeItem('sc_admin_auth');
+      window.location.replace('admin-login.html');
+    }
+
+    function toggleGroup(header) {
+      header.classList.toggle('open');
+      const sub = header.nextElementSibling;
+      sub.classList.toggle('open');
+    }
+
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) {
+        drop.classList.remove('open');
+      }
+    });
+
+    /* ── Version Filters ── */
+    let verStatusFilter = '';
+    let verTabFilter = 'all';
+
+    function applyVersionFilters() {
+      const rows = document.querySelectorAll('#versionsTable tbody tr[data-status]');
+      let visible = 0;
+      rows.forEach(row => {
+        const st = (row.getAttribute('data-status') || '').toLowerCase();
+        const tabOk = verTabFilter === 'all' || st === verTabFilter;
+        const statusOk = !verStatusFilter || st === verStatusFilter;
+        const show = tabOk && statusOk;
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      const info = document.querySelector('.ver-pagination .showing');
+      if (info) info.textContent = `Showing 1 to ${visible} of ${visible} results`;
+    }
+
+    function filterVersions(filter, btn) {
+      verTabFilter = filter;
+      document.querySelectorAll('.ver-filters .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyVersionFilters();
+    }
+
+    function filterVersionStatus(val) {
+      verStatusFilter = val;
+      applyVersionFilters();
+    }
+
+    /* ── Upload Modal ── */
+    function openUploadModal() {
+      document.getElementById('uploadModal').classList.add('open');
+      document.getElementById('uploadForm').style.display = 'block';
+      document.getElementById('uploadSuccess').style.display = 'none';
+      document.getElementById('uploadProgress').style.display = 'none';
+      document.getElementById('progressFill').style.width = '0%';
+      document.getElementById('modelVersion').value = '';
+      document.getElementById('modelDesc').value = '';
+      document.getElementById('dropText').innerHTML = '<b>Click to browse</b> or drag & drop your model file here';
+      document.getElementById('fileInput').value = '';
+    }
+
+    function closeUploadModal() {
+      document.getElementById('uploadModal').classList.remove('open');
+    }
+
+    document.getElementById('uploadModal').addEventListener('click', function(e) {
+      if (e.target === this) closeUploadModal();
+    });
+
+    function handleFileSelect(input) {
+      if (input.files.length > 0) {
+        const name = input.files[0].name;
+        document.getElementById('dropText').innerHTML = ' <b>' + name + '</b> selected';
+        document.getElementById('dropZone').style.borderColor = 'var(--success)';
+      }
+    }
+
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      this.classList.add('drag-over');
+    });
+    dropZone.addEventListener('dragleave', function() {
+      this.classList.remove('drag-over');
+    });
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        document.getElementById('dropText').innerHTML = ' <b>' + files[0].name + '</b> selected';
+        this.style.borderColor = 'var(--success)';
+      }
+    });
+
+    function submitUpload() {
+      const version = document.getElementById('modelVersion').value.trim();
+      const fileInput = document.getElementById('fileInput');
+      if (!version) { alert('Please enter a version number.'); return; }
+
+      const progress = document.getElementById('uploadProgress');
+      const fill = document.getElementById('progressFill');
+      const label = document.getElementById('progressLabel');
+      progress.style.display = 'block';
+
+      let pct = 0;
+      const interval = setInterval(function() {
+        pct += Math.floor(Math.random() * 12) + 5;
+        if (pct >= 100) {
+          pct = 100;
+          clearInterval(interval);
+          fill.style.width = '100%';
+          label.textContent = 'Upload complete!';
+          setTimeout(function() {
+            document.getElementById('successSub').textContent =
+              'Stress Model ' + version + ' has been uploaded and is ready for deployment.';
+            document.getElementById('uploadForm').style.display = 'none';
+            document.getElementById('uploadSuccess').style.display = 'block';
+          }, 400);
+        } else {
+          fill.style.width = pct + '%';
+          label.textContent = 'Uploading... ' + pct + '%';
+        }
+      }, 180);
+    }
+</script>
+</body>
+</html>

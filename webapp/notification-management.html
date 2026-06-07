@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare – Notification Management</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4285F4;
+      --primary-light: #e8f0fe;
+      --secondary: #34A0D4;
+      --success: #34C759;
+      --warning: #FF9500;
+      --danger: #FF3B30;
+      --purple: #AF52DE;
+      --teal: #00B5A0;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --border: #e8edf5;
+      --text: #1a237e;
+      --text-muted: #6b7ca0;
+      --text-dim: #9fa8b8;
+      --active-bg: #e8f0fe;
+      --active-color: #4285F4;
+    }
+
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+    /* Sidebar */
+    .sidebar { width: 200px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; z-index: 100; }
+    .sidebar-logo { padding: 1.2rem 1.2rem 1rem; display: flex; align-items: center; gap: 0.6rem; border-bottom: 1px solid var(--border); }
+    .logo-icon { width: 34px; height: 34px; background: linear-gradient(135deg, #4285F4, #34A0D4); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .logo-name { font-size: 1rem; font-weight: 600; color: var(--text); line-height: 1; }
+    .logo-sub { font-size: 0.62rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav { padding: 1rem 0.6rem; flex: 1; overflow-y: auto; }
+    .nav-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.84rem; font-weight: 500; margin-bottom: 2px; text-decoration: none; transition: all 0.15s; position: relative; }
+    .nav-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-item.active { background: var(--active-bg); color: var(--active-color); font-weight: 600; }
+    .nav-icon { font-size: 0.9rem; width: 18px; text-align: center; flex-shrink: 0; }
+    .nav-badge { background: var(--danger); color: white; font-size: 0.62rem; font-weight: 600; padding: 0.1rem 0.4rem; border-radius: 10px; margin-left: auto; }
+
+    .sidebar-status { margin: 0.8rem; padding: 0.8rem; background: linear-gradient(135deg, #e8f0fe, #f0f7ff); border-radius: 12px; border: 1px solid rgba(66,133,244,0.15); }
+    .status-dot-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.2rem; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+    .status-title { font-size: 0.75rem; font-weight: 600; color: var(--text); }
+    .status-sub { font-size: 0.68rem; color: var(--success); }
+    .help-link { display: flex; align-items: center; justify-content: space-between; font-size: 0.7rem; color: var(--primary); font-weight: 600; margin-top: 0.5rem; text-decoration: none; }
+
+    /* Main */
+    .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; }
+
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.8rem 1.8rem; display: flex; align-items: center; gap: 1rem; position: sticky; top: 0; z-index: 50; }
+    .menu-btn { width: 30px; height: 30px; border-radius: 7px; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+    .menu-btn span { width: 17px; height: 2px; background: var(--text-muted); border-radius: 2px; }
+    .search-bar { flex: 1; max-width: 380px; display: flex; align-items: center; gap: 0.6rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.5rem 1rem; }
+    .search-bar input { border: none; background: none; outline: none; font-size: 0.82rem; color: var(--text); width: 100%; font-family: inherit; }
+    .search-bar input::placeholder { color: var(--text-dim); }
+    .topbar-right { display: flex; align-items: center; gap: 0.7rem; margin-left: auto; }
+    .notif-btn { width: 34px; height: 34px; border-radius: 9px; background: var(--bg); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; position: relative; }
+    .notif-badge-dot { position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%; background: var(--danger); border: 1.5px solid var(--surface); }
+    .admin-chip { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.65rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer; }
+    .admin-avatar { width: 27px; height: 27px; border-radius: 50%; background: linear-gradient(135deg, #4285F4, #34A0D4); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: white; font-weight: 700; }
+    .admin-name { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+    .admin-role { font-size: 0.66rem; color: var(--text-muted); }
+
+    .content { padding: 1.8rem; flex: 1; }
+    .page-header { margin-bottom: 1.4rem; }
+    .page-title h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .page-title p { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.4rem; }
+    .stat-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; transition: box-shadow 0.2s; }
+    .stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .stat-icon { width: 34px; height: 34px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.15rem; }
+    .stat-value { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .stat-sub { font-size: 0.7rem; margin-top: 0.2rem; }
+    .stat-sub.up { color: var(--success); font-weight: 600; }
+    .stat-sub.neutral { color: var(--text-dim); }
+
+    /* Create Section */
+    .create-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 1.3rem 1.5rem; margin-bottom: 1.2rem; }
+    .create-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
+    .create-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .create-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem; }
+    .create-actions { display: flex; gap: 0.7rem; }
+    .schedule-btn { display: flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1rem; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text); font-family: inherit; transition: all 0.2s; }
+    .schedule-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .create-btn { display: flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1.1rem; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 0.82rem; font-weight: 600; font-family: inherit; }
+    .create-btn:hover { background: #3574e2; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 1rem; }
+    .tab { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2.5px solid transparent; margin-bottom: -2px; transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--primary); font-weight: 600; border-bottom-color: var(--primary); }
+
+    /* Templates */
+    .templates-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; }
+    .templates-title { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+    .view-all-link { font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.3rem; }
+
+    .templates-scroll { display: flex; gap: 0.9rem; overflow-x: auto; padding-bottom: 0.4rem; }
+    .templates-scroll::-webkit-scrollbar { height: 3px; }
+    .templates-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .template-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 1rem; min-width: 168px; flex-shrink: 0; transition: box-shadow 0.2s, border-color 0.2s; }
+    .template-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); border-color: var(--primary); }
+    .tc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.5rem; }
+    .tc-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .tc-more { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--text-dim); padding: 0.2rem; }
+    .tc-name { font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
+    .tc-desc { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.6rem; line-height: 1.4; }
+    .tc-type { display: inline-flex; padding: 0.18rem 0.55rem; border-radius: 10px; font-size: 0.65rem; font-weight: 600; }
+    .type-alert { background: #ffe5e5; color: #c0001a; }
+    .type-reminder { background: #e8f0fe; color: #1a237e; }
+    .type-system { background: #d4f5e2; color: #1a7a3a; }
+
+    /* Sent Table */
+    .sent-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .sent-head { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--border); }
+    .sent-title { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .sent-actions { display: flex; align-items: center; gap: 0.6rem; }
+    .date-btn { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; color: var(--text-muted); cursor: pointer; font-family: inherit; }
+    .filter-btn { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; color: var(--text-muted); cursor: pointer; font-family: inherit; }
+    .export-btn-sm { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; color: var(--text-muted); cursor: pointer; font-family: inherit; }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 0.75rem 1.5rem; text-align: left; font-size: 0.7rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; background: #fafbff; border-bottom: 1px solid var(--border); }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafbff; }
+    tbody td { padding: 0.9rem 1.5rem; font-size: 0.8rem; vertical-align: middle; }
+
+    .notif-row-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-cell { display: flex; align-items: center; gap: 0.7rem; }
+    .notif-title { font-weight: 600; color: var(--text); font-size: 0.8rem; }
+    .notif-sub { font-size: 0.68rem; color: var(--text-muted); }
+
+    .type-pill { display: inline-flex; padding: 0.22rem 0.65rem; border-radius: 20px; font-size: 0.68rem; font-weight: 600; }
+    .tp-alert { background: #ffe5e5; color: #c0001a; }
+    .tp-reminder { background: #e8f0fe; color: #1a237e; }
+    .tp-system { background: #d4f5e2; color: #1a7a3a; }
+
+    .audience-cell { font-size: 0.78rem; color: var(--text-muted); }
+    .delivery-cell { font-size: 0.75rem; color: var(--text-muted); }
+
+    .status-cell { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600; }
+    .status-delivered { color: var(--success); }
+    .status-failed { color: var(--danger); }
+
+    .action-link { font-size: 0.75rem; color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; }
+    .action-link:hover { text-decoration: underline; }
+    .more-btn { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1rem; padding: 0.25rem 0.4rem; border-radius: 5px; }
+    .actions-cell { display: flex; align-items: center; gap: 0.5rem; }
+
+    /* Pagination */
+    .pagination { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.5rem; border-top: 1px solid var(--border); }
+    .showing { font-size: 0.75rem; color: var(--text-muted); }
+    .page-controls { display: flex; align-items: center; gap: 0.3rem; }
+    .page-btn { width: 28px; height: 28px; border-radius: 6px; border: 1.5px solid var(--border); background: var(--bg); font-size: 0.73rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: inherit; transition: all 0.15s; }
+    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
+    .page-btn.nav { font-size: 0.9rem; }
+  
+    /* ── Sidebar nav groups ── */
+    .sidebar { width: 220px !important; }
+    .nav-section-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-dim); padding: 0.9rem 0.8rem 0.3rem; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-header { display: flex; align-items: center; justify-content: space-between; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; transition: all 0.15s; user-select: none; }
+    .nav-group-header:hover { background: #f5f7fd; color: var(--text); }
+    .nav-group-header.open { color: var(--text); }
+    .nav-group-left { display: flex; align-items: center; gap: 0.65rem; }
+    .nav-chevron { font-size: 0.6rem; transition: transform 0.2s; color: var(--text-dim); }
+    .nav-group-header.open .nav-chevron { transform: rotate(90deg); }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .nav-sub.open { max-height: 300px; }
+    .nav-sub-item { display: flex; align-items: center; gap: 0.55rem; padding: 0.48rem 0.8rem 0.48rem 2.3rem; border-radius: 9px; cursor: pointer; color: var(--text-muted); font-size: 0.81rem; font-weight: 500; margin-bottom: 1px; text-decoration: none; transition: all 0.15s; }
+    .nav-sub-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub-item.active { color: var(--primary); font-weight: 600; background: #e8f0fe; }
+
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="StressCare" style="height:40px;width:auto;object-fit:contain;display:block;">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a class="nav-item" href="admin-dashboard.html"><span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard</a>
+
+      <a class="nav-item" href="user-management.html"><span class="nav-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> User Management</a>
+
+      <div class="nav-section-label">Management</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="package" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Subscriptions</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="subscription-plans.html"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Plan</a>
+          <a class="nav-sub-item" href="subscription-records.html"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Records</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="wallet" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Finance</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="payment-management.html"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Payment Management</a>
+          <a class="nav-sub-item" href="revenue-analytics.html"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Revenue Analytics</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> AI & Cloud</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="model-management.html"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model Management</a>
+          <a class="nav-sub-item" href="cloud-sync-monitoring.html"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Cloud Sync</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header open" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Support</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub open">
+          <a class="nav-sub-item" href="feedback-pss.html"><i data-lucide="file-text" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Feedback / PSS</a>
+          <a class="nav-sub-item active" href="notification-management.html"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Notification Management</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Config</div>
+
+      <a class="nav-item" href="admin-settings.html"><span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings</a>
+
+    </nav>
+
+    <div style="margin:0.8rem;padding:0.8rem;background:linear-gradient(135deg,#e8f0fe,#f0f7ff);border-radius:12px;border:1px solid rgba(66,133,244,0.15);">
+      <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34C759;flex-shrink:0;"></div>
+        <span style="font-size:0.78rem;font-weight:700;color:var(--text);">System Status</span>
+      </div>
+      <div style="font-size:0.7rem;color:#34C759;font-weight:500;">All systems operational</div>
+    </div>
+
+    <div style="padding:0.5rem 0.6rem 0.8rem;">
+      <button class="logout-btn" onclick="logout()"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> &nbsp;Logout</button>
+    </div>
+  </aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <button class="menu-btn"><span></span><span></span><span></span></button>
+    <div class="search-bar">
+      <span style="color:var(--text-dim);"><i data-lucide="search" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+      <input type="text" placeholder="Search users, notifications, templates...">
+    </div>
+    <div class="topbar-right">
+      <div class="notif-wrap">
+          <div class="notif-btn" id="notifBtn" onclick="toggleNotif(event)">
+            <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+            <div class="notif-badge" id="notifBadge"></div>
+          </div>
+          <div class="notif-drop" id="notifDrop">
+            <div class="notif-drop-head">
+              <span class="notif-drop-title">Notifications</span>
+              <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8f0fe;"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Ayesha Khan subscribed to <b>Premium Plan</b></div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8fff2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment of <b>PKR 6,999</b> received from Omar Farooq</div>
+                <div class="notif-time">15 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#fff8e8;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Tariq Mehmood's subscription is <b>expiring soon</b></div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#f5f7ff;"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">AI Model v2.4 update completed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#fff0f0;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment failed for Hira Noor — card declined</div>
+                <div class="notif-time">Yesterday, 6:30 PM</div>
+              </div>
+            </div>
+            <div class="notif-drop-foot">
+              <a href="notification-management.html">View all notifications →</a>
+            </div>
+          </div>
+        </div>
+      <div class="admin-chip">
+        <div class="admin-avatar">A</div>
+        <div>
+          <div class="admin-name">Admin User</div>
+          <div class="admin-role">Administrator</div>
+        </div>
+        <span style="color:var(--text-dim);font-size:0.68rem;">▾</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Notification Management</h1>
+        <p>Create, manage, and track all platform notifications and alerts.</p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#e8f0fe;"><i data-lucide="upload" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">Total Notifications Sent</div>
+          <div class="stat-value">24,892</div>
+          <div class="stat-sub up">▲ 18.6% vs last 30 days</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#d4f5e2;"><i data-lucide="file" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">Active Templates</div>
+          <div class="stat-value">12</div>
+          <div class="stat-sub neutral">+2 new this month</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fff3e0;"><i data-lucide="clock" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">Scheduled Alerts</div>
+          <div class="stat-value">28</div>
+          <div class="stat-sub neutral">Next: Today, 2:00 PM</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#d4f5e2;"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">Delivery Rate</div>
+          <div class="stat-value">98.7%</div>
+          <div class="stat-sub up">▲ 1.2% vs last 30 days</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Section -->
+    <div class="create-section">
+      <div class="create-head">
+        <div>
+          <div class="create-title">Create / Send Notification</div>
+          <div class="create-sub">Choose a type and customize your message.</div>
+        </div>
+        <div class="create-actions">
+          <button class="schedule-btn" onclick="openScheduleModal()"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Schedule Alert</button>
+          <button class="create-btn" onclick="openCreateModal()"><i data-lucide="plus" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Create Notification</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchNotifTab(this,'announcement')"><i data-lucide="megaphone" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Announcement</button>
+        <button class="tab" onclick="switchNotifTab(this,'alert')"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Alert</button>
+        <button class="tab" onclick="switchNotifTab(this,'reminder')"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Reminder</button>
+        <button class="tab" onclick="switchNotifTab(this,'system')"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> System</button>
+      </div>
+
+      <p id="tabDesc" style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">Use announcements to share updates, news, or general information with your users.</p>
+
+      <!-- Templates -->
+      <div class="templates-label">
+        <div class="templates-title">Notification Templates</div>
+        <a href="#" class="view-all-link">View all templates ›</a>
+      </div>
+
+      <div class="templates-scroll">
+        <div class="template-card">
+          <div class="tc-top">
+            <div class="tc-icon" style="background:#ffe5e5;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+            <button class="tc-more">⋮</button>
+          </div>
+          <div class="tc-name">High Stress Alert</div>
+          <div class="tc-desc">Warn users when their stress level is high.</div>
+          <span class="tc-type type-alert">Alert</span>
+        </div>
+        <div class="template-card">
+          <div class="tc-top">
+            <div class="tc-icon" style="background:#f0e8ff;"><i data-lucide="dna" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+            <button class="tc-more">⋮</button>
+          </div>
+          <div class="tc-name">Migraine Risk Warning</div>
+          <div class="tc-desc">Warn users of potential migraine risk.</div>
+          <span class="tc-type type-alert">Alert</span>
+        </div>
+        <div class="template-card">
+          <div class="tc-top">
+            <div class="tc-icon" style="background:#e8f0fe;"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+            <button class="tc-more">⋮</button>
+          </div>
+          <div class="tc-name">PSS Reminder</div>
+          <div class="tc-desc">Remind users to complete their PSS assessment.</div>
+          <span class="tc-type type-reminder">Reminder</span>
+        </div>
+        <div class="template-card">
+          <div class="tc-top">
+            <div class="tc-icon" style="background:#d4f5e2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+            <button class="tc-more">⋮</button>
+          </div>
+          <div class="tc-name">Subscription Renewal</div>
+          <div class="tc-desc">Notify users about upcoming renewal.</div>
+          <span class="tc-type type-system">System</span>
+        </div>
+        <div class="template-card">
+          <div class="tc-top">
+            <div class="tc-icon" style="background:#e8f4ff;"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+            <button class="tc-more">⋮</button>
+          </div>
+          <div class="tc-name">Model Update Available</div>
+          <div class="tc-desc">Inform users about new model updates.</div>
+          <span class="tc-type type-system">System</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sent Notifications Table -->
+    <div class="sent-section">
+      <div class="sent-head">
+        <div class="sent-title">Sent Notifications</div>
+        <div class="sent-actions">
+          <button class="date-btn"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> 16 May – 22 May, 2025</button>
+          <button class="filter-btn"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Filters</button>
+          <button class="export-btn-sm"><i data-lucide="download" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Export</button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Audience</th>
+            <th>Delivery Time</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="notif-cell">
+                <div class="notif-row-icon" style="background:#ffe5e5;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="notif-title">High Stress Alert</div>
+                  <div class="notif-sub">Stress level detected as high</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="type-pill tp-alert">Alert</span></td>
+            <td><span class="audience-cell">All Users</span></td>
+            <td><span class="delivery-cell">22 May, 2025 10:00 AM</span></td>
+            <td><span class="status-cell status-delivered">✓ Delivered</span></td>
+            <td>
+              <div class="actions-cell">
+                <a class="action-link">View Details</a>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="notif-cell">
+                <div class="notif-row-icon" style="background:#e8f0fe;"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="notif-title">PSS Reminder</div>
+                  <div class="notif-sub">Complete your weekly PSS</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="type-pill tp-reminder">Reminder</span></td>
+            <td><span class="audience-cell">Active Users</span></td>
+            <td><span class="delivery-cell">21 May, 2025 09:00 AM</span></td>
+            <td><span class="status-cell status-delivered">✓ Delivered</span></td>
+            <td>
+              <div class="actions-cell">
+                <a class="action-link">View Details</a>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="notif-cell">
+                <div class="notif-row-icon" style="background:#d4f5e2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="notif-title">Subscription Renewal</div>
+                  <div class="notif-sub">Your subscription is renewing soon</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="type-pill tp-system">System</span></td>
+            <td><span class="audience-cell">Expiring in 7 Days</span></td>
+            <td><span class="delivery-cell">20 May, 2025 02:30 PM</span></td>
+            <td><span class="status-cell status-delivered">✓ Delivered</span></td>
+            <td>
+              <div class="actions-cell">
+                <a class="action-link">View Details</a>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="notif-cell">
+                <div class="notif-row-icon" style="background:#e8f4ff;"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="notif-title">Model Update Available</div>
+                  <div class="notif-sub">New model v2.4.1 is now available</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="type-pill tp-system">System</span></td>
+            <td><span class="audience-cell">All Users</span></td>
+            <td><span class="delivery-cell">19 May, 2025 11:15 AM</span></td>
+            <td><span class="status-cell status-delivered">✓ Delivered</span></td>
+            <td>
+              <div class="actions-cell">
+                <a class="action-link">View Details</a>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="notif-cell">
+                <div class="notif-row-icon" style="background:#ffe5e5;"><i data-lucide="dna" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="notif-title">Migraine Risk Warning</div>
+                  <div class="notif-sub">Increased risk detected</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="type-pill tp-alert">Alert</span></td>
+            <td><span class="audience-cell">At Risk Users</span></td>
+            <td><span class="delivery-cell">18 May, 2025 04:45 PM</span></td>
+            <td><span class="status-cell status-failed">✗ Failed</span></td>
+            <td>
+              <div class="actions-cell">
+                <a class="action-link">View Details</a>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <div class="showing">Showing 1 to 5 of 24,892 results</div>
+        <div class="page-controls">
+          <button class="page-btn nav">«</button>
+          <button class="page-btn nav">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">…</button>
+          <button class="page-btn">2490</button>
+          <button class="page-btn nav">›</button>
+          <button class="page-btn nav">»</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Schedule Alert Modal -->
+<div id="scheduleModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:18px;padding:2rem;width:480px;max-width:95%;box-shadow:0 16px 48px rgba(0,0,0,0.18);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+      <div style="font-size:1rem;font-weight:800;color:#1a237e;"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Schedule Alert</div>
+      <button onclick="closeScheduleModal()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#9aa4bc;"><i data-lucide="x" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.9rem;">
+      <div><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Alert Title</label><input type="text" id="schedTitle" placeholder="e.g. High Stress Alert" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;box-sizing:border-box;"></div>
+      <div style="display:flex;gap:0.7rem;">
+        <div style="flex:1;"><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Scheduled Date</label><input type="date" id="schedDate" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"></div>
+        <div style="flex:1;"><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Time</label><input type="time" id="schedTime" value="14:00" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"></div>
+      </div>
+      <div><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Alert Type</label><select id="schedType" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"><option>Alert</option><option>Announcement</option><option>Reminder</option><option>System</option></select></div>
+      <div><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Target Audience</label><select id="schedAudience" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"><option>All Users</option><option>Premium Users</option><option>Free Users</option><option>At Risk Users</option><option>Active Users</option></select></div>
+      <div><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Message</label><textarea id="schedMsg" rows="3" placeholder="Enter alert message…" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;resize:vertical;box-sizing:border-box;"></textarea></div>
+    </div>
+    <div style="display:flex;gap:0.7rem;margin-top:1.4rem;">
+      <button onclick="closeScheduleModal()" style="flex:1;padding:0.6rem;border:1.5px solid #e8edf5;background:none;border-radius:10px;font-size:0.84rem;color:#6b7ca0;cursor:pointer;font-family:inherit;font-weight:600;">Cancel</button>
+      <button onclick="submitSchedule()" style="flex:1;padding:0.6rem;background:#4285F4;color:white;border:none;border-radius:10px;font-size:0.84rem;font-weight:600;cursor:pointer;font-family:inherit;"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Schedule Alert</button>
+    </div>
+  </div>
+</div>
+
+<!-- Create Notification Modal -->
+<div id="createNotifModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:18px;padding:2rem;width:500px;max-width:95%;box-shadow:0 16px 48px rgba(0,0,0,0.18);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+      <div style="font-size:1rem;font-weight:800;color:#1a237e;"><i data-lucide="plus" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Create Notification</div>
+      <button onclick="closeCreateModal()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#9aa4bc;"><i data-lucide="x" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.9rem;">
+      <div><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Notification Title</label><input type="text" id="createTitle" placeholder="e.g. New Feature Announcement" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;box-sizing:border-box;"></div>
+      <div style="display:flex;gap:0.7rem;">
+        <div style="flex:1;"><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Type</label><select id="createType" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"><option>Announcement</option><option>Alert</option><option>Reminder</option><option>System</option></select></div>
+        <div style="flex:1;"><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Audience</label><select id="createAudience" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"><option>All Users</option><option>Premium Users</option><option>Free Users</option><option>At Risk Users</option></select></div>
+      </div>
+      <div><label style="font-size:0.75rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">Message Body</label><textarea id="createMsg" rows="4" placeholder="Enter your notification message here…" style="width:100%;padding:0.55rem 0.8rem;border:1.5px solid #e8edf5;border-radius:9px;font-size:0.85rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;resize:vertical;box-sizing:border-box;"></textarea></div>
+      <div style="display:flex;align-items:center;gap:0.5rem;padding:0.6rem 0.8rem;background:#f4f7fb;border-radius:9px;">
+        <input type="checkbox" id="sendNow" style="width:15px;height:15px;cursor:pointer;accent-color:#4285F4;">
+        <label for="sendNow" style="font-size:0.82rem;color:#1a237e;font-weight:500;cursor:pointer;">Send immediately</label>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.7rem;margin-top:1.4rem;">
+      <button onclick="closeCreateModal()" style="flex:1;padding:0.6rem;border:1.5px solid #e8edf5;background:none;border-radius:10px;font-size:0.84rem;color:#6b7ca0;cursor:pointer;font-family:inherit;font-weight:600;">Cancel</button>
+      <button onclick="submitCreateNotif()" style="flex:1;padding:0.6rem;background:#34C759;color:white;border:none;border-radius:10px;font-size:0.84rem;font-weight:600;cursor:pointer;font-family:inherit;">✓ Create &amp; Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="notifToast" style="display:none;position:fixed;bottom:1.5rem;right:1.5rem;background:#1a237e;color:white;padding:0.7rem 1.3rem;border-radius:10px;font-size:0.85rem;font-weight:600;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,0.18);">Notification scheduled!</div>
+
+<style>
+#scheduleModal.open, #createNotifModal.open { display:flex !important; }
+.logout-btn { display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.9rem;color:#FF3B30;font-size:0.83rem;font-weight:700;cursor:pointer;border:1.5px solid rgba(255,59,48,0.22);background:rgba(255,59,48,0.06);font-family:inherit;width:100%;border-radius:10px;transition:all 0.15s; }
+.logout-btn:hover { background:rgba(255,59,48,0.13);border-color:rgba(255,59,48,0.38); }
+</style>
+
+<script>
+    function logout() {
+      sessionStorage.removeItem('sc_admin_auth');
+      window.location.replace('admin-login.html');
+    }
+    function toggleGroup(header) {
+      header.classList.toggle('open');
+      const sub = header.nextElementSibling;
+      sub.classList.toggle('open');
+    }
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) {
+        drop.classList.remove('open');
+      }
+    });
+
+    /* ── Schedule Modal ── */
+    function openScheduleModal() { document.getElementById('scheduleModal').classList.add('open'); }
+    function closeScheduleModal() { document.getElementById('scheduleModal').classList.remove('open'); }
+    document.getElementById('scheduleModal').addEventListener('click', function(e) { if(e.target===this) closeScheduleModal(); });
+
+    function submitSchedule() {
+      const title = document.getElementById('schedTitle').value.trim();
+      const date = document.getElementById('schedDate').value;
+      const time = document.getElementById('schedTime').value;
+      if (!title) { alert('Please enter an alert title'); return; }
+      if (!date) { alert('Please select a date'); return; }
+      const fmt = s => new Date(s+'T00:00:00').toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+      closeScheduleModal();
+      showNotifToast('✓ Alert "' + title + '" scheduled for ' + fmt(date) + ' at ' + time);
+    }
+
+    /* ── Create Notification Modal ── */
+    function openCreateModal() { document.getElementById('createNotifModal').classList.add('open'); }
+    function closeCreateModal() { document.getElementById('createNotifModal').classList.remove('open'); }
+    document.getElementById('createNotifModal').addEventListener('click', function(e) { if(e.target===this) closeCreateModal(); });
+
+    function submitCreateNotif() {
+      const title = document.getElementById('createTitle').value.trim();
+      const msg = document.getElementById('createMsg').value.trim();
+      if (!title) { alert('Please enter a notification title'); return; }
+      if (!msg) { alert('Please enter a message body'); return; }
+      closeCreateModal();
+      document.getElementById('createTitle').value = '';
+      document.getElementById('createMsg').value = '';
+      showNotifToast('✓ Notification "' + title + '" created successfully!');
+    }
+
+    /* ── Tab Descriptions ── */
+    const tabDescs = {
+      announcement: 'Use announcements to share updates, news, or general information with your users.',
+      alert: 'Send alerts to warn users about high stress levels, health risks, or urgent issues.',
+      reminder: 'Send reminders to encourage users to complete their PSS assessment or app check-ins.',
+      system: 'System notifications inform users about maintenance, model updates, and platform changes.'
+    };
+
+    function switchNotifTab(btn, type) {
+      document.querySelectorAll('.tabs .tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const desc = document.getElementById('tabDesc');
+      if (desc) desc.textContent = tabDescs[type] || '';
+    }
+
+    /* ── Toast ── */
+    function showNotifToast(msg) {
+      const t = document.getElementById('notifToast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3500);
+    }
+
+</script>
+</body>
+</html>

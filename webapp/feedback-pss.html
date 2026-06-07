@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare – Feedback / PSS Data</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4285F4;
+      --primary-light: #e8f0fe;
+      --secondary: #34A0D4;
+      --success: #34C759;
+      --warning: #FF9500;
+      --danger: #FF3B30;
+      --purple: #AF52DE;
+      --teal: #00B5A0;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --border: #e8edf5;
+      --text: #1a237e;
+      --text-muted: #6b7ca0;
+      --text-dim: #9fa8b8;
+      --active-bg: #e8f0fe;
+      --active-color: #4285F4;
+    }
+
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+    /* Sidebar */
+    .sidebar { width: 200px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; z-index: 100; }
+    .sidebar-logo { padding: 1.2rem 1.2rem 1rem; display: flex; align-items: center; gap: 0.6rem; border-bottom: 1px solid var(--border); }
+    .logo-icon { width: 34px; height: 34px; background: linear-gradient(135deg, #4285F4, #34A0D4); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .logo-name { font-size: 1rem; font-weight: 600; color: var(--text); line-height: 1; }
+    .logo-sub { font-size: 0.62rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav { padding: 1rem 0.6rem; flex: 1; overflow-y: auto; }
+    .nav-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.84rem; font-weight: 500; margin-bottom: 2px; text-decoration: none; transition: all 0.15s; }
+    .nav-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-item.active { background: var(--active-bg); color: var(--active-color); font-weight: 600; }
+    .nav-icon { font-size: 0.9rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-bottom { padding: 0.8rem; border-top: 1px solid var(--border); }
+    .data-secure { display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem; background: #f0f7ff; border-radius: 10px; font-size: 0.7rem; color: var(--text-muted); border: 1px solid rgba(66,133,244,0.12); }
+    .footer-txt { font-size: 0.65rem; color: var(--text-dim); margin-top: 0.5rem; text-align: center; }
+
+    /* Main */
+    .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; }
+
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0.8rem 1.8rem; display: flex; align-items: center; gap: 1rem; position: sticky; top: 0; z-index: 50; }
+    .menu-btn { width: 30px; height: 30px; border-radius: 7px; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+    .menu-btn span { width: 17px; height: 2px; background: var(--text-muted); border-radius: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 0.7rem; margin-left: auto; }
+    .notif-btn { width: 34px; height: 34px; border-radius: 9px; background: var(--bg); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; position: relative; }
+    .notif-badge { position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%; background: var(--danger); border: 1.5px solid var(--surface); }
+    .admin-chip { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.65rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer; }
+    .admin-avatar { width: 27px; height: 27px; border-radius: 50%; background: linear-gradient(135deg, #4285F4, #34A0D4); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: white; font-weight: 700; }
+    .admin-name { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+    .admin-role { font-size: 0.66rem; color: var(--text-muted); }
+
+    /* Breadcrumb */
+    .breadcrumb { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.4rem; }
+    .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--primary); }
+
+    .content { padding: 1.8rem; flex: 1; }
+    .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.4rem; }
+    .page-title h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .page-title p { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .export-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.58rem 1.1rem; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 0.84rem; font-weight: 600; font-family: inherit; transition: all 0.2s; }
+    .export-btn:hover { background: #3574e2; }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.4rem; }
+    .stat-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; transition: box-shadow 0.2s; }
+    .stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .stat-icon { width: 34px; height: 34px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.15rem; }
+    .stat-value { font-size: 1.2rem; font-weight: 600; color: var(--text); line-height: 1; }
+    .stat-trend { font-size: 0.7rem; font-weight: 600; margin-top: 0.3rem; display: flex; align-items: center; gap: 0.25rem; }
+    .stat-trend.up { color: var(--success); }
+    .stat-trend.down { color: var(--danger); }
+    .stat-trend span { color: var(--text-dim); font-weight: 400; }
+    .stat-info { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.3rem; }
+
+    /* Main Grid */
+    .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 1.2rem; }
+    .left-col { display: flex; flex-direction: column; gap: 1rem; }
+
+    /* Filters */
+    .filters-bar { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .filter-group { display: flex; flex-direction: column; gap: 0.3rem; position: relative; }
+    .filter-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+    .filter-select { padding: 0.42rem 0.8rem; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.78rem; color: var(--text); font-family: inherit; background: var(--bg); cursor: pointer; outline: none; min-width: 120px; }
+    .date-range-input { display: flex; align-items: center; gap: 0.5rem; padding: 0.42rem 0.8rem; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.78rem; color: var(--text); background: var(--bg); cursor: pointer; white-space: nowrap; }
+    .clear-btn { display: flex; align-items: center; gap: 0.35rem; padding: 0.42rem 0.8rem; background: none; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; color: var(--primary); cursor: pointer; font-family: inherit; font-weight: 600; white-space: nowrap; margin-left: auto; }
+    .clear-btn:hover { background: var(--active-bg); }
+
+    /* Table */
+    .table-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 0.75rem 1.2rem; text-align: left; font-size: 0.7rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; background: #fafbff; border-bottom: 1px solid var(--border); }
+    thead th.sortable { cursor: pointer; }
+    thead th.sortable:hover { color: var(--primary); }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafbff; }
+    tbody td { padding: 0.82rem 1.2rem; font-size: 0.8rem; vertical-align: middle; }
+
+    .user-cell { display: flex; align-items: center; gap: 0.7rem; }
+    .user-ava { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 600; color: white; flex-shrink: 0; }
+    .user-name { font-weight: 600; color: var(--text); font-size: 0.8rem; }
+    .user-email { font-size: 0.68rem; color: var(--text-muted); }
+
+    .stress-pill { display: inline-flex; align-items: center; padding: 0.2rem 0.65rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+    .stress-high { background: #ffe5e5; color: #c0001a; }
+    .stress-moderate { background: #fff3e0; color: #c07000; }
+    .stress-low { background: #d4f5e2; color: #1a7a3a; }
+
+    .pss-score { font-weight: 600; color: var(--text); }
+    .date-cell { color: var(--text-muted); font-size: 0.75rem; }
+
+    .match-pill { display: inline-flex; align-items: center; padding: 0.2rem 0.65rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+    .match-match { background: #d4f5e2; color: #1a7a3a; }
+    .match-mismatch { background: #fff3e0; color: #c07000; }
+
+    .more-btn { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1rem; padding: 0.25rem 0.4rem; border-radius: 5px; }
+    .more-btn:hover { background: var(--bg); }
+
+    /* Pagination */
+    .pagination { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.2rem; border-top: 1px solid var(--border); }
+    .showing { font-size: 0.75rem; color: var(--text-muted); }
+    .page-controls { display: flex; align-items: center; gap: 0.35rem; }
+    .page-btn { width: 28px; height: 28px; border-radius: 6px; border: 1.5px solid var(--border); background: var(--bg); font-size: 0.75rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: inherit; transition: all 0.15s; }
+    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: 600; }
+    .rows-select { display: flex; align-items: center; gap: 0.4rem; font-size: 0.73rem; color: var(--text-muted); }
+    .rows-select select { padding: 0.25rem 0.5rem; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.73rem; background: var(--bg); color: var(--text); font-family: inherit; cursor: pointer; outline: none; }
+
+    /* Right Column */
+    .right-col { display: flex; flex-direction: column; gap: 1rem; }
+
+    .widget { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 1.1rem 1.2rem; }
+    .widget-title { font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem; }
+    .info-icon { font-size: 0.72rem; color: var(--text-dim); cursor: help; }
+
+    /* Donut */
+    .donut-wrap { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1rem; }
+    .donut-center { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+    .donut-inner { position: absolute; text-align: center; }
+    .donut-val { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .donut-sub { font-size: 0.6rem; color: var(--text-muted); }
+    .donut-legend { display: flex; flex-direction: column; gap: 0.5rem; }
+    .donut-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; }
+    .donut-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+    .donut-name { color: var(--text-muted); flex: 1; }
+    .donut-count { font-weight: 700; color: var(--text); }
+    .donut-pct { color: var(--text-dim); font-size: 0.68rem; }
+
+    /* PSS Trend Chart */
+    .trend-wrap { position: relative; }
+    .trend-y { display: flex; flex-direction: column; justify-content: space-between; font-size: 0.65rem; color: var(--text-dim); position: absolute; left: 0; top: 0; bottom: 22px; }
+    .trend-chart { margin-left: 24px; }
+    .trend-x { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-dim); margin-top: 0.3rem; margin-left: 24px; }
+    .compare-row { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.7rem; font-size: 0.72rem; color: var(--text-muted); }
+    .compare-select { padding: 0.25rem 0.5rem; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.7rem; background: var(--bg); color: var(--text); font-family: inherit; cursor: pointer; outline: none; }
+
+    /* Insights */
+    .insights-list { display: flex; flex-direction: column; gap: 0.7rem; }
+    .insight-item { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
+    .insight-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 0.05rem; }
+  
+    /* ── Sidebar nav groups ── */
+    .sidebar { width: 220px !important; }
+    .nav-section-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-dim); padding: 0.9rem 0.8rem 0.3rem; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-header { display: flex; align-items: center; justify-content: space-between; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; transition: all 0.15s; user-select: none; }
+    .nav-group-header:hover { background: #f5f7fd; color: var(--text); }
+    .nav-group-header.open { color: var(--text); }
+    .nav-group-left { display: flex; align-items: center; gap: 0.65rem; }
+    .nav-chevron { font-size: 0.6rem; transition: transform 0.2s; color: var(--text-dim); }
+    .nav-group-header.open .nav-chevron { transform: rotate(90deg); }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .nav-sub.open { max-height: 300px; }
+    .nav-sub-item { display: flex; align-items: center; gap: 0.55rem; padding: 0.48rem 0.8rem 0.48rem 2.3rem; border-radius: 9px; cursor: pointer; color: var(--text-muted); font-size: 0.81rem; font-weight: 500; margin-bottom: 1px; text-decoration: none; transition: all 0.15s; }
+    .nav-sub-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub-item.active { color: var(--primary); font-weight: 600; background: #e8f0fe; }
+
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="StressCare" style="height:40px;width:auto;object-fit:contain;display:block;">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a class="nav-item" href="admin-dashboard.html"><span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard</a>
+
+      <a class="nav-item" href="user-management.html"><span class="nav-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> User Management</a>
+
+      <div class="nav-section-label">Management</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="package" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Subscriptions</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="subscription-plans.html"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Plan</a>
+          <a class="nav-sub-item" href="subscription-records.html"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Records</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="wallet" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Finance</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="payment-management.html"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Payment Management</a>
+          <a class="nav-sub-item" href="revenue-analytics.html"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Revenue Analytics</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> AI & Cloud</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="model-management.html"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model Management</a>
+          <a class="nav-sub-item" href="cloud-sync-monitoring.html"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Cloud Sync</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header open" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Support</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub open">
+          <a class="nav-sub-item active" href="feedback-pss.html"><i data-lucide="file-text" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Feedback / PSS</a>
+          <a class="nav-sub-item" href="notification-management.html"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Notification Management</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Config</div>
+
+      <a class="nav-item" href="admin-settings.html"><span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings</a>
+
+    </nav>
+
+    <div style="margin:0.8rem;padding:0.8rem;background:linear-gradient(135deg,#e8f0fe,#f0f7ff);border-radius:12px;border:1px solid rgba(66,133,244,0.15);">
+      <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34C759;flex-shrink:0;"></div>
+        <span style="font-size:0.78rem;font-weight:700;color:var(--text);">System Status</span>
+      </div>
+      <div style="font-size:0.7rem;color:#34C759;font-weight:500;">All systems operational</div>
+    </div>
+
+    <div style="padding:0.5rem 0.6rem 0.8rem;">
+      <button class="logout-btn" onclick="logout()"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> &nbsp;Logout</button>
+    </div>
+  </aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <button class="menu-btn"><span></span><span></span><span></span></button>
+    <div class="topbar-right">
+      <div class="notif-wrap">
+          <div class="notif-btn" id="notifBtn" onclick="toggleNotif(event)">
+            <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+            <div class="notif-badge" id="notifBadge"></div>
+          </div>
+          <div class="notif-drop" id="notifDrop">
+            <div class="notif-drop-head">
+              <span class="notif-drop-title">Notifications</span>
+              <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8f0fe;"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Ayesha Khan subscribed to <b>Premium Plan</b></div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8fff2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment of <b>PKR 6,999</b> received from Omar Farooq</div>
+                <div class="notif-time">15 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#fff8e8;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Tariq Mehmood's subscription is <b>expiring soon</b></div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#f5f7ff;"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">AI Model v2.4 update completed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#fff0f0;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment failed for Hira Noor — card declined</div>
+                <div class="notif-time">Yesterday, 6:30 PM</div>
+              </div>
+            </div>
+            <div class="notif-drop-foot">
+              <a href="notification-management.html">View all notifications →</a>
+            </div>
+          </div>
+        </div>
+      <div class="admin-chip">
+        <div class="admin-avatar">AD</div>
+        <div>
+          <div class="admin-name">Admin User</div>
+          <div class="admin-role">Administrator</div>
+        </div>
+        <span style="color:var(--text-dim);font-size:0.68rem;">▾</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="breadcrumb">
+      <a href="/webapp/revenue-analytics.html">Analytics</a>
+      <span>/</span>
+      <span>Feedback / PSS Data</span>
+    </div>
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Feedback / PSS Data</h1>
+        <p>Explore user feedback and Perceived Stress Scale (PSS) data.</p>
+      </div>
+      <button class="export-btn" onclick="exportFeedbackCSV()"><i data-lucide="download" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Export Dataset</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#e8f0fe;"><i data-lucide="file" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">Total Feedback Records</div>
+          <div class="stat-value">12,842</div>
+          <div class="stat-trend up">▲ 12.6% <span>vs last 30 days</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#d4f5e2;"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">Average PSS Score</div>
+          <div class="stat-value">17.4</div>
+          <div class="stat-trend down">▼ 1.8 <span>vs last 30 days</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fff3e0;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">High Stress Reports ℹ</div>
+          <div class="stat-value">2,156</div>
+          <div class="stat-info">16.8% of total</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#f0e8ff;"><i data-lucide="link" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="stat-label">Mismatch Cases ℹ</div>
+          <div class="stat-value">1,032</div>
+          <div class="stat-info">8.0% of total</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <div class="left-col">
+        <!-- Filters -->
+        <div class="filters-bar">
+          <div class="filter-group">
+            <div class="filter-label">Date Range</div>
+            <div class="date-range-input" style="cursor:pointer;" onclick="toggleFbDateDrop(event)"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> 1 May, 2025 – 22 May, 2025 ▾</div>
+            <div id="fbDateDrop" style="display:none;position:absolute;background:#fff;border:1.5px solid #e8edf5;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:1.2rem;z-index:9999;min-width:280px;margin-top:4px;">
+              <div style="display:flex;gap:0.7rem;margin-bottom:0.8rem;">
+                <div style="flex:1;"><label style="font-size:0.72rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">From</label><input type="date" id="fbFrom" value="2025-05-01" style="width:100%;padding:0.4rem 0.6rem;border:1.5px solid #e8edf5;border-radius:8px;font-size:0.8rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"></div>
+                <div style="flex:1;"><label style="font-size:0.72rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">To</label><input type="date" id="fbTo" value="2025-05-22" style="width:100%;padding:0.4rem 0.6rem;border:1.5px solid #e8edf5;border-radius:8px;font-size:0.8rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"></div>
+              </div>
+              <button onclick="applyFbDate()" style="width:100%;padding:0.5rem;background:#4285F4;color:white;border:none;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;">Apply</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-label">Stress Level (Reported)</div>
+            <select class="filter-select" id="fbStressFilter" onchange="applyFbFilters()"><option value="">All Levels</option><option value="high">High</option><option value="moderate">Moderate</option><option value="low">Low</option></select>
+          </div>
+          <div class="filter-group">
+            <div class="filter-label">Plan Type</div>
+            <select class="filter-select" id="fbPlanFilter" onchange="applyFbFilters()"><option value="">All Plans</option><option value="premium">Premium</option><option value="basic">Basic</option><option value="enterprise">Enterprise</option></select>
+          </div>
+          <button class="clear-btn" onclick="clearFbFilters()">↺ Clear Filters</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-section">
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Predicted Stress</th>
+                <th>Reported Stress</th>
+                <th>PSS Score</th>
+                <th class="sortable">Feedback Date ↓</th>
+                <th>Match Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#4285F4,#34A0D4);">SM</div>
+                    <div>
+                      <div class="user-name">Sara Malik</div>
+                      <div class="user-email">sara.malik@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-high">High</span></td>
+                <td><span class="stress-pill stress-high">High</span></td>
+                <td><span class="pss-score">28</span></td>
+                <td><span class="date-cell">22 May, 2025 10:15 AM</span></td>
+                <td><span class="match-pill match-match">Match</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#34C759,#2da84a);">RJ</div>
+                    <div>
+                      <div class="user-name">Raza Javed</div>
+                      <div class="user-email">raza.javed@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-moderate">Moderate</span></td>
+                <td><span class="stress-pill stress-high">High</span></td>
+                <td><span class="pss-score">24</span></td>
+                <td><span class="date-cell">22 May, 2025 9:48 AM</span></td>
+                <td><span class="match-pill match-mismatch">Mismatch</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#AF52DE,#8b35c0);">AK</div>
+                    <div>
+                      <div class="user-name">Ayesha Khan</div>
+                      <div class="user-email">ayesha.khan@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-low">Low</span></td>
+                <td><span class="stress-pill stress-low">Low</span></td>
+                <td><span class="pss-score">10</span></td>
+                <td><span class="date-cell">22 May, 2025 9:15 AM</span></td>
+                <td><span class="match-pill match-match">Match</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#FF9500,#e68000);">DT</div>
+                    <div>
+                      <div class="user-name">Danyal Tariq</div>
+                      <div class="user-email">danyal.t@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-moderate">Moderate</span></td>
+                <td><span class="stress-pill stress-moderate">Moderate</span></td>
+                <td><span class="pss-score">17</span></td>
+                <td><span class="date-cell">22 May, 2025 8:50 AM</span></td>
+                <td><span class="match-pill match-match">Match</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#FF3B30,#cc2b22);">NP</div>
+                    <div>
+                      <div class="user-name">Nida Pasha</div>
+                      <div class="user-email">nida.pasha@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-high">High</span></td>
+                <td><span class="stress-pill stress-moderate">Moderate</span></td>
+                <td><span class="pss-score">21</span></td>
+                <td><span class="date-cell">22 May, 2025 8:35 AM</span></td>
+                <td><span class="match-pill match-mismatch">Mismatch</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#34A0D4,#2080b0);">WA</div>
+                    <div>
+                      <div class="user-name">Waseem Ahmad</div>
+                      <div class="user-email">waseem.a@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-low">Low</span></td>
+                <td><span class="stress-pill stress-low">Low</span></td>
+                <td><span class="pss-score">8</span></td>
+                <td><span class="date-cell">22 May, 2025 8:05 AM</span></td>
+                <td><span class="match-pill match-match">Match</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#00B5A0,#008a7a);">EM</div>
+                    <div>
+                      <div class="user-name">Eman Mirza</div>
+                      <div class="user-email">eman.mirza@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-moderate">Moderate</span></td>
+                <td><span class="stress-pill stress-low">Low</span></td>
+                <td><span class="pss-score">12</span></td>
+                <td><span class="date-cell">22 May, 2025 7:45 AM</span></td>
+                <td><span class="match-pill match-mismatch">Mismatch</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="user-ava" style="background:linear-gradient(135deg,#4285F4,#AF52DE);">AS</div>
+                    <div>
+                      <div class="user-name">Arsalan Sheikh</div>
+                      <div class="user-email">arsalan.s@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="stress-pill stress-high">High</span></td>
+                <td><span class="stress-pill stress-high">High</span></td>
+                <td><span class="pss-score">30</span></td>
+                <td><span class="date-cell">22 May, 2025 7:20 AM</span></td>
+                <td><span class="match-pill match-match">Match</span></td>
+                <td><button class="more-btn">⋯</button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="pagination">
+            <div class="showing">Showing 1 to 8 of 12,842 records</div>
+            <div class="page-controls">
+              <button class="page-btn">‹</button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">3</button>
+              <button class="page-btn">…</button>
+              <button class="page-btn">1606</button>
+              <button class="page-btn">›</button>
+            </div>
+            <div class="rows-select">
+              Rows per page:
+              <select><option>10</option><option>25</option><option>50</option></select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-col">
+        <!-- Feedback Distribution Donut -->
+        <div class="widget">
+          <div class="widget-title">Feedback Distribution <span class="info-icon">ℹ</span></div>
+          <div class="donut-wrap">
+            <div class="donut-center">
+              <svg width="110" height="110" viewBox="0 0 110 110">
+                <!-- Low 25.3% -->
+                <circle cx="55" cy="55" r="42" fill="none" stroke="#34C759" stroke-width="18"
+                  stroke-dasharray="66.7 263.9" stroke-dashoffset="0" transform="rotate(-90 55 55)"/>
+                <!-- Moderate 50.0% -->
+                <circle cx="55" cy="55" r="42" fill="none" stroke="#FF9500" stroke-width="18"
+                  stroke-dasharray="132.0 263.9" stroke-dashoffset="-66.7" transform="rotate(-90 55 55)"/>
+                <!-- High 24.7% -->
+                <circle cx="55" cy="55" r="42" fill="none" stroke="#FF3B30" stroke-width="18"
+                  stroke-dasharray="65.2 263.9" stroke-dashoffset="-198.7" transform="rotate(-90 55 55)"/>
+                <text x="55" y="51" text-anchor="middle" font-size="13" font-weight="800" fill="#1a237e">12,842</text>
+                <text x="55" y="65" text-anchor="middle" font-size="8" fill="#6b7ca0">Total</text>
+              </svg>
+            </div>
+            <div class="donut-legend">
+              <div class="donut-item">
+                <div class="donut-dot" style="background:#34C759;"></div>
+                <span class="donut-name">Low (0–13)</span>
+                <span class="donut-count">3,245</span>
+                <span class="donut-pct">(25.3%)</span>
+              </div>
+              <div class="donut-item">
+                <div class="donut-dot" style="background:#FF9500;"></div>
+                <span class="donut-name">Moderate (14–26)</span>
+                <span class="donut-count">6,421</span>
+                <span class="donut-pct">(50.0%)</span>
+              </div>
+              <div class="donut-item">
+                <div class="donut-dot" style="background:#FF3B30;"></div>
+                <span class="donut-name">High (27–40)</span>
+                <span class="donut-count">3,176</span>
+                <span class="donut-pct">(24.7%)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Average PSS Score Trend -->
+        <div class="widget">
+          <div class="widget-title">Average PSS Score Trend <span class="info-icon">ℹ</span></div>
+          <div class="trend-wrap">
+            <div class="trend-y">
+              <span>30</span>
+              <span>25</span>
+              <span>20</span>
+              <span>15</span>
+              <span>10</span>
+            </div>
+            <div class="trend-chart">
+              <svg viewBox="0 0 230 90" width="100%" height="90" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4285F4" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#4285F4" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="0" x2="230" y2="0" stroke="#e8edf5" stroke-width="1"/>
+                <line x1="0" y1="22" x2="230" y2="22" stroke="#e8edf5" stroke-width="1"/>
+                <line x1="0" y1="44" x2="230" y2="44" stroke="#e8edf5" stroke-width="1"/>
+                <line x1="0" y1="66" x2="230" y2="66" stroke="#e8edf5" stroke-width="1"/>
+                <line x1="0" y1="88" x2="230" y2="88" stroke="#e8edf5" stroke-width="1"/>
+                <!-- Values: 18.9, 19.7, 18.3, 17.8, 16.9, 17.2, 17.4 -->
+                <!-- Scale: 10-30, height 88. y = 88 - (val-10)/(30-10)*88 -->
+                <!-- 18.9→y=39.6, 19.7→y=36, 18.3→y=42.5, 17.8→y=44.7, 16.9→y=48.7, 17.2→y=47.4, 17.4→y=46.5 -->
+                <path d="M0,39.6 L38,36 L77,42.5 L115,44.7 L153,48.7 L192,47.4 L230,46.5 L230,88 L0,88 Z" fill="url(#trendGrad)"/>
+                <polyline points="0,39.6 38,36 77,42.5 115,44.7 153,48.7 192,47.4 230,46.5" fill="none" stroke="#4285F4" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="0" cy="39.6" r="3" fill="#4285F4"/>
+                <circle cx="38" cy="36" r="3" fill="#4285F4"/>
+                <circle cx="77" cy="42.5" r="3" fill="#4285F4"/>
+                <circle cx="115" cy="44.7" r="3" fill="#4285F4"/>
+                <circle cx="153" cy="48.7" r="3" fill="#4285F4"/>
+                <circle cx="192" cy="47.4" r="3" fill="#4285F4"/>
+                <circle cx="230" cy="46.5" r="3.5" fill="#4285F4" stroke="white" stroke-width="1.5"/>
+                <text x="0" y="34" font-size="7" fill="#9fa8b8" text-anchor="middle">18.9</text>
+                <text x="38" y="30" font-size="7" fill="#9fa8b8" text-anchor="middle">19.7</text>
+                <text x="77" y="37" font-size="7" fill="#9fa8b8" text-anchor="middle">18.3</text>
+                <text x="115" y="39" font-size="7" fill="#9fa8b8" text-anchor="middle">17.8</text>
+                <text x="153" y="43" font-size="7" fill="#9fa8b8" text-anchor="middle">16.9</text>
+                <text x="192" y="42" font-size="7" fill="#9fa8b8" text-anchor="middle">17.2</text>
+                <text x="230" y="41" font-size="7" fill="#4285F4" text-anchor="middle" font-weight="700">17.4</text>
+              </svg>
+            </div>
+            <div class="trend-x">
+              <span>May 16</span><span>May 17</span><span>May 18</span><span>May 19</span><span>May 20</span><span>May 21</span><span>May 22</span>
+            </div>
+          </div>
+          <div class="compare-row">
+            Compare with
+            <select class="compare-select"><option>Previous 7 Days</option><option>Previous 30 Days</option></select>
+          </div>
+        </div>
+
+        <!-- Insights -->
+        <div class="widget">
+          <div class="widget-title">Insights</div>
+          <div class="insights-list">
+            <div class="insight-item">
+              <span class="insight-icon"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+              High stress reports increased by 16.8% compared to the previous 30 days.
+            </div>
+            <div class="insight-item">
+              <span class="insight-icon"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+              Mismatch cases account for 8.0% of total feedback.
+            </div>
+            <div class="insight-item">
+              <span class="insight-icon"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+              Average PSS score improved by 1.8 points in the last 30 days.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function logout() {
+      sessionStorage.removeItem('sc_admin_auth');
+      window.location.replace('admin-login.html');
+    }
+    function toggleGroup(header) {
+      header.classList.toggle('open');
+      const sub = header.nextElementSibling;
+      sub.classList.toggle('open');
+    }
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) drop.classList.remove('open');
+      const fbDrop = document.getElementById('fbDateDrop');
+      if (fbDrop && !e.target.closest('[onclick*="toggleFbDate"]') && !fbDrop.contains(e.target)) fbDrop.style.display = 'none';
+    });
+
+    /* ── Feedback Date Picker ── */
+    function toggleFbDateDrop(e) {
+      e.stopPropagation();
+      const d = document.getElementById('fbDateDrop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    function applyFbDate() {
+      const from = document.getElementById('fbFrom').value;
+      const to = document.getElementById('fbTo').value;
+      if (!from || !to) { alert('Please select both dates'); return; }
+      const fmt = s => new Date(s+'T00:00:00').toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+      document.querySelector('.date-range-input').textContent = ' ' + fmt(from) + ' – ' + fmt(to) + ' ▾';
+      document.getElementById('fbDateDrop').style.display = 'none';
+      applyFbFilters();
+    }
+
+    /* ── Feedback Filters ── */
+    function applyFbFilters() {
+      const stress = (document.getElementById('fbStressFilter').value || '').toLowerCase();
+      const rows = document.querySelectorAll('.table-section table tbody tr');
+      let visible = 0;
+      rows.forEach(row => {
+        const stressCells = row.querySelectorAll('.stress-pill');
+        const reportedStress = stressCells.length > 1 ? stressCells[1].textContent.toLowerCase() : '';
+        const stressOk = !stress || reportedStress.includes(stress);
+        row.style.display = stressOk ? '' : 'none';
+        if (stressOk) visible++;
+      });
+      const info = document.querySelector('.pagination .showing');
+      if (info) info.textContent = `Showing 1 to ${visible} of 12,842 records`;
+    }
+
+    function clearFbFilters() {
+      document.getElementById('fbStressFilter').value = '';
+      document.getElementById('fbPlanFilter').value = '';
+      document.querySelectorAll('.table-section table tbody tr').forEach(r => r.style.display = '');
+      const info = document.querySelector('.pagination .showing');
+      if (info) info.textContent = 'Showing 1 to 8 of 12,842 records';
+    }
+
+    /* ── Export CSV ── */
+    function exportFeedbackCSV() {
+      const headers = ['User','Email','Predicted Stress','Reported Stress','PSS Score','Date','Match Status'];
+      const lines = [headers.join(',')];
+      document.querySelectorAll('.table-section table tbody tr').forEach(row => {
+        if (row.style.display === 'none') return;
+        const name = (row.querySelector('.user-name') || {textContent:''}).textContent.trim();
+        const email = (row.querySelector('.user-email') || {textContent:''}).textContent.trim();
+        const pills = row.querySelectorAll('.stress-pill');
+        const predicted = pills[0] ? pills[0].textContent.trim() : '';
+        const reported = pills[1] ? pills[1].textContent.trim() : '';
+        const pss = (row.querySelector('.pss-score') || {textContent:''}).textContent.trim();
+        const date = (row.querySelector('.date-cell') || {textContent:''}).textContent.trim();
+        const match = (row.querySelector('.match-pill') || {textContent:''}).textContent.trim();
+        lines.push([name,email,predicted,reported,pss,date,match].map(v => `"${v.replace(/"/g,'""')}"`).join(','));
+      });
+      const blob = new Blob([lines.join('\n')], {type:'text/csv'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'feedback_data_' + new Date().toISOString().slice(0,10) + '.csv';
+      a.click();
+    }
+
+    /* Logout style */
+    const fblStyle = document.createElement('style');
+    fblStyle.textContent = `.logout-btn { display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.9rem;color:#FF3B30;font-size:0.83rem;font-weight:700;cursor:pointer;border:1.5px solid rgba(255,59,48,0.22);background:rgba(255,59,48,0.06);font-family:inherit;width:100%;border-radius:10px;transition:all 0.15s; } .logout-btn:hover { background:rgba(255,59,48,0.13);border-color:rgba(255,59,48,0.38); }`;
+    document.head.appendChild(fblStyle);
+
+</script>
+</body>
+</html>

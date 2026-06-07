@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Web Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6C63FF;
+      --primary-dark: #5B54D4;
+      --secondary: #FF6B6B;
+      --success: #51CF66;
+      --warning: #FFA500;
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface2: #16213e;
+      --card: #1e2040;
+      --border: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --text-muted: rgba(255,255,255,0.5);
+      --text-dim: rgba(255,255,255,0.3);
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo {
+      padding: 1.8rem 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar-nav {
+      padding: 1.2rem 0.75rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0.5rem 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 500;
+      margin-bottom: 2px;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background: rgba(108,99,255,0.1);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(108,99,255,0.25), rgba(108,99,255,0.1));
+      color: var(--primary);
+      border: 1px solid rgba(108,99,255,0.2);
+    }
+
+    .nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+
+    .sidebar-footer {
+      padding: 1.2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-size: 0.88rem; font-weight: 600; }
+    .user-role { font-size: 0.75rem; color: var(--text-muted); }
+
+    .back-home {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      margin-top: 0.75rem;
+      text-decoration: none;
+      transition: color 0.2s;
+      justify-content: center;
+    }
+    .back-home:hover { color: var(--text-muted); }
+
+    /* ── Main Content ── */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .topbar-title p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .icon-btn:hover { background: rgba(108,99,255,0.15); border-color: rgba(108,99,255,0.3); }
+
+    .notif-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--secondary);
+      border-radius: 50%;
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      border: 2px solid var(--surface);
+    }
+
+    .content {
+      padding: 2rem;
+      flex: 1;
+    }
+
+    /* ── Stats Row ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.4rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .stat-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+    }
+
+    .badge-up { background: rgba(81,207,102,0.15); color: #51CF66; }
+    .badge-down { background: rgba(255,107,107,0.15); color: #FF6B6B; }
+    .badge-neutral { background: rgba(255,165,0,0.15); color: #FFA500; }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Grid Layout ── */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 360px;
+      gap: 1.2rem;
+    }
+
+    .widget {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.4rem;
+    }
+
+    .widget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.4rem;
+    }
+
+    .widget-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .widget-action {
+      font-size: 0.78rem;
+      color: var(--primary);
+      cursor: pointer;
+      background: rgba(108,99,255,0.1);
+      padding: 0.3rem 0.7rem;
+      border-radius: 8px;
+      border: none;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .widget-action:hover { background: rgba(108,99,255,0.2); }
+
+    /* ── Stress Chart ── */
+    .chart-area {
+      height: 160px;
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      padding: 0 4px;
+    }
+
+    .bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bar {
+      width: 100%;
+      border-radius: 6px 6px 0 0;
+      transition: opacity 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .bar:hover { opacity: 0.8; }
+
+    .bar-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .chart-legend {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* ── Metrics ── */
+    .metrics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .metric-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .metric-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .metric-info { flex: 1; }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+    }
+
+    .metric-name { font-size: 0.85rem; font-weight: 500; }
+    .metric-val { font-size: 0.85rem; font-weight: 600; }
+
+    .progress-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+
+    /* ── Right Column ── */
+    .right-col { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    /* Stress Ring */
+    .stress-ring-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .ring-svg { overflow: visible; }
+
+    .ring-center-text {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .ring-value {
+      font-size: 2.2rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ring-label { font-size: 0.82rem; color: var(--text-muted); }
+
+    .stress-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(81,207,102,0.12);
+      color: #51CF66;
+      border: 1px solid rgba(81,207,102,0.2);
+      border-radius: 20px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    /* Activity Feed */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .activity-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .activity-text {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .activity-text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .activity-time {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 0.15rem;
+    }
+
+    /* ── Span helpers ── */
+    .span-2 { grid-column: span 2; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-grid { grid-template-columns: 1fr 1fr; }
+      .right-col { grid-column: span 2; flex-direction: row; flex-wrap: wrap; }
+      .right-col .widget { flex: 1; min-width: 280px; }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .main { margin-left: 0; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .right-col { grid-column: span 1; }
+    }
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i data-lucide="activity" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+      <span class="logo-text">StressCare</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Main</span>
+      <a class="nav-item active" href="#">
+        <span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Analytics
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon">❤️</span> Monitoring
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Reports
+      </a>
+
+      <span class="nav-section-label">Wellness</span>
+      <a class="nav-item" href="#">
+        <span class="nav-icon"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Interventions
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon"><i data-lucide="moon" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Sleep
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon"><i data-lucide="lightbulb" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Insights
+      </a>
+
+      <span class="nav-section-label">Account</span>
+      <a class="nav-item" href="#">
+        <span class="nav-icon"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Profile
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div class="user-info">
+          <div class="user-name" id="sidebarUserName">Admin</div>
+          <div class="user-role" id="sidebarUserEmail">admin@stresscare.ai</div>
+        </div>
+        <button onclick="logout()" title="Logout" style="background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:1.1rem;padding:0;transition:color 0.2s;" onmouseover="this.style.color='#FF6B6B'" onmouseout="this.style.color='var(--text-dim)'"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></button>
+      </div>
+      <a href="../index.html" class="back-home">← Back to Home</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title">
+        <h2>Dashboard Overview</h2>
+        <p>Saturday, 7 June 2025</p>
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn">
+          <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+          <span class="notif-dot"></span>
+        </div>
+        <div class="icon-btn"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div class="icon-btn"><i data-lucide="refresh-cw" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Stats Row -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon" style="background: rgba(108,99,255,0.15);">💓</div>
+            <span class="stat-badge badge-up">↑ 2%</span>
+          </div>
+          <div class="stat-value" style="color:#6C63FF;">72</div>
+          <div class="stat-label">Heart Rate (BPM)</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon" style="background: rgba(255,107,107,0.15);"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+            <span class="stat-badge badge-down">↓ 5%</span>
+          </div>
+          <div class="stat-value" style="color:#FF6B6B;">38</div>
+          <div class="stat-label">Stress Score</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon" style="background: rgba(81,207,102,0.15);"><i data-lucide="moon" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+            <span class="stat-badge badge-up">↑ 12%</span>
+          </div>
+          <div class="stat-value" style="color:#51CF66;">7.4h</div>
+          <div class="stat-label">Sleep Duration</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <div class="stat-icon" style="background: rgba(255,165,0,0.15);">🏃</div>
+            <span class="stat-badge badge-neutral">→ Same</span>
+          </div>
+          <div class="stat-value" style="color:#FFA500;">8,240</div>
+          <div class="stat-label">Steps Today</div>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+
+        <!-- Weekly Stress Chart -->
+        <div class="widget">
+          <div class="widget-header">
+            <span class="widget-title"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Weekly Stress Trend</span>
+            <button class="widget-action">This Week</button>
+          </div>
+          <div class="chart-area" id="stressChart"></div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#6C63FF;"></div> Stress Level
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#51CF66;"></div> Recovery
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Metrics -->
+        <div class="widget">
+          <div class="widget-header">
+            <span class="widget-title">❤️ Health Metrics</span>
+            <button class="widget-action">Details</button>
+          </div>
+          <div class="metrics-list">
+            <div class="metric-item">
+              <div class="metric-icon" style="background: rgba(108,99,255,0.15);">💓</div>
+              <div class="metric-info">
+                <div class="metric-top">
+                  <span class="metric-name">Heart Rate Variability</span>
+                  <span class="metric-val" style="color:#6C63FF;">65ms</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:65%; background: linear-gradient(90deg,#6C63FF,#5B54D4);"></div>
+                </div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-icon" style="background: rgba(255,107,107,0.15);">🌡️</div>
+              <div class="metric-info">
+                <div class="metric-top">
+                  <span class="metric-name">Cortisol Level</span>
+                  <span class="metric-val" style="color:#FF6B6B;">Moderate</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:48%; background: linear-gradient(90deg,#FF6B6B,#ee5a24);"></div>
+                </div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-icon" style="background: rgba(81,207,102,0.15);"><i data-lucide="wind" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="metric-info">
+                <div class="metric-top">
+                  <span class="metric-name">Breathing Rate</span>
+                  <span class="metric-val" style="color:#51CF66;">14/min</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:72%; background: linear-gradient(90deg,#51CF66,#2ecc71);"></div>
+                </div>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-icon" style="background: rgba(255,165,0,0.15);">🩸</div>
+              <div class="metric-info">
+                <div class="metric-top">
+                  <span class="metric-name">Blood Oxygen (SpO2)</span>
+                  <span class="metric-val" style="color:#FFA500;">98%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:98%; background: linear-gradient(90deg,#FFA500,#f39c12);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-col">
+
+          <!-- Stress Ring -->
+          <div class="widget">
+            <div class="widget-header">
+              <span class="widget-title">🎯 Stress Index</span>
+            </div>
+            <div class="stress-ring-wrap">
+              <svg class="ring-svg" width="150" height="150" viewBox="0 0 150 150">
+                <circle cx="75" cy="75" r="60" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="14"/>
+                <circle cx="75" cy="75" r="60" fill="none"
+                  stroke="url(#ringGrad)" stroke-width="14"
+                  stroke-linecap="round"
+                  stroke-dasharray="376.99"
+                  stroke-dashoffset="232"
+                  transform="rotate(-90 75 75)"/>
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#6C63FF"/>
+                    <stop offset="100%" stop-color="#FF6B6B"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="ring-center-text">
+                <div class="ring-value">38/100</div>
+                <div class="ring-label">Current Stress Level</div>
+                <div class="stress-status">● Low Stress</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Feed -->
+          <div class="widget">
+            <div class="widget-header">
+              <span class="widget-title"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Recent Activity</span>
+              <button class="widget-action">All</button>
+            </div>
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#51CF66;"></div>
+                <div>
+                  <div class="activity-text"><strong>Stress decreased</strong> after breathing session</div>
+                  <div class="activity-time">2 mins ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#6C63FF;"></div>
+                <div>
+                  <div class="activity-text"><strong>Monitoring started</strong> — wearable connected</div>
+                  <div class="activity-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#FFA500;"></div>
+                <div>
+                  <div class="activity-text"><strong>Sleep goal</strong> achieved — 7.4h recorded</div>
+                  <div class="activity-time">8 hours ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:#FF6B6B;"></div>
+                <div>
+                  <div class="activity-text"><strong>High stress alert</strong> — intervention suggested</div>
+                  <div class="activity-time">Yesterday</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ── Auth Guard ──
+    (function() {
+      const session = sessionStorage.getItem('sc_admin_auth');
+      if (!session) {
+        window.location.replace('admin-login.html');
+      } else {
+        try {
+          const data = JSON.parse(session);
+          const nameEl = document.getElementById('sidebarUserName');
+          const emailEl = document.getElementById('sidebarUserEmail');
+          if (nameEl && data.name) nameEl.textContent = data.name;
+          if (emailEl && data.email) emailEl.textContent = data.email;
+        } catch(e) {}
+      }
+    })();
+
+    function logout() {
+      sessionStorage.removeItem('sc_admin_auth');
+      window.location.replace('admin-login.html');
+    }
+
+    const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const stressData = [65, 45, 72, 38, 55, 38, 30];
+    const recoveryData = [35, 55, 28, 62, 45, 62, 70];
+
+    const chart = document.getElementById('stressChart');
+    const maxVal = 100;
+
+    days.forEach((day, i) => {
+      const group = document.createElement('div');
+      group.className = 'bar-group';
+
+      const stressH = (stressData[i] / maxVal) * 140;
+      const recH = (recoveryData[i] / maxVal) * 140;
+
+      const isToday = i === 5;
+
+      const stressBar = document.createElement('div');
+      stressBar.className = 'bar';
+      stressBar.style.cssText = `height:${stressH}px; background: linear-gradient(180deg,#6C63FF,#5B54D4); opacity:${isToday ? 1 : 0.5};`;
+      stressBar.title = `Stress: ${stressData[i]}`;
+
+      const recBar = document.createElement('div');
+      recBar.className = 'bar';
+      recBar.style.cssText = `height:${recH}px; background: linear-gradient(180deg,#51CF66,#2ecc71); opacity:${isToday ? 1 : 0.4};`;
+      recBar.title = `Recovery: ${recoveryData[i]}`;
+
+      const label = document.createElement('div');
+      label.className = 'bar-label';
+      label.textContent = day;
+      if (isToday) label.style.color = '#6C63FF';
+
+      const barsWrap = document.createElement('div');
+      barsWrap.style.cssText = 'display:flex; gap:3px; align-items:flex-end; width:100%; height:140px;';
+      barsWrap.appendChild(stressBar);
+      barsWrap.appendChild(recBar);
+
+      group.appendChild(barsWrap);
+      group.appendChild(label);
+      chart.appendChild(group);
+    });
+  
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) {
+        drop.classList.remove('open');
+      }
+    });
+
+  </script>
+</body>
+</html>

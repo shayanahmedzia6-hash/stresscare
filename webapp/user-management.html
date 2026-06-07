@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare – User Management</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4285F4;
+      --primary-light: #e8f0fe;
+      --success: #34C759;
+      --warning: #FF9500;
+      --danger: #FF3B30;
+      --purple: #AF52DE;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --border: #e8edf5;
+      --text: #1a237e;
+      --text-muted: #6b7ca0;
+      --text-dim: #9fa8b8;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 200px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      left: 0; top: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 1.4rem 1.2rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg,#4285F4,#34A0D4); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .logo-name { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1; }
+    .logo-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav { padding: 1rem 0.6rem; flex: 1; overflow-y: auto; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.6rem 0.8rem; border-radius: 10px;
+      cursor: pointer; color: var(--text-muted);
+      font-size: 0.85rem; font-weight: 500;
+      margin-bottom: 2px; text-decoration: none;
+      transition: all 0.15s;
+    }
+    .nav-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .nav-icon { font-size: 0.95rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .tip-box {
+      margin: 0.8rem;
+      padding: 0.9rem;
+      background: linear-gradient(135deg,#fffde7,#fff9c4);
+      border-radius: 12px;
+      border: 1px solid rgba(255,193,7,0.25);
+    }
+    .tip-head { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.4rem; }
+    .tip-title { font-size: 0.78rem; font-weight: 600; color: #7c6f00; }
+    .tip-text { font-size: 0.72rem; color: #8a7a00; line-height: 1.5; margin-bottom: 0.5rem; }
+    .tip-link { font-size: 0.72rem; color: var(--primary); font-weight: 600; text-decoration: none; }
+
+    .logout-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 0.8rem;
+      color: var(--danger); font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; border: none; background: none;
+      font-family: inherit; width: 100%; border-radius: 10px;
+      transition: background 0.15s;
+      margin: 0.2rem 0.6rem 0.8rem;
+      width: calc(100% - 1.2rem);
+    }
+    .logout-btn:hover { background: rgba(255,59,48,0.07); }
+
+    /* ── Main ── */
+    .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; }
+
+    /* ── Topbar ── */
+    .topbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.8rem;
+      display: flex; align-items: center; gap: 1rem;
+      position: sticky; top: 0; z-index: 50;
+    }
+
+    .hamburger { font-size: 1.1rem; color: var(--text-muted); cursor: pointer; margin-right: 0.3rem; }
+
+    .search-bar {
+      flex: 1; max-width: 380px;
+      display: flex; align-items: center; gap: 0.6rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 0.55rem 1rem;
+    }
+    .search-bar input { border: none; background: none; outline: none; font-size: 0.85rem; color: var(--text); width: 100%; font-family: inherit; }
+    .search-bar input::placeholder { color: var(--text-dim); }
+
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+    .notif-btn { width: 36px; height: 36px; border-radius: 9px; background: var(--bg); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; position: relative; transition: all 0.2s; }
+    .notif-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+    .notif-badge { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--success); border: 1.5px solid var(--surface); }
+    .admin-chip { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.7rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer; transition: all 0.2s; }
+    .admin-chip:hover { border-color: var(--primary); }
+    .admin-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#4285F4,#34A0D4); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; font-weight: 700; }
+    .admin-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .admin-role { font-size: 0.68rem; color: var(--text-muted); }
+
+    /* ── Content ── */
+    .content { padding: 1.8rem; flex: 1; }
+
+    .page-header { margin-bottom: 1.4rem; }
+    .page-header h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .page-header p { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    /* ── Stat Cards ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.4rem; }
+
+    .stat-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 0.75rem 1rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .stat-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.07); transform: translateY(-2px); }
+
+    .stat-icon { font-size: 1.2rem; flex-shrink: 0; line-height: 1; }
+    .stat-val { font-size: 1.2rem; font-weight: 600; color: var(--text); line-height: 1; margin: 0.15rem 0; }
+    .stat-label { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); }
+    .stat-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem; }
+    .stat-trend { font-size: 0.72rem; font-weight: 600; }
+    .trend-up { color: var(--success); }
+    .trend-down { color: var(--danger); }
+
+    /* ── Filters Row ── */
+    .filters-row {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 0.85rem 1.2rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1rem; flex-wrap: wrap;
+    }
+
+    .tab-group { display: flex; gap: 4px; }
+    .tab-btn {
+      padding: 0.42rem 0.9rem; border-radius: 8px; font-size: 0.82rem;
+      font-weight: 600; cursor: pointer; border: 1.5px solid transparent;
+      transition: all 0.15s; background: none; font-family: inherit;
+    }
+    .tab-btn.active-tab { background: var(--primary); color: white; border-color: var(--primary); }
+    .tab-btn.outline-tab { color: var(--text-muted); border-color: var(--border); background: var(--bg); }
+    .tab-btn.outline-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .tab-btn.outline-tab.sel { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+    .divider-v { width: 1px; height: 28px; background: var(--border); }
+
+    .search-mini {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 9px; padding: 0.4rem 0.8rem;
+      flex: 1; max-width: 280px;
+    }
+    .search-mini input { border: none; background: none; outline: none; font-size: 0.82rem; color: var(--text); width: 100%; font-family: inherit; }
+    .search-mini input::placeholder { color: var(--text-dim); }
+
+    .filter-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.42rem 0.9rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 9px; font-size: 0.82rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+      font-family: inherit;
+    }
+    .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ── Table ── */
+    .table-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 16px; overflow: hidden; margin-bottom: 1rem;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead th {
+      padding: 0.75rem 1.2rem; text-align: left;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px;
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { color: var(--primary); }
+
+    tbody td { padding: 0.85rem 1.2rem; font-size: 0.84rem; color: var(--text); border-bottom: 1px solid #f0f4f8; vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: #fafcff; }
+
+    .user-cell { display: flex; align-items: center; gap: 0.65rem; }
+    .user-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 600; color: white; flex-shrink: 0;
+    }
+    .user-full { font-weight: 600; }
+    .user-id { font-size: 0.72rem; color: var(--text-dim); }
+
+    .email-cell { color: var(--text-muted); font-size: 0.82rem; }
+
+    .plan-badge { padding: 0.22rem 0.65rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; }
+    .plan-premium { background: rgba(175,82,222,0.12); color: #AF52DE; }
+    .plan-free { background: rgba(107,120,160,0.1); color: #6b78a0; }
+
+    .status-cell { display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .status-active .status-dot { background: var(--success); }
+    .status-active { color: var(--success); }
+    .status-inactive .status-dot { background: #b0bec5; }
+    .status-inactive { color: #8899aa; }
+    .status-blocked .status-dot { background: var(--danger); }
+    .status-blocked { color: var(--danger); }
+
+    .last-active { font-size: 0.8rem; color: var(--text-muted); }
+
+    .actions-cell { display: flex; align-items: center; gap: 0.35rem; }
+    .action-btn {
+      display: flex; align-items: center; gap: 0.25rem;
+      padding: 0.28rem 0.6rem; border-radius: 7px;
+      font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid; background: none;
+      transition: all 0.15s; font-family: inherit; white-space: nowrap;
+    }
+    .btn-view { color: var(--primary); border-color: rgba(66,133,244,0.3); }
+    .btn-view:hover { background: var(--primary-light); }
+    .btn-edit { color: #6b78a0; border-color: #d8e0ee; }
+    .btn-edit:hover { background: #f0f4f8; color: var(--text); }
+    .btn-block { color: var(--danger); border-color: rgba(255,59,48,0.25); }
+    .btn-block:hover { background: rgba(255,59,48,0.08); }
+
+    /* ── Pagination ── */
+    .pagination-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 0 0 16px 16px;
+      border-top: 1px solid var(--border);
+      margin-top: -1px;
+    }
+
+    .pg-info { font-size: 0.8rem; color: var(--text-muted); }
+
+    .pg-controls { display: flex; align-items: center; gap: 0.3rem; }
+    .pg-btn {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; cursor: pointer; border: 1.5px solid var(--border);
+      background: none; color: var(--text-muted); transition: all 0.15s; font-family: inherit;
+    }
+    .pg-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+    .pg-btn.active-pg { background: var(--primary); color: white; border-color: var(--primary); font-weight: 700; }
+    .pg-btn.dots { border-color: transparent; cursor: default; }
+    .pg-btn.dots:hover { background: none; border-color: transparent; color: var(--text-muted); }
+    .pg-nav { color: var(--text-muted); }
+
+    .per-page {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+    .per-page select {
+      font-size: 0.8rem; border: 1.5px solid var(--border);
+      border-radius: 7px; padding: 0.25rem 0.5rem;
+      color: var(--text); background: var(--bg); outline: none;
+      font-family: inherit; cursor: pointer;
+    }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(26,35,126,0.15); backdrop-filter: blur(4px);
+      z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface); border-radius: 20px;
+      padding: 2rem; width: 460px; max-width: 94vw;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.14);
+      animation: modalIn 0.22s ease;
+    }
+    @keyframes modalIn { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .modal-title { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dim); transition: color 0.15s; }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-user { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg); border-radius: 12px; margin-bottom: 1.2rem; }
+    .modal-avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 600; color: white; flex-shrink: 0; }
+    .modal-uname { font-size: 1rem; font-weight: 600; }
+    .modal-uemail { font-size: 0.82rem; color: var(--text-muted); }
+
+    .modal-fields { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.4rem; }
+    .modal-field label { display: block; font-size: 0.72rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.3rem; }
+    .modal-field input, .modal-field select {
+      width: 100%; padding: 0.65rem 0.9rem;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.88rem; color: var(--text); background: var(--bg);
+      outline: none; font-family: inherit; transition: border-color 0.2s;
+    }
+    .modal-field input:focus, .modal-field select:focus { border-color: var(--primary); background: white; }
+
+    .modal-actions { display: flex; gap: 0.75rem; }
+    .modal-btn {
+      flex: 1; padding: 0.75rem; border-radius: 11px;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+      border: 1.5px solid transparent; font-family: inherit; transition: all 0.15s;
+    }
+    .modal-btn.primary { background: linear-gradient(135deg,#4285F4,#1a73e8); color: white; box-shadow: 0 4px 14px rgba(66,133,244,0.3); }
+    .modal-btn.primary:hover { box-shadow: 0 6px 20px rgba(66,133,244,0.4); transform: translateY(-1px); }
+    .modal-btn.secondary { background: var(--bg); border-color: var(--border); color: var(--text-muted); }
+    .modal-btn.secondary:hover { border-color: var(--primary); color: var(--primary); }
+    .modal-btn.danger { background: rgba(255,59,48,0.08); border-color: rgba(255,59,48,0.3); color: var(--danger); }
+    .modal-btn.danger:hover { background: rgba(255,59,48,0.14); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: #1a237e; color: white; border-radius: 12px;
+      padding: 0.8rem 1.2rem; font-size: 0.85rem; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 300;
+      display: flex; align-items: center; gap: 0.5rem;
+      transform: translateY(20px); opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: #1b5e20; }
+    .toast.danger { background: #b71c1c; }
+  
+    /* ── Sidebar nav groups ── */
+    .sidebar { width: 220px !important; }
+    .nav-section-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-dim); padding: 0.9rem 0.8rem 0.3rem; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-header { display: flex; align-items: center; justify-content: space-between; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; transition: all 0.15s; user-select: none; }
+    .nav-group-header:hover { background: #f5f7fd; color: var(--text); }
+    .nav-group-header.open { color: var(--text); }
+    .nav-group-left { display: flex; align-items: center; gap: 0.65rem; }
+    .nav-chevron { font-size: 0.6rem; transition: transform 0.2s; color: var(--text-dim); }
+    .nav-group-header.open .nav-chevron { transform: rotate(90deg); }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .nav-sub.open { max-height: 300px; }
+    .nav-sub-item { display: flex; align-items: center; gap: 0.55rem; padding: 0.48rem 0.8rem 0.48rem 2.3rem; border-radius: 9px; cursor: pointer; color: var(--text-muted); font-size: 0.81rem; font-weight: 500; margin-bottom: 1px; text-decoration: none; transition: all 0.15s; }
+    .nav-sub-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub-item.active { color: var(--primary); font-weight: 600; background: #e8f0fe; }
+
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Sidebar -->
+    <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="StressCare" style="height:40px;width:auto;object-fit:contain;display:block;">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a class="nav-item" href="admin-dashboard.html"><span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard</a>
+
+      <a class="nav-item active" href="user-management.html"><span class="nav-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> User Management</a>
+
+      <div class="nav-section-label">Management</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="package" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Subscriptions</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="subscription-plans.html"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Plan</a>
+          <a class="nav-sub-item" href="subscription-records.html"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Records</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="wallet" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Finance</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="payment-management.html"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Payment Management</a>
+          <a class="nav-sub-item" href="revenue-analytics.html"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Revenue Analytics</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> AI & Cloud</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="model-management.html"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model Management</a>
+          <a class="nav-sub-item" href="cloud-sync-monitoring.html"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Cloud Sync</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Support</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="feedback-pss.html"><i data-lucide="file-text" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Feedback / PSS</a>
+          <a class="nav-sub-item" href="notification-management.html"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Notification Management</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Config</div>
+
+      <a class="nav-item" href="admin-settings.html"><span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings</a>
+
+    </nav>
+
+    <div style="margin:0.8rem;padding:0.8rem;background:linear-gradient(135deg,#e8f0fe,#f0f7ff);border-radius:12px;border:1px solid rgba(66,133,244,0.15);">
+      <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34C759;flex-shrink:0;"></div>
+        <span style="font-size:0.78rem;font-weight:700;color:var(--text);">System Status</span>
+      </div>
+      <div style="font-size:0.7rem;color:#34C759;font-weight:500;">All systems operational</div>
+    </div>
+
+    <div style="padding:0.5rem 0.6rem 0.8rem;">
+      <button class="logout-btn" onclick="logout()"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> &nbsp;Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <span class="hamburger"><i data-lucide="menu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+      <div class="search-bar">
+        <span style="color:var(--text-dim);"><i data-lucide="search" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+        <input type="text" id="topSearch" placeholder="Search users, email, or ID…" oninput="filterTable()">
+        <span style="color:var(--text-dim);font-size:0.85rem;"><i data-lucide="keyboard" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+      </div>
+      <div class="topbar-right">
+        <div class="notif-wrap">
+          <div class="notif-btn" id="notifBtn" onclick="toggleNotif(event)">
+            <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+            <div class="notif-badge" id="notifBadge"></div>
+          </div>
+          <div class="notif-drop" id="notifDrop">
+            <div class="notif-drop-head">
+              <span class="notif-drop-title">Notifications</span>
+              <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8f0fe;"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Ayesha Khan subscribed to <b>Premium Plan</b></div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8fff2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment of <b>PKR 6,999</b> received from Omar Farooq</div>
+                <div class="notif-time">15 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#fff8e8;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Tariq Mehmood's subscription is <b>expiring soon</b></div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#f5f7ff;"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">AI Model v2.4 update completed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#fff0f0;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment failed for Hira Noor — card declined</div>
+                <div class="notif-time">Yesterday, 6:30 PM</div>
+              </div>
+            </div>
+            <div class="notif-drop-foot">
+              <a href="notification-management.html">View all notifications →</a>
+            </div>
+          </div>
+        </div>
+        <div class="admin-chip">
+          <div class="admin-avatar" id="topAvatar">A</div>
+          <div>
+            <div class="admin-name" id="topAdminName">Admin User</div>
+            <div class="admin-role">Administrator</div>
+          </div>
+          <span style="color:var(--text-dim);font-size:0.7rem;">▾</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <div class="page-header">
+        <h1>User Management</h1>
+        <p>Manage and oversee all platform users and their access.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div>
+            <div class="stat-label">Total Users</div>
+            <div class="stat-val">1,248</div>
+            <div class="stat-sub">All registered users</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div>
+            <div class="stat-label">Active Users</div>
+            <div class="stat-val">1,085</div>
+            <div class="stat-sub">87% of total users</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div>
+            <div class="stat-label">Blocked Users</div>
+            <div class="stat-val">36</div>
+            <div class="stat-sub">2.9% of total users</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🆕</div>
+          <div>
+            <div class="stat-label">New This Week</div>
+            <div class="stat-val">48</div>
+            <div class="stat-sub stat-trend trend-up">+12% vs last week</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-row">
+        <div class="tab-group">
+          <button class="tab-btn active-tab" onclick="setTypeTab(this,'all')">All Users</button>
+          <button class="tab-btn outline-tab" onclick="setTypeTab(this,'free')">Free Users</button>
+          <button class="tab-btn outline-tab" onclick="setTypeTab(this,'premium')">Premium Users</button>
+        </div>
+
+        <div class="divider-v"></div>
+
+        <div class="tab-group">
+          <button class="tab-btn outline-tab sel" onclick="setStatusTab(this,'active')">Active</button>
+          <button class="tab-btn outline-tab" onclick="setStatusTab(this,'inactive')">Inactive</button>
+        </div>
+
+        <div class="divider-v"></div>
+
+        <div class="search-mini">
+          <span style="color:var(--text-dim);font-size:0.85rem;"><i data-lucide="search" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+          <input type="text" id="tableSearch" placeholder="Search by name or email…" oninput="filterTable()">
+        </div>
+
+        <button class="filter-btn">
+          ≡ Filters
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Email</th>
+              <th class="sortable">Joined Date ↓</th>
+              <th>Plan</th>
+              <th>Status</th>
+              <th>Last Active</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-row">
+        <div class="pg-info" id="pgInfo">Showing 1 to 7 of 1,248 users</div>
+        <div class="pg-controls">
+          <button class="pg-btn pg-nav" onclick="changePg(-1)">‹</button>
+          <button class="pg-btn active-pg" onclick="jumpPg(1)">1</button>
+          <button class="pg-btn" onclick="jumpPg(2)">2</button>
+          <button class="pg-btn" onclick="jumpPg(3)">3</button>
+          <button class="pg-btn dots">…</button>
+          <button class="pg-btn" onclick="jumpPg(179)">179</button>
+          <button class="pg-btn pg-nav" onclick="changePg(1)">›</button>
+        </div>
+        <div class="per-page">
+          <select onchange="updatePerPage(this.value)">
+            <option>10 per page</option>
+            <option>25 per page</option>
+            <option>50 per page</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- View / Edit Modal -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <div class="modal-head">
+        <span class="modal-title" id="modalTitle">Edit User</span>
+        <button class="modal-close" onclick="closeModal()"><i data-lucide="x" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></button>
+      </div>
+      <div class="modal-user">
+        <div class="modal-avatar" id="modalAvatar" style="background:linear-gradient(135deg,#4285F4,#34A0D4);">JS</div>
+        <div>
+          <div class="modal-uname" id="modalName">Ayesha Khan</div>
+          <div class="modal-uemail" id="modalEmail">jane.smith@example.com</div>
+        </div>
+      </div>
+      <div class="modal-fields">
+        <div class="modal-field">
+          <label>Full Name</label>
+          <input type="text" id="editName" value="Ayesha Khan">
+        </div>
+        <div class="modal-field">
+          <label>Email Address</label>
+          <input type="email" id="editEmail" value="jane.smith@example.com">
+        </div>
+        <div class="modal-field">
+          <label>Subscription Plan</label>
+          <select id="editPlan">
+            <option>Free</option>
+            <option selected>Premium</option>
+            <option>Basic</option>
+            <option>Enterprise</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label>Account Status</label>
+          <select id="editStatus">
+            <option selected>Active</option>
+            <option>Inactive</option>
+            <option>Blocked</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="saveEdit()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block Confirm Modal -->
+  <div class="modal-overlay" id="blockModal">
+    <div class="modal" style="text-align:center;padding:2.2rem 2rem;">
+      <div style="font-size:2.5rem;margin-bottom:1rem;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+      <div class="modal-title" style="margin-bottom:0.6rem;">Block User?</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.7;margin-bottom:1.6rem;">
+        This will block <strong id="blockUserName"></strong> from accessing their account. You can unblock them at any time.
+      </p>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" onclick="closeBlockModal()">Cancel</button>
+        <button class="modal-btn danger" onclick="confirmBlock()">Yes, Block User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">✓ Changes saved</div>
+
+  <script>
+    // ── Auth Guard ──
+    (function() {
+      const s = sessionStorage.getItem('sc_admin_auth');
+      if (!s) { window.location.replace('admin-login.html'); return; }
+      try {
+        const d = JSON.parse(s);
+        const el = document.getElementById('topAdminName');
+        if (el && d.name) el.textContent = d.name;
+      } catch(e) {}
+    })();
+
+    
+    function toggleGroup(header) {
+      header.classList.toggle('open');
+      const sub = header.nextElementSibling;
+      sub.classList.toggle('open');
+    }
+
+    function logout() {
+      sessionStorage.removeItem('sc_admin_auth');
+      window.location.replace('admin-login.html');
+    }
+
+    // ── User Data ──
+    const avatarColors = [
+      'linear-gradient(135deg,#4285F4,#1565C0)',
+      'linear-gradient(135deg,#34C759,#1e8a3a)',
+      'linear-gradient(135deg,#AF52DE,#7B2FBE)',
+      'linear-gradient(135deg,#FF9500,#e67e00)',
+      'linear-gradient(135deg,#FF3B30,#c0392b)',
+      'linear-gradient(135deg,#34A0D4,#0277BD)',
+      'linear-gradient(135deg,#5AC8FA,#0288D1)',
+    ];
+
+    let users = [
+      { initials:'AK', name:'Ayesha Khan',       email:'ayesha.khan@example.com',     joined:'May 22, 2025', plan:'Premium', status:'active',   lastActive:'Today, 10:15 AM',    color: avatarColors[0] },
+      { initials:'OF', name:'Omar Farooq',        email:'omar.farooq@example.com',     joined:'May 18, 2025', plan:'Free',    status:'active',   lastActive:'Today, 9:42 AM',     color: avatarColors[1] },
+      { initials:'FM', name:'Fatima Malik',       email:'fatima.malik@example.com',    joined:'May 15, 2025', plan:'Premium', status:'active',   lastActive:'Yesterday, 7:30 PM', color: avatarColors[2] },
+      { initials:'BA', name:'Bilal Ahmed',        email:'bilal.ahmed@example.com',     joined:'May 10, 2025', plan:'Free',    status:'inactive', lastActive:'May 19, 2025',       color: avatarColors[3] },
+      { initials:'SR', name:'Sana Riaz',          email:'sana.riaz@example.com',       joined:'May 8, 2025',  plan:'Premium', status:'active',   lastActive:'Today, 8:05 AM',     color: avatarColors[4] },
+      { initials:'UI', name:'Usman Iqbal',        email:'usman.iqbal@example.com',     joined:'May 5, 2025',  plan:'Free',    status:'blocked',  lastActive:'May 14, 2025',       color: avatarColors[5] },
+      { initials:'MH', name:'Mariam Hussain',     email:'mariam.h@example.com',        joined:'May 1, 2025',  plan:'Premium', status:'active',   lastActive:'Today, 11:20 AM',    color: avatarColors[6] },
+      // Page 2
+      { initials:'RA', name:'Rimsha Aslam',       email:'rimsha.aslam@example.com',    joined:'Apr 28, 2025', plan:'Free',    status:'active',   lastActive:'Yesterday, 3:00 PM', color: avatarColors[0] },
+      { initials:'DK', name:'Danyal Khan',        email:'danyal.khan@example.com',     joined:'Apr 25, 2025', plan:'Premium', status:'active',   lastActive:'Today, 7:55 AM',     color: avatarColors[1] },
+      { initials:'NA', name:'Nadia Arshad',       email:'nadia.arshad@example.com',    joined:'Apr 20, 2025', plan:'Free',    status:'inactive', lastActive:'May 10, 2025',       color: avatarColors[2] },
+      { initials:'ZH', name:'Zara Hashmi',        email:'zara.hashmi@example.com',     joined:'Apr 18, 2025', plan:'Premium', status:'active',   lastActive:'Today, 9:10 AM',     color: avatarColors[3] },
+      { initials:'KM', name:'Kamran Mirza',       email:'kamran.m@example.com',        joined:'Apr 15, 2025', plan:'Free',    status:'blocked',  lastActive:'Apr 30, 2025',       color: avatarColors[4] },
+      { initials:'SQ', name:'Sadia Qureshi',      email:'sadia.q@example.com',         joined:'Apr 12, 2025', plan:'Premium', status:'active',   lastActive:'Today, 10:45 AM',    color: avatarColors[5] },
+      { initials:'TJ', name:'Tariq Javed',        email:'tariq.javed@example.com',     joined:'Apr 8, 2025',  plan:'Free',    status:'active',   lastActive:'Yesterday, 5:20 PM', color: avatarColors[6] },
+      // Page 3
+      { initials:'HB', name:'Hira Baig',          email:'hira.baig@example.com',       joined:'Apr 5, 2025',  plan:'Premium', status:'active',   lastActive:'Today, 8:30 AM',     color: avatarColors[0] },
+      { initials:'AZ', name:'Asad Zaman',         email:'asad.zaman@example.com',      joined:'Apr 2, 2025',  plan:'Free',    status:'inactive', lastActive:'Apr 28, 2025',       color: avatarColors[1] },
+      { initials:'RN', name:'Rida Naseer',        email:'rida.naseer@example.com',     joined:'Mar 30, 2025', plan:'Premium', status:'active',   lastActive:'Today, 11:00 AM',    color: avatarColors[2] },
+      { initials:'YA', name:'Yasir Ali',          email:'yasir.ali@example.com',       joined:'Mar 27, 2025', plan:'Free',    status:'active',   lastActive:'Yesterday, 6:40 PM', color: avatarColors[3] },
+      { initials:'MB', name:'Maryam Butt',        email:'maryam.butt@example.com',     joined:'Mar 24, 2025', plan:'Premium', status:'active',   lastActive:'Today, 9:55 AM',     color: avatarColors[4] },
+      { initials:'IS', name:'Imran Shah',         email:'imran.shah@example.com',      joined:'Mar 20, 2025', plan:'Free',    status:'blocked',  lastActive:'Mar 28, 2025',       color: avatarColors[5] },
+      { initials:'FN', name:'Farah Nisar',        email:'farah.nisar@example.com',     joined:'Mar 18, 2025', plan:'Premium', status:'active',   lastActive:'Today, 7:20 AM',     color: avatarColors[6] },
+    ];
+
+    let filteredUsers = [...users];
+    let currentTypeFilter = 'all';
+    let currentStatusFilter = null;
+    let blockTargetIdx = null;
+
+    function applyFilters() {
+      const q = (document.getElementById('tableSearch').value || document.getElementById('topSearch').value || '').toLowerCase().trim();
+      filteredUsers = users.filter(u => {
+        const typeOk = currentTypeFilter === 'all' ||
+          (currentTypeFilter === 'premium' && u.plan === 'Premium') ||
+          (currentTypeFilter === 'free' && u.plan === 'Free');
+        const statusOk = !currentStatusFilter || u.status === currentStatusFilter;
+        const searchOk = !q || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q);
+        return typeOk && statusOk && searchOk;
+      });
+      currentPg = 1;
+      renderTable();
+    }
+
+    function filterTable() { applyFilters(); }
+
+    function setTypeTab(btn, type) {
+      currentTypeFilter = type;
+      document.querySelectorAll('.tab-group:first-child .tab-btn').forEach(b => {
+        b.className = 'tab-btn ' + (b === btn ? 'active-tab' : 'outline-tab');
+      });
+      applyFilters();
+    }
+
+    function setStatusTab(btn, status) {
+      if (btn.classList.contains('sel')) {
+        btn.classList.remove('sel');
+        currentStatusFilter = null;
+      } else {
+        document.querySelectorAll('.tab-group:nth-child(3) .tab-btn').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        currentStatusFilter = status;
+      }
+      applyFilters();
+    }
+
+    // ── Edit Modal ──
+    let editIdx = null;
+
+    function openView(i) {
+      editIdx = i;
+      const u = filteredUsers[i];
+      document.getElementById('modalTitle').textContent = 'View User';
+      populateModal(u);
+      document.getElementById('editName').disabled = true;
+      document.getElementById('editEmail').disabled = true;
+      document.getElementById('editPlan').disabled = true;
+      document.getElementById('editStatus').disabled = true;
+      document.getElementById('editModal').classList.add('open');
+    }
+
+    function openEdit(i) {
+      editIdx = i;
+      const u = filteredUsers[i];
+      document.getElementById('modalTitle').textContent = 'Edit User';
+      populateModal(u);
+      document.getElementById('editName').disabled = false;
+      document.getElementById('editEmail').disabled = false;
+      document.getElementById('editPlan').disabled = false;
+      document.getElementById('editStatus').disabled = false;
+      document.getElementById('editModal').classList.add('open');
+    }
+
+    function populateModal(u) {
+      document.getElementById('modalAvatar').textContent = u.initials;
+      document.getElementById('modalAvatar').style.background = u.color;
+      document.getElementById('modalName').textContent = u.name;
+      document.getElementById('modalEmail').textContent = u.email;
+      document.getElementById('editName').value = u.name;
+      document.getElementById('editEmail').value = u.email;
+      document.getElementById('editPlan').value = u.plan;
+      document.getElementById('editStatus').value = u.status.charAt(0).toUpperCase() + u.status.slice(1);
+    }
+
+    function closeModal() { document.getElementById('editModal').classList.remove('open'); }
+
+    function saveEdit() {
+      if (editIdx === null) return;
+      const u = filteredUsers[editIdx];
+      u.name = document.getElementById('editName').value;
+      u.email = document.getElementById('editEmail').value;
+      u.plan = document.getElementById('editPlan').value;
+      const sv = document.getElementById('editStatus').value.toLowerCase();
+      u.status = sv;
+      closeModal();
+      renderTable();
+      showToast('✓ User updated successfully', 'success');
+    }
+
+    // ── Block Modal ──
+    function openBlock(i) {
+      blockTargetIdx = i;
+      document.getElementById('blockUserName').textContent = filteredUsers[i].name;
+      document.getElementById('blockModal').classList.add('open');
+    }
+
+    function closeBlockModal() { document.getElementById('blockModal').classList.remove('open'); }
+
+    function confirmBlock() {
+      if (blockTargetIdx === null) return;
+      filteredUsers[blockTargetIdx].status = 'blocked';
+      closeBlockModal();
+      renderTable();
+      showToast(' User has been blocked', 'danger');
+    }
+
+    // ── Toast ──
+    function showToast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    // ── Pagination ──
+    const PAGE_SIZE = 7;
+    let currentPg = 1;
+
+    function getPagedUsers() {
+      const start = (currentPg - 1) * PAGE_SIZE;
+      return filteredUsers.slice(start, start + PAGE_SIZE);
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('userTableBody');
+      const pagedUsers = getPagedUsers();
+      if (pagedUsers.length === 0 && filteredUsers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-dim);">No users found</td></tr>`;
+      } else if (pagedUsers.length === 0) {
+        currentPg = 1;
+        renderTable(); return;
+      } else {
+        tbody.innerHTML = pagedUsers.map((u, i) => {
+          const statusClass = 'status-' + u.status;
+          const statusLabel = u.status.charAt(0).toUpperCase() + u.status.slice(1);
+          const planClass = u.plan === 'Premium' ? 'plan-premium' : 'plan-free';
+          const globalI = (currentPg - 1) * PAGE_SIZE + i;
+          return `
+            <tr>
+              <td>
+                <div class="user-cell">
+                  <div class="user-avatar" style="background:${u.color};">${u.initials}</div>
+                  <div><div class="user-full">${u.name}</div></div>
+                </div>
+              </td>
+              <td class="email-cell">${u.email}</td>
+              <td style="color:var(--text-muted);font-size:0.82rem;">${u.joined}</td>
+              <td><span class="plan-badge ${planClass}">${u.plan}</span></td>
+              <td>
+                <div class="status-wrap">
+                  <div class="status-dot ${statusClass}"></div>
+                  ${statusLabel}
+                </div>
+              </td>
+              <td class="last-active">${u.lastActive}</td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn btn-view" onclick="openView(${globalI})"> View</button>
+                  <button class="action-btn btn-edit" onclick="openEdit(${globalI})"> Edit</button>
+                  <button class="action-btn btn-block" onclick="openBlock(${globalI})"> Block</button>
+                </div>
+              </td>
+            </tr>`;
+        }).join('');
+      }
+      const totalPages = Math.max(1, Math.ceil(filteredUsers.length / PAGE_SIZE));
+      const start = (currentPg - 1) * PAGE_SIZE + 1;
+      const end = Math.min(currentPg * PAGE_SIZE, filteredUsers.length);
+      document.getElementById('pgInfo').textContent = `Showing ${start} to ${end} of 1,248 users`;
+      renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+      const container = document.querySelector('.page-controls');
+      if (!container) return;
+      let html = `<button class="pg-btn nav-pg" onclick="changePg(-1)">‹</button>`;
+      const maxShow = 5;
+      let pages = [];
+      if (totalPages <= maxShow) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages = [1, 2, currentPg - 1, currentPg, currentPg + 1, totalPages - 1, totalPages];
+        pages = [...new Set(pages)].filter(p => p >= 1 && p <= totalPages).sort((a,b) => a-b);
+      }
+      let prev = 0;
+      pages.forEach(p => {
+        if (prev && p - prev > 1) html += `<button class="pg-btn" disabled>…</button>`;
+        html += `<button class="pg-btn${p === currentPg ? ' active-pg' : ''}" onclick="jumpPg(${p})">${p}</button>`;
+        prev = p;
+      });
+      html += `<button class="pg-btn nav-pg" onclick="changePg(1)">›</button>`;
+      container.innerHTML = html;
+    }
+
+    function changePg(dir) {
+      const totalPages = Math.max(1, Math.ceil(filteredUsers.length / PAGE_SIZE));
+      jumpPg(Math.max(1, Math.min(totalPages, currentPg + dir)));
+    }
+    function jumpPg(n) {
+      currentPg = n;
+      renderTable();
+    }
+    function updatePerPage(v) { showToast(`Showing ${v}`); }
+
+    // Close modals on backdrop click
+    document.getElementById('editModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+    document.getElementById('blockModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeBlockModal(); });
+
+    // Init
+    renderTable();
+  
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) {
+        drop.classList.remove('open');
+      }
+    });
+
+  </script>
+</body>
+</html>

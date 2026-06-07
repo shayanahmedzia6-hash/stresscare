@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare – Revenue Analytics</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4285F4;
+      --primary-light: #e8f0fe;
+      --secondary: #34A0D4;
+      --success: #34C759;
+      --warning: #FF9500;
+      --danger: #FF3B30;
+      --purple: #AF52DE;
+      --teal: #00B5A0;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --border: #e8edf5;
+      --text: #1a237e;
+      --text-muted: #6b7ca0;
+      --text-dim: #9fa8b8;
+      --active-bg: #e8f0fe;
+      --active-color: #4285F4;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      left: 0; top: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 1.4rem 1.2rem 1.2rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #4285F4, #34A0D4);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .logo-name { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1; }
+    .logo-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav { padding: 1rem 0.6rem; flex: 1; overflow-y: auto; }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.6rem 0.8rem; border-radius: 10px; cursor: pointer;
+      color: var(--text-muted); font-size: 0.85rem; font-weight: 500;
+      margin-bottom: 2px; text-decoration: none; transition: all 0.15s;
+    }
+    .nav-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-item.active { background: var(--active-bg); color: var(--active-color); font-weight: 600; }
+    .nav-icon { font-size: 0.95rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .nav-sub {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.45rem 0.8rem 0.45rem 2.5rem;
+      border-radius: 8px; cursor: pointer;
+      color: var(--text-muted); font-size: 0.8rem; font-weight: 500;
+      text-decoration: none; transition: all 0.15s; margin-bottom: 1px;
+    }
+    .nav-sub:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub.active { color: var(--active-color); font-weight: 600; }
+    .nav-sub-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--active-color); flex-shrink: 0; }
+
+    .sidebar-cloud {
+      margin: 0.8rem;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #e8f0fe, #f0f7ff);
+      border-radius: 12px;
+      border: 1px solid rgba(66,133,244,0.15);
+      text-align: center;
+    }
+    .cloud-icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
+    .cloud-title { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+    .cloud-sub { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.5rem; line-height: 1.4; }
+    .cloud-btn {
+      width: 100%; padding: 0.45rem; border-radius: 8px;
+      background: var(--primary); color: white; border: none;
+      font-size: 0.75rem; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+
+    /* Main */
+    .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; }
+
+    /* Topbar */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.8rem;
+      display: flex; align-items: center; gap: 1rem;
+      position: sticky; top: 0; z-index: 50;
+    }
+
+    .menu-btn {
+      width: 32px; height: 32px; border-radius: 8px; border: none;
+      background: none; cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+    }
+    .menu-btn span { width: 18px; height: 2px; background: var(--text-muted); border-radius: 2px; }
+
+    .search-bar {
+      flex: 1; max-width: 400px;
+      display: flex; align-items: center; gap: 0.6rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 0.55rem 1rem;
+    }
+    .search-bar input { border: none; background: none; outline: none; font-size: 0.85rem; color: var(--text); width: 100%; font-family: inherit; }
+    .search-bar input::placeholder { color: var(--text-dim); }
+
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+
+    .notif-btn {
+      width: 36px; height: 36px; border-radius: 9px; background: var(--bg);
+      border: 1.5px solid var(--border); display: flex; align-items: center;
+      justify-content: center; cursor: pointer; font-size: 1rem; position: relative;
+    }
+    .notif-badge {
+      position: absolute; top: 5px; right: 5px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--danger); border: 1.5px solid var(--surface);
+    }
+
+    .admin-chip {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 0.7rem; background: var(--bg);
+      border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer;
+    }
+    .admin-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; color: white; font-weight: 600;
+    }
+    .admin-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .admin-role { font-size: 0.68rem; color: var(--text-muted); }
+
+    /* Content */
+    .content { padding: 1.8rem; flex: 1; }
+
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .page-title h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .page-title p { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    .date-range-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 1rem; background: var(--surface);
+      border: 1.5px solid var(--border); border-radius: 10px;
+      cursor: pointer; font-size: 0.82rem; color: var(--text);
+      font-weight: 500; font-family: inherit; transition: all 0.15s;
+    }
+    .date-range-btn:hover { border-color: var(--primary); background: var(--bg); }
+    .date-compare { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.2rem; text-align: right; }
+    .rev-preset { padding: 0.28rem 0.65rem; border-radius: 20px; border: 1.5px solid #e8edf5; font-size: 0.72rem; font-weight: 500; color: #6b7ca0; cursor: pointer; background: #f4f7fb; font-family: inherit; transition: all 0.15s; }
+    .rev-preset:hover, .rev-preset-active { background: #4285F4; color: white; border-color: #4285F4; }
+    .logout-btn {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.6rem 0.9rem; color: #FF3B30; font-size: 0.83rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid rgba(255,59,48,0.22);
+      background: rgba(255,59,48,0.06); font-family: inherit; width: 100%; border-radius: 10px; transition: all 0.15s;
+    }
+    .logout-btn:hover { background: rgba(255,59,48,0.13); border-color: rgba(255,59,48,0.38); }
+
+    /* Revenue Stats */
+    .rev-stats {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+
+    .rev-stat {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 1.1rem 1.2rem;
+      transition: box-shadow 0.2s;
+    }
+    .rev-stat:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .rev-stat-top { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
+    .rev-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .rev-label { font-size: 0.73rem; color: var(--text-muted); font-weight: 500; }
+    .rev-value { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+    .rev-trend { display: flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 600; }
+    .rev-trend.up { color: var(--success); }
+    .rev-trend.down { color: var(--danger); }
+    .rev-trend span { color: var(--text-dim); font-weight: 400; }
+
+    /* Charts Row */
+    .charts-row { display: grid; grid-template-columns: 1fr 320px; gap: 1rem; margin-bottom: 1.2rem; }
+
+    .widget {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 1.3rem 1.5rem;
+    }
+    .widget-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+    .widget-title { font-size: 0.9rem; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 0.4rem; }
+    .info-icon { font-size: 0.75rem; color: var(--text-dim); cursor: help; }
+
+    .period-select {
+      display: flex; align-items: center; gap: 0.3rem;
+      font-size: 0.78rem; color: var(--text-muted);
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 8px; padding: 0.3rem 0.7rem; cursor: pointer;
+      font-family: inherit; outline: none;
+    }
+
+    /* SVG Area Chart */
+    .chart-area { position: relative; }
+    .chart-y-labels {
+      position: absolute; left: 0; top: 0; bottom: 30px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      font-size: 0.68rem; color: var(--text-dim);
+    }
+    .chart-container { margin-left: 44px; }
+    .chart-x-labels {
+      display: flex; justify-content: space-between;
+      font-size: 0.68rem; color: var(--text-dim); margin-top: 0.4rem;
+    }
+    .chart-legend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+    .legend-line { width: 20px; height: 2.5px; background: var(--primary); border-radius: 2px; }
+
+    /* Donut */
+    .donut-wrap { display: flex; flex-direction: column; }
+    .donut-row { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; }
+    .donut-labels { display: flex; flex-direction: column; gap: 0.6rem; }
+    .donut-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; }
+    .donut-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .donut-name { color: var(--text-muted); flex: 1; }
+    .donut-pct { font-weight: 600; color: var(--text); }
+
+    /* Bottom row */
+    .bottom-row { display: grid; grid-template-columns: 320px 1fr; gap: 1rem; }
+
+    /* Success/Failure donut */
+    .success-wrap { display: flex; align-items: center; gap: 1.5rem; }
+    .success-center { text-align: center; }
+    .success-pct { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .success-label { font-size: 0.72rem; color: var(--text-muted); }
+    .success-items { display: flex; flex-direction: column; gap: 0.7rem; }
+    .success-item { display: flex; align-items: center; gap: 0.6rem; }
+    .success-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .success-text { font-size: 0.78rem; color: var(--text-muted); }
+    .success-val { font-weight: 600; color: var(--text); font-size: 0.82rem; }
+    .txn-total { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
+    .txn-shield { font-size: 1.1rem; }
+    .txn-label { font-size: 0.72rem; color: var(--text-muted); }
+    .txn-val { font-size: 1rem; font-weight: 600; color: var(--text); }
+
+    /* Top months table */
+    .months-table { width: 100%; border-collapse: collapse; }
+    .months-table thead th {
+      padding: 0.6rem 0.8rem; text-align: left;
+      font-size: 0.72rem; font-weight: 600; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border);
+    }
+    .months-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    .months-table tbody tr:last-child { border-bottom: none; }
+    .months-table tbody tr:hover { background: #fafbff; }
+    .months-table tbody td { padding: 0.75rem 0.8rem; font-size: 0.82rem; }
+    .month-num { width: 28px; height: 28px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+    .month-num.highlight { background: var(--primary); color: white; }
+    .month-row { display: flex; align-items: center; gap: 0.6rem; }
+    .month-name { font-weight: 600; color: var(--text); }
+    .month-name.highlight { color: var(--primary); }
+    .month-revenue { font-weight: 600; color: var(--text); }
+    .month-growth { font-weight: 600; font-size: 0.75rem; }
+    .month-growth.up { color: var(--success); }
+    .month-growth.down { color: var(--danger); }
+
+    .data-note {
+      text-align: center; font-size: 0.72rem; color: var(--text-dim);
+      padding: 1rem; border-top: 1px solid var(--border); display: flex;
+      align-items: center; justify-content: space-between; margin-top: 1rem;
+    }
+    .data-note-left { display: flex; align-items: center; gap: 0.4rem; }
+    .refresh-btn {
+      background: none; border: none; cursor: pointer; font-size: 0.85rem;
+      color: var(--text-dim); transition: transform 0.3s;
+    }
+    .refresh-btn:hover { transform: rotate(180deg); }
+  
+    /* ── Sidebar nav groups ── */
+    .sidebar { width: 220px !important; }
+    .nav-section-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-dim); padding: 0.9rem 0.8rem 0.3rem; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-header { display: flex; align-items: center; justify-content: space-between; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; transition: all 0.15s; user-select: none; }
+    .nav-group-header:hover { background: #f5f7fd; color: var(--text); }
+    .nav-group-header.open { color: var(--text); }
+    .nav-group-left { display: flex; align-items: center; gap: 0.65rem; }
+    .nav-chevron { font-size: 0.6rem; transition: transform 0.2s; color: var(--text-dim); }
+    .nav-group-header.open .nav-chevron { transform: rotate(90deg); }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .nav-sub.open { max-height: 300px; }
+    .nav-sub-item { display: flex; align-items: center; gap: 0.55rem; padding: 0.48rem 0.8rem 0.48rem 2.3rem; border-radius: 9px; cursor: pointer; color: var(--text-muted); font-size: 0.81rem; font-weight: 500; margin-bottom: 1px; text-decoration: none; transition: all 0.15s; }
+    .nav-sub-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub-item.active { color: var(--primary); font-weight: 600; background: #e8f0fe; }
+
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="..images/logo.png" alt="StressCare" style="height:40px;width:auto;object-fit:contain;display:block;">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a class="nav-item" href="admin-dashboard.html"><span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard</a>
+
+      <a class="nav-item" href="user-management.html"><span class="nav-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> User Management</a>
+
+      <div class="nav-section-label">Management</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="package" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Subscriptions</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="subscription-plans.html"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Plan</a>
+          <a class="nav-sub-item" href="subscription-records.html"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Records</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header open" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="wallet" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Finance</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub open">
+          <a class="nav-sub-item" href="payment-management.html"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Payment Management</a>
+          <a class="nav-sub-item active" href="revenue-analytics.html"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Revenue Analytics</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> AI & Cloud</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="model-management.html"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model Management</a>
+          <a class="nav-sub-item" href="cloud-sync-monitoring.html"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Cloud Sync</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Support</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="feedback-pss.html"><i data-lucide="file-text" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Feedback / PSS</a>
+          <a class="nav-sub-item" href="notification-management.html"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Notification Management</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Config</div>
+
+      <a class="nav-item" href="admin-settings.html"><span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings</a>
+
+    </nav>
+
+    <div style="margin:0.8rem;padding:0.8rem;background:linear-gradient(135deg,#e8f0fe,#f0f7ff);border-radius:12px;border:1px solid rgba(66,133,244,0.15);">
+      <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34C759;flex-shrink:0;"></div>
+        <span style="font-size:0.78rem;font-weight:700;color:var(--text);">System Status</span>
+      </div>
+      <div style="font-size:0.7rem;color:#34C759;font-weight:500;">All systems operational</div>
+    </div>
+
+    <div style="padding:0.5rem 0.6rem 0.8rem;">
+      <button class="logout-btn" onclick="logout()"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> &nbsp;Logout</button>
+    </div>
+  </aside>
+
+<!-- Main -->
+<div class="main">
+  <!-- Topbar -->
+  <div class="topbar">
+    <button class="menu-btn"><span></span><span></span><span></span></button>
+    <div class="search-bar">
+      <span><i data-lucide="search" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+      <input type="text" placeholder="Search anything...">
+    </div>
+    <div class="topbar-right">
+      <div class="notif-wrap">
+          <div class="notif-btn" id="notifBtn" onclick="toggleNotif(event)">
+            <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+            <div class="notif-badge" id="notifBadge"></div>
+          </div>
+          <div class="notif-drop" id="notifDrop">
+            <div class="notif-drop-head">
+              <span class="notif-drop-title">Notifications</span>
+              <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8f0fe;"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Ayesha Khan subscribed to <b>Premium Plan</b></div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8fff2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment of <b>PKR 6,999</b> received from Omar Farooq</div>
+                <div class="notif-time">15 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#fff8e8;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Tariq Mehmood's subscription is <b>expiring soon</b></div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#f5f7ff;"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">AI Model v2.4 update completed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#fff0f0;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment failed for Hira Noor — card declined</div>
+                <div class="notif-time">Yesterday, 6:30 PM</div>
+              </div>
+            </div>
+            <div class="notif-drop-foot">
+              <a href="notification-management.html">View all notifications →</a>
+            </div>
+          </div>
+        </div>
+      <div class="admin-chip">
+        <div class="admin-avatar">A</div>
+        <div>
+          <div class="admin-name">Admin</div>
+          <div class="admin-role">Super Admin</div>
+        </div>
+        <span style="color:var(--text-dim);font-size:0.7rem;">▾</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Revenue Analytics</h1>
+        <p>Track revenue performance, growth, and key financial metrics.</p>
+      </div>
+      <div>
+        <div class="date-picker-wrap" style="position:relative;">
+          <button class="date-range-btn" onclick="toggleRevDP(event)" id="revDateBtn">
+            <span id="revDateLabel"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> 1 May, 2025 – 31 May, 2025</span> ▾
+          </button>
+          <div id="revDrop" style="display:none;position:absolute;right:0;top:calc(100% + 8px);background:#fff;border:1.5px solid #e8edf5;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.12);padding:1.2rem;z-index:9999;min-width:290px;">
+            <div style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.8rem;">Select Date Range</div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.8rem;">
+              <button class="rev-preset" onclick="revPreset(7)">Last 7 days</button>
+              <button class="rev-preset" onclick="revPreset(30)">Last 30 days</button>
+              <button class="rev-preset" onclick="revPreset(90)">Last 90 days</button>
+              <button class="rev-preset rev-preset-active" onclick="revPreset(31)">This month</button>
+            </div>
+            <div style="display:flex;gap:0.7rem;margin-bottom:0.8rem;">
+              <div style="flex:1;"><label style="font-size:0.72rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">From</label><input type="date" id="revFrom" value="2025-05-01" style="width:100%;padding:0.45rem 0.6rem;border:1.5px solid #e8edf5;border-radius:8px;font-size:0.8rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"></div>
+              <div style="flex:1;"><label style="font-size:0.72rem;font-weight:600;color:#6b7ca0;display:block;margin-bottom:0.3rem;">To</label><input type="date" id="revTo" value="2025-05-31" style="width:100%;padding:0.45rem 0.6rem;border:1.5px solid #e8edf5;border-radius:8px;font-size:0.8rem;color:#1a237e;outline:none;font-family:inherit;background:#f4f7fb;"></div>
+            </div>
+            <div style="display:flex;gap:0.5rem;">
+              <button onclick="document.getElementById('revDrop').style.display='none'" style="flex:1;padding:0.5rem;border:1.5px solid #e8edf5;background:none;border-radius:8px;font-size:0.8rem;color:#6b7ca0;cursor:pointer;font-family:inherit;">Cancel</button>
+              <button onclick="applyRevDP()" style="flex:1;padding:0.5rem;background:#4285F4;color:white;border:none;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:inherit;">Apply</button>
+            </div>
+          </div>
+        </div>
+        <div class="date-compare" id="revCompare">Compared to Apr 1, 2025 – Apr 30, 2025</div>
+      </div>
+    </div>
+
+    <!-- Revenue Stats -->
+    <div class="rev-stats">
+      <div class="rev-stat">
+        <div class="rev-stat-top">
+          <div class="rev-icon" style="background:#e8f0fe;"><i data-lucide="dollar-sign" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div><div class="rev-label">Total Revenue</div></div>
+        </div>
+        <div class="rev-value">Rs. 1,28,540</div>
+        <div class="rev-trend up">▲ 18.4% <span>vs Apr 1 – Apr 30</span></div>
+      </div>
+      <div class="rev-stat">
+        <div class="rev-stat-top">
+          <div class="rev-icon" style="background:#d4f5e2;"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div><div class="rev-label">Monthly Revenue</div></div>
+        </div>
+        <div class="rev-value">Rs. 42,380</div>
+        <div class="rev-trend up">▲ 14.7% <span>vs Apr 1 – Apr 30</span></div>
+      </div>
+      <div class="rev-stat">
+        <div class="rev-stat-top">
+          <div class="rev-icon" style="background:#fff3e0;"><i data-lucide="calendar" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div><div class="rev-label">Yearly Revenue (YTD)</div></div>
+        </div>
+        <div class="rev-value">Rs. 5,12,890</div>
+        <div class="rev-trend up">▲ 22.1% <span>vs Jan 1 – Apr 30</span></div>
+      </div>
+      <div class="rev-stat">
+        <div class="rev-stat-top">
+          <div class="rev-icon" style="background:#f0e8ff;"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div><div class="rev-label">Premium Growth</div></div>
+        </div>
+        <div class="rev-value">Rs. 23,680</div>
+        <div class="rev-trend up">▲ 26.3% <span>vs Apr 1 – Apr 30</span></div>
+      </div>
+      <div class="rev-stat">
+        <div class="rev-stat-top">
+          <div class="rev-icon" style="background:#e0f7f4;">%</div>
+          <div><div class="rev-label">Conversion Rate</div></div>
+        </div>
+        <div class="rev-value">7.82%</div>
+        <div class="rev-trend up">▲ 1.35% <span>vs Apr 1 – Apr 30</span></div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <!-- Line Chart -->
+      <div class="widget">
+        <div class="widget-head">
+          <div class="widget-title">Monthly Revenue Trend <span class="info-icon">ℹ</span></div>
+          <select class="period-select"><option>Monthly ▾</option></select>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-line"></div>
+          <span>Revenue (USD)</span>
+        </div>
+        <div class="chart-area">
+          <div class="chart-y-labels">
+            <span>Rs.60K</span>
+            <span>Rs.45K</span>
+            <span>Rs.30K</span>
+            <span>Rs.15K</span>
+            <span>Rs.0</span>
+          </div>
+          <div class="chart-container">
+            <svg viewBox="0 0 520 160" width="100%" height="160" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#4285F4" stop-opacity="0.18"/>
+                  <stop offset="100%" stop-color="#4285F4" stop-opacity="0.01"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid lines -->
+              <line x1="0" y1="0" x2="520" y2="0" stroke="#e8edf5" stroke-width="1"/>
+              <line x1="0" y1="40" x2="520" y2="40" stroke="#e8edf5" stroke-width="1"/>
+              <line x1="0" y1="80" x2="520" y2="80" stroke="#e8edf5" stroke-width="1"/>
+              <line x1="0" y1="120" x2="520" y2="120" stroke="#e8edf5" stroke-width="1"/>
+              <line x1="0" y1="160" x2="520" y2="160" stroke="#e8edf5" stroke-width="1"/>
+              <!-- Area -->
+              <path d="M0,113 L87,102 L174,93 L261,85 L348,72 L435,79 L520,69 L520,160 L0,160 Z" fill="url(#areaGrad)"/>
+              <!-- Line -->
+              <polyline points="0,113 87,102 174,93 261,85 348,72 435,79 520,69" fill="none" stroke="#4285F4" stroke-width="2.5" stroke-linejoin="round"/>
+              <!-- Dots -->
+              <circle cx="0" cy="113" r="4" fill="#4285F4"/>
+              <circle cx="87" cy="102" r="4" fill="#4285F4"/>
+              <circle cx="174" cy="93" r="4" fill="#4285F4"/>
+              <circle cx="261" cy="85" r="4" fill="#4285F4"/>
+              <circle cx="348" cy="72" r="4" fill="#4285F4"/>
+              <circle cx="435" cy="79" r="4" fill="#4285F4"/>
+              <circle cx="520" cy="69" r="4.5" fill="#4285F4" stroke="white" stroke-width="2"/>
+              <!-- Labels -->
+              <text x="0" y="125" font-size="9" fill="#9fa8b8" text-anchor="middle">Rs.28.4K</text>
+              <text x="87" y="115" font-size="9" fill="#9fa8b8" text-anchor="middle">Rs.32.7K</text>
+              <text x="174" y="106" font-size="9" fill="#9fa8b8" text-anchor="middle">Rs.35.1K</text>
+              <text x="261" y="98" font-size="9" fill="#9fa8b8" text-anchor="middle">Rs.40.6K</text>
+              <text x="348" y="85" font-size="9" fill="#9fa8b8" text-anchor="middle">Rs.36.9K</text>
+              <text x="435" y="92" font-size="9" fill="#9fa8b8" text-anchor="middle">Rs.36.9K</text>
+              <text x="520" y="82" font-size="9" fill="#4285F4" text-anchor="middle" font-weight="700">Rs.42.4K</text>
+            </svg>
+            <div class="chart-x-labels">
+              <span>Dec '24</span><span>Jan '25</span><span>Feb '25</span>
+              <span>Mar '25</span><span>Apr '25</span><span>May '25</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Donut Chart -->
+      <div class="widget">
+        <div class="widget-head">
+          <div class="widget-title">Revenue by Plan <span class="info-icon">ℹ</span></div>
+        </div>
+        <div class="donut-wrap">
+          <div class="donut-row">
+            <svg width="130" height="130" viewBox="0 0 130 130">
+              <!-- Premium 54.2% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#4285F4" stroke-width="22"
+                stroke-dasharray="170 314" stroke-dashoffset="0" transform="rotate(-90 65 65)"/>
+              <!-- Pro 30.1% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#00B5A0" stroke-width="22"
+                stroke-dasharray="94.5 314" stroke-dashoffset="-170" transform="rotate(-90 65 65)"/>
+              <!-- Basic 12.7% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#AF52DE" stroke-width="22"
+                stroke-dasharray="39.9 314" stroke-dashoffset="-264.5" transform="rotate(-90 65 65)"/>
+              <!-- Enterprise 3.0% -->
+              <circle cx="65" cy="65" r="50" fill="none" stroke="#FF9500" stroke-width="22"
+                stroke-dasharray="9.4 314" stroke-dashoffset="-304.5" transform="rotate(-90 65 65)"/>
+              <text x="65" y="60" text-anchor="middle" font-size="12" font-weight="800" fill="#1a237e">54.2%</text>
+              <text x="65" y="75" text-anchor="middle" font-size="9" fill="#6b7ca0">Premium</text>
+            </svg>
+          </div>
+          <div class="donut-labels">
+            <div class="donut-item">
+              <div class="donut-dot" style="background:#4285F4;"></div>
+              <span class="donut-name">Premium Plan</span>
+              <span class="donut-pct">54.2%</span>
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-dim);padding-left:1.2rem;">Rs.69,760</div>
+            <div class="donut-item">
+              <div class="donut-dot" style="background:#00B5A0;"></div>
+              <span class="donut-name">Pro Plan</span>
+              <span class="donut-pct">30.1%</span>
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-dim);padding-left:1.2rem;">Rs.38,780</div>
+            <div class="donut-item">
+              <div class="donut-dot" style="background:#AF52DE;"></div>
+              <span class="donut-name">Basic Plan</span>
+              <span class="donut-pct">12.7%</span>
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-dim);padding-left:1.2rem;">Rs.16,350</div>
+            <div class="donut-item">
+              <div class="donut-dot" style="background:#FF9500;"></div>
+              <span class="donut-name">Enterprise Plan</span>
+              <span class="donut-pct">3.0%</span>
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-dim);padding-left:1.2rem;">Rs.3,650</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="bottom-row">
+      <!-- Payment Success/Failure -->
+      <div class="widget">
+        <div class="widget-head">
+          <div class="widget-title">Payment Success vs Failure <span class="info-icon">ℹ</span></div>
+        </div>
+        <div class="success-wrap">
+          <div>
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="45" fill="none" stroke="#34C759" stroke-width="18"
+                stroke-dasharray="267 283" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+              <circle cx="60" cy="60" r="45" fill="none" stroke="#FF3B30" stroke-width="18"
+                stroke-dasharray="17 283" stroke-dashoffset="-267" transform="rotate(-90 60 60)"/>
+              <text x="60" y="56" text-anchor="middle" font-size="14" font-weight="800" fill="#1a237e">93.6%</text>
+              <text x="60" y="70" text-anchor="middle" font-size="9" fill="#6b7ca0">Success Rate</text>
+            </svg>
+          </div>
+          <div class="success-items">
+            <div class="success-item">
+              <div class="success-dot" style="background:#34C759;"></div>
+              <div>
+                <div class="success-text">Successful Payments</div>
+                <div class="success-val">Rs.1,20,380 (93.6%)</div>
+              </div>
+            </div>
+            <div class="success-item">
+              <div class="success-dot" style="background:#FF3B30;"></div>
+              <div>
+                <div class="success-text">Failed Payments</div>
+                <div class="success-val">Rs.8,160 (6.4%)</div>
+              </div>
+            </div>
+            <div class="txn-total">
+              <span class="txn-shield"><i data-lucide="shield" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+              <div>
+                <div class="txn-label">Total Transactions</div>
+                <div class="txn-val">2,842</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Revenue Months -->
+      <div class="widget">
+        <div class="widget-head">
+          <div class="widget-title">Top Revenue Months <span class="info-icon">ℹ</span></div>
+        </div>
+        <table class="months-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Month</th>
+              <th>Revenue (PKR)</th>
+              <th>Growth</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="month-num">1</div></td>
+              <td><div class="month-row"><span class="month-name">March 2025</span></div></td>
+              <td><span class="month-revenue">Rs.40,600</span></td>
+              <td><span class="month-growth up">▲ 16.3%</span></td>
+            </tr>
+            <tr>
+              <td><div class="month-num highlight">2</div></td>
+              <td><div class="month-row"><span class="month-name highlight">May 2025</span></div></td>
+              <td><span class="month-revenue">Rs.42,380</span></td>
+              <td><span class="month-growth up">▲ 14.7%</span></td>
+            </tr>
+            <tr>
+              <td><div class="month-num">3</div></td>
+              <td><div class="month-row"><span class="month-name">February 2025</span></div></td>
+              <td><span class="month-revenue">Rs.35,100</span></td>
+              <td><span class="month-growth up">▲ 7.2%</span></td>
+            </tr>
+            <tr>
+              <td><div class="month-num">4</div></td>
+              <td><div class="month-row"><span class="month-name">January 2025</span></div></td>
+              <td><span class="month-revenue">Rs.32,700</span></td>
+              <td><span class="month-growth up">▲ 11.5%</span></td>
+            </tr>
+            <tr>
+              <td><div class="month-num">5</div></td>
+              <td><div class="month-row"><span class="month-name">April 2025</span></div></td>
+              <td><span class="month-revenue">Rs.36,900</span></td>
+              <td><span class="month-growth down">▼ 4.3%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="data-note">
+      <div class="data-note-left"><i data-lucide="lock" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> All revenue data is in PKR and synchronized securely via Cloud Sync.</div>
+      <div>Last updated: Today, 10:15 AM <button class="refresh-btn">↺</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function logout() {
+      sessionStorage.removeItem('sc_admin_auth');
+      window.location.replace('admin-login.html');
+    }
+    function toggleGroup(header) {
+      header.classList.toggle('open');
+      const sub = header.nextElementSibling;
+      sub.classList.toggle('open');
+    }
+
+    /* Revenue Date Picker */
+    function toggleRevDP(e) {
+      e.stopPropagation();
+      const d = document.getElementById('revDrop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    function applyRevDP() {
+      const from = document.getElementById('revFrom').value;
+      const to = document.getElementById('revTo').value;
+      if (!from || !to) { alert('Please select both dates'); return; }
+      const fmt = s => new Date(s+'T00:00:00').toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+      document.getElementById('revDateLabel').textContent = ' ' + fmt(from) + ' – ' + fmt(to);
+      document.getElementById('revDrop').style.display = 'none';
+    }
+    function revPreset(days) {
+      const to = new Date(); to.setHours(0,0,0,0);
+      const from = new Date(to); from.setDate(from.getDate() - days + 1);
+      document.getElementById('revFrom').value = from.toISOString().slice(0,10);
+      document.getElementById('revTo').value = to.toISOString().slice(0,10);
+      applyRevDP();
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('revDrop');
+      const wrap = drop && drop.closest('.date-picker-wrap');
+      if (drop && wrap && !wrap.contains(e.target)) drop.style.display = 'none';
+    });
+
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) {
+        drop.classList.remove('open');
+      }
+    });
+
+</script>
+</body>
+</html>

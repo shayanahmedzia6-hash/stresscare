@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare – Subscription Plans</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4285F4;
+      --primary-light: #e8f0fe;
+      --success: #34C759;
+      --warning: #FF9500;
+      --danger: #FF3B30;
+      --purple: #AF52DE;
+      --teal: #5AC8FA;
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --border: #e8edf5;
+      --text: #1a237e;
+      --text-muted: #6b7ca0;
+      --text-dim: #9fa8b8;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 200px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      left: 0; top: 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 1.2rem 1.2rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-img { width: 36px; height: 36px; object-fit: contain; border-radius: 8px; }
+    .logo-name { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1.1; }
+    .logo-sub { font-size: 0.62rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav { padding: 1rem 0.6rem; flex: 1; overflow-y: auto; }
+
+    .nav-section {
+      font-size: 0.65rem; font-weight: 600;
+      color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 1px; padding: 0.5rem 0.8rem 0.3rem;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.58rem 0.8rem; border-radius: 10px;
+      cursor: pointer; color: var(--text-muted);
+      font-size: 0.84rem; font-weight: 500;
+      margin-bottom: 2px; text-decoration: none;
+      transition: all 0.15s;
+    }
+    .nav-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .nav-item.sub-active { background: #eef3ff; color: var(--primary); font-weight: 600; padding-left: 1.6rem; }
+    .nav-icon { font-size: 0.92rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-help {
+      margin: 0.8rem;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #e8f0fe, #f0f7ff);
+      border-radius: 12px;
+      border: 1px solid rgba(66,133,244,0.15);
+    }
+    .help-head { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.3rem; }
+    .help-title { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+    .help-text { font-size: 0.71rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.6rem; }
+    .help-btn {
+      width: 100%; padding: 0.4rem;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 0.75rem; font-weight: 600;
+      color: var(--primary); cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .help-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+
+    .logout-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 0.8rem; color: var(--danger);
+      font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; border: none; background: none;
+      font-family: inherit; width: calc(100% - 1.2rem);
+      border-radius: 10px; transition: background 0.15s;
+      margin: 0 0.6rem 0.8rem;
+    }
+    .logout-btn:hover { background: rgba(255,59,48,0.07); }
+
+    /* ── Main ── */
+    .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; }
+
+    /* ── Topbar ── */
+    .topbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0.8rem 1.8rem;
+      display: flex; align-items: center; gap: 1rem;
+      position: sticky; top: 0; z-index: 50;
+    }
+
+    .hamburger { font-size: 1.1rem; color: var(--text-muted); cursor: pointer; }
+
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+    .notif-btn {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--bg); border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; position: relative;
+    }
+    .notif-badge {
+      position: absolute; top: 5px; right: 5px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--danger); border: 1.5px solid var(--surface);
+    }
+    .admin-chip {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.3rem 0.7rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 9px; cursor: pointer;
+    }
+    .admin-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg,#4285F4,#34A0D4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; color: white; font-weight: 600;
+    }
+    .admin-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .admin-role { font-size: 0.67rem; color: var(--text-muted); }
+
+    /* ── Content ── */
+    .content { padding: 1.8rem; flex: 1; }
+
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 1.6rem;
+    }
+    .page-title h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .page-title p { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    .btn-create {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.65rem 1.2rem;
+      background: linear-gradient(135deg,#4285F4,#1a73e8);
+      color: white; border: none; border-radius: 11px;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(66,133,244,0.35);
+      font-family: inherit; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-create:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(66,133,244,0.45); }
+
+    /* ── Plan Cards ── */
+    .plans-grid {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 1.2rem; margin-bottom: 1.8rem;
+    }
+
+    .plan-card {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 18px; padding: 1.4rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .plan-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.08); transform: translateY(-2px); }
+
+    .plan-card-head {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .plan-icon-wrap {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; flex-shrink: 0;
+    }
+
+    .plan-info { flex: 1; min-width: 0; }
+    .plan-name-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .plan-name { font-size: 1.05rem; font-weight: 600; color: var(--text); }
+
+    .plan-badge {
+      padding: 0.18rem 0.55rem; border-radius: 20px;
+      font-size: 0.7rem; font-weight: 600;
+    }
+    .badge-active { background: rgba(52,199,89,0.12); color: var(--success); }
+    .badge-inactive { background: rgba(255,149,0,0.12); color: var(--warning); }
+
+    .plan-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.5; }
+
+    .plan-menu-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; color: var(--text-dim);
+      padding: 0.2rem 0.3rem; border-radius: 6px;
+      transition: all 0.15s; position: relative;
+      flex-shrink: 0;
+    }
+    .plan-menu-btn:hover { background: var(--bg); color: var(--text-muted); }
+
+    .plan-details { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.2rem; }
+
+    .detail-row {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.84rem;
+    }
+    .detail-label { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); }
+    .detail-label span { font-size: 0.9rem; }
+    .detail-value { font-weight: 600; color: var(--text); }
+
+    .toggle-wrap { display: flex; align-items: center; gap: 0.4rem; }
+    .toggle-label { font-size: 0.82rem; font-weight: 600; color: var(--success); }
+
+    .toggle {
+      width: 38px; height: 22px;
+      background: var(--success); border-radius: 11px;
+      position: relative; cursor: pointer; border: none;
+      transition: background 0.2s;
+    }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      background: white; border-radius: 50%;
+      top: 3px; right: 3px;
+      transition: right 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .toggle.off { background: #d1d5db; }
+    .toggle.off::after { right: auto; left: 3px; }
+
+    .plan-divider { height: 1px; background: var(--border); margin-bottom: 1rem; }
+
+    .plan-actions { display: flex; gap: 0.75rem; }
+
+    .action-edit {
+      flex: 1; padding: 0.6rem;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 0.84rem; font-weight: 600;
+      color: var(--primary); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      font-family: inherit; transition: all 0.15s;
+    }
+    .action-edit:hover { border-color: var(--primary); background: var(--primary-light); }
+
+    .action-deactivate {
+      flex: 1; padding: 0.6rem;
+      background: rgba(255,59,48,0.05); border: 1.5px solid rgba(255,59,48,0.2);
+      border-radius: 10px; font-size: 0.84rem; font-weight: 600;
+      color: var(--danger); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      font-family: inherit; transition: all 0.15s;
+    }
+    .action-deactivate:hover { background: rgba(255,59,48,0.1); border-color: var(--danger); }
+
+    /* ── Feature Comparison ── */
+    .comparison-section { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; overflow: hidden; }
+
+    .comparison-head {
+      padding: 1.2rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .comparison-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+
+    .comparison-table { width: 100%; border-collapse: collapse; }
+
+    .comparison-table th {
+      padding: 0.85rem 1.4rem;
+      text-align: left; font-size: 0.82rem; font-weight: 600;
+      color: var(--text-muted); background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .comparison-table th.plan-col { text-align: center; min-width: 140px; }
+    .plan-col-head { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+    .plan-col-price { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+
+    .comparison-table td {
+      padding: 0.85rem 1.4rem;
+      border-bottom: 1px solid #f3f6fb;
+      vertical-align: middle;
+    }
+    .comparison-table tbody tr:last-child td { border-bottom: none; }
+    .comparison-table tbody tr:hover td { background: #fafcff; }
+
+    .feature-cell { display: flex; align-items: center; gap: 0.75rem; }
+    .feature-icon { font-size: 1rem; width: 22px; text-align: center; flex-shrink: 0; }
+    .feature-name { font-size: 0.86rem; font-weight: 600; color: var(--text); }
+    .feature-desc { font-size: 0.73rem; color: var(--text-dim); margin-top: 0.1rem; }
+
+    .check-cell { text-align: center; font-size: 1.1rem; }
+    .check-yes { color: var(--success); }
+    .check-no { color: var(--text-dim); font-size: 1.2rem; }
+    .check-text { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+    .check-text-blue { font-size: 0.78rem; color: var(--primary); font-weight: 600; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(26,35,126,0.14); backdrop-filter: blur(4px);
+      z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface); border-radius: 20px;
+      padding: 2rem; width: 500px; max-width: 95vw;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.14);
+      animation: modalIn 0.22s ease;
+      max-height: 90vh; overflow-y: auto;
+    }
+    @keyframes modalIn { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem; }
+    .modal-title { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-dim); }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-fields { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.4rem; }
+    .modal-field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem; }
+    .modal-field input, .modal-field select, .modal-field textarea {
+      width: 100%; padding: 0.7rem 0.9rem;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.88rem; color: var(--text); background: var(--bg);
+      outline: none; font-family: inherit; transition: border-color 0.2s;
+      resize: vertical;
+    }
+    .modal-field input:focus, .modal-field select:focus, .modal-field textarea:focus {
+      border-color: var(--primary); background: white;
+    }
+    .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    .features-checklist { display: flex; flex-direction: column; gap: 0.5rem; }
+    .feature-check-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.5rem 0.7rem;
+      background: var(--bg); border-radius: 8px;
+      font-size: 0.84rem; cursor: pointer;
+    }
+    .feature-check-item input[type="checkbox"] { accent-color: var(--primary); width: 15px; height: 15px; }
+
+    .modal-actions { display: flex; gap: 0.75rem; }
+    .modal-btn {
+      flex: 1; padding: 0.75rem; border-radius: 11px;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+      border: 1.5px solid transparent; font-family: inherit; transition: all 0.15s;
+    }
+    .modal-btn.primary { background: linear-gradient(135deg,#4285F4,#1a73e8); color: white; box-shadow: 0 4px 14px rgba(66,133,244,0.3); }
+    .modal-btn.primary:hover { box-shadow: 0 8px 20px rgba(66,133,244,0.4); transform: translateY(-1px); }
+    .modal-btn.secondary { background: var(--bg); border-color: var(--border); color: var(--text-muted); }
+    .modal-btn.secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: #1a237e; color: white; border-radius: 12px;
+      padding: 0.8rem 1.2rem; font-size: 0.85rem; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 300;
+      display: flex; align-items: center; gap: 0.5rem;
+      transform: translateY(20px); opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: #1b5e20; }
+    .toast.danger { background: #b71c1c; }
+  
+    /* ── Sidebar nav groups ── */
+    .sidebar { width: 220px !important; }
+    .nav-section-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-dim); padding: 0.9rem 0.8rem 0.3rem; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-header { display: flex; align-items: center; justify-content: space-between; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; transition: all 0.15s; user-select: none; }
+    .nav-group-header:hover { background: #f5f7fd; color: var(--text); }
+    .nav-group-header.open { color: var(--text); }
+    .nav-group-left { display: flex; align-items: center; gap: 0.65rem; }
+    .nav-chevron { font-size: 0.6rem; transition: transform 0.2s; color: var(--text-dim); }
+    .nav-group-header.open .nav-chevron { transform: rotate(90deg); }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .nav-sub.open { max-height: 300px; }
+    .nav-sub-item { display: flex; align-items: center; gap: 0.55rem; padding: 0.48rem 0.8rem 0.48rem 2.3rem; border-radius: 9px; cursor: pointer; color: var(--text-muted); font-size: 0.81rem; font-weight: 500; margin-bottom: 1px; text-decoration: none; transition: all 0.15s; }
+    .nav-sub-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub-item.active { color: var(--primary); font-weight: 600; background: #e8f0fe; }
+
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Sidebar -->
+    <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="StressCare" style="height:40px;width:auto;object-fit:contain;display:block;">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a class="nav-item" href="admin-dashboard.html"><span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard</a>
+
+      <a class="nav-item" href="user-management.html"><span class="nav-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> User Management</a>
+
+      <div class="nav-section-label">Management</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header open" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="package" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Subscriptions</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub open">
+          <a class="nav-sub-item active" href="subscription-plans.html"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Plan</a>
+          <a class="nav-sub-item" href="subscription-records.html"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Records</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="wallet" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Finance</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="payment-management.html"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Payment Management</a>
+          <a class="nav-sub-item" href="revenue-analytics.html"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Revenue Analytics</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> AI & Cloud</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="model-management.html"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model Management</a>
+          <a class="nav-sub-item" href="cloud-sync-monitoring.html"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Cloud Sync</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Support</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="feedback-pss.html"><i data-lucide="file-text" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Feedback / PSS</a>
+          <a class="nav-sub-item" href="notification-management.html"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Notification Management</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Config</div>
+
+      <a class="nav-item" href="admin-settings.html"><span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings</a>
+
+    </nav>
+
+    <div style="margin:0.8rem;padding:0.8rem;background:linear-gradient(135deg,#e8f0fe,#f0f7ff);border-radius:12px;border:1px solid rgba(66,133,244,0.15);">
+      <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34C759;flex-shrink:0;"></div>
+        <span style="font-size:0.78rem;font-weight:700;color:var(--text);">System Status</span>
+      </div>
+      <div style="font-size:0.7rem;color:#34C759;font-weight:500;">All systems operational</div>
+    </div>
+
+    <div style="padding:0.5rem 0.6rem 0.8rem;">
+      <button class="logout-btn" onclick="logout()"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> &nbsp;Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <span class="hamburger"><i data-lucide="menu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+      <div class="topbar-right">
+        <div class="notif-wrap">
+          <div class="notif-btn" id="notifBtn" onclick="toggleNotif(event)">
+            <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+            <div class="notif-badge" id="notifBadge"></div>
+          </div>
+          <div class="notif-drop" id="notifDrop">
+            <div class="notif-drop-head">
+              <span class="notif-drop-title">Notifications</span>
+              <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8f0fe;"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Ayesha Khan subscribed to <b>Premium Plan</b></div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8fff2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment of <b>PKR 6,999</b> received from Omar Farooq</div>
+                <div class="notif-time">15 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#fff8e8;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Tariq Mehmood's subscription is <b>expiring soon</b></div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#f5f7ff;"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">AI Model v2.4 update completed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#fff0f0;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment failed for Hira Noor — card declined</div>
+                <div class="notif-time">Yesterday, 6:30 PM</div>
+              </div>
+            </div>
+            <div class="notif-drop-foot">
+              <a href="notification-management.html">View all notifications →</a>
+            </div>
+          </div>
+        </div>
+        <div class="admin-chip">
+          <div class="admin-avatar" id="topAvatar">A</div>
+          <div>
+            <div class="admin-name" id="topAdminName">Admin User</div>
+            <div class="admin-role">Super Admin</div>
+          </div>
+          <span style="color:var(--text-dim);font-size:0.7rem;">▾</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="page-header">
+        <div class="page-title">
+          <h1>Subscription Plan Management</h1>
+          <p>Create, manage, and configure subscription plans for StressCare.</p>
+        </div>
+        <button class="btn-create" onclick="openCreateModal()">＋ Create Plan</button>
+      </div>
+
+      <!-- Plan Cards -->
+      <div class="plans-grid" id="plansGrid">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Feature Comparison -->
+      <div class="comparison-section">
+        <div class="comparison-head">
+          <div class="comparison-title">Feature Comparison</div>
+        </div>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="plan-col"><div class="plan-col-head">Free Plan</div><div class="plan-col-price">PKR 0 / month</div></th>
+              <th class="plan-col"><div class="plan-col-head">Premium Plan</div><div class="plan-col-price">PKR 1,399 / month</div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="feature-cell"><span class="feature-icon"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span><div><div class="feature-name">Basic Monitoring</div><div class="feature-desc">Track your stress levels and receive alerts</div></div></div></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+            </tr>
+            <tr>
+              <td><div class="feature-cell"><span class="feature-icon"><i data-lucide="clock" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span><div><div class="feature-name">History</div><div class="feature-desc">View your stress history and trends</div></div></div></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+            </tr>
+            <tr>
+              <td><div class="feature-cell"><span class="feature-icon"><i data-lucide="moon" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span><div><div class="feature-name">Sleep Insights</div><div class="feature-desc">AI-powered sleep quality analysis</div></div></div></td>
+              <td class="check-cell"><span class="check-no">—</span></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+            </tr>
+            <tr>
+              <td><div class="feature-cell"><span class="feature-icon"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span><div><div class="feature-name">Migraine Insights</div><div class="feature-desc">Identify migraine triggers and patterns</div></div></div></td>
+              <td class="check-cell"><span class="check-no">—</span></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+            </tr>
+            <tr>
+              <td><div class="feature-cell"><span class="feature-icon"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span><div><div class="feature-name">Cloud Sync</div><div class="feature-desc">Sync data across all your devices</div></div></div></td>
+              <td class="check-cell"><span class="check-no">—</span></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+            </tr>
+            <tr>
+              <td><div class="feature-cell"><span class="feature-icon"><i data-lucide="lightbulb" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span><div><div class="feature-name">Personalized Recommendations</div><div class="feature-desc">AI-driven tips and personalized guidance</div></div></div></td>
+              <td class="check-cell"><span class="check-no">—</span></td>
+              <td class="check-cell"><span class="check-yes"><i data-lucide="check-circle-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span></td>
+            </tr>
+            <tr>
+              <td><div class="feature-cell"><span class="feature-icon"><i data-lucide="headphones" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span><div><div class="feature-name">Support</div><div class="feature-desc">Customer support</div></div></div></td>
+              <td class="check-cell"><span class="check-text">Email Support</span></td>
+              <td class="check-cell"><span class="check-text-blue">Priority Support</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Edit/Create Plan Modal -->
+  <div class="modal-overlay" id="planModal">
+    <div class="modal">
+      <div class="modal-head">
+        <span class="modal-title" id="modalTitle">Create Plan</span>
+        <button class="modal-close" onclick="closeModal()"><i data-lucide="x" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></button>
+      </div>
+      <div class="modal-fields">
+        <div class="modal-row">
+          <div class="modal-field">
+            <label>Plan Name</label>
+            <input type="text" id="planName" placeholder="e.g. Premium Plan">
+          </div>
+          <div class="modal-field">
+            <label>Price (USD)</label>
+            <input type="number" id="planPrice" placeholder="0.00" step="0.01" min="0">
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label>Billing Cycle</label>
+            <select id="planCycle">
+              <option>Monthly</option>
+              <option>Annual</option>
+              <option>Weekly</option>
+            </select>
+          </div>
+          <div class="modal-field">
+            <label>Status</label>
+            <select id="planStatus">
+              <option>Active</option>
+              <option>Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Description</label>
+          <textarea id="planDesc" rows="2" placeholder="Brief description of this plan…"></textarea>
+        </div>
+        <div class="modal-field">
+          <label>Included Features</label>
+          <div class="features-checklist">
+            <label class="feature-check-item"><input type="checkbox" checked> Basic Monitoring</label>
+            <label class="feature-check-item"><input type="checkbox" checked> History & Trends</label>
+            <label class="feature-check-item"><input type="checkbox" id="fcSleep"> Sleep Insights</label>
+            <label class="feature-check-item"><input type="checkbox" id="fcMigraine"> Migraine Insights</label>
+            <label class="feature-check-item"><input type="checkbox" id="fcCloud"> Cloud Sync</label>
+            <label class="feature-check-item"><input type="checkbox" id="fcRec"> Personalized Recommendations</label>
+            <label class="feature-check-item"><input type="checkbox" id="fcPriority"> Priority Support</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+        <button class="modal-btn primary" id="modalSaveBtn" onclick="savePlan()">Create Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Auth guard
+    (function() {
+      const s = sessionStorage.getItem('sc_admin_auth');
+      if (!s) { window.location.replace('admin-login.html'); return; }
+      try {
+        const d = JSON.parse(s);
+        const el = document.getElementById('topAdminName');
+        if (el && d.name) el.textContent = d.name;
+      } catch(e) {}
+    })();
+    
+    function toggleGroup(header) {
+      header.classList.toggle('open');
+      const sub = header.nextElementSibling;
+      sub.classList.toggle('open');
+    }
+
+    function logout() { sessionStorage.removeItem('sc_admin_auth'); window.location.replace('admin-login.html'); }
+
+    // ── Plan Data ──
+    let plans = [
+      {
+        id: 1,
+        icon: '',
+        iconBg: 'linear-gradient(135deg,#e8f0fe,#c5d9f9)',
+        name: 'Free Plan',
+        status: 'active',
+        desc: 'For users getting started with stress monitoring.',
+        price: 'PKR 0',
+        cycle: 'Monthly',
+        subscribers: '1,258',
+        features: ['Basic Monitoring','History & Trends','Email Support']
+      },
+      {
+        id: 2,
+        icon: '',
+        iconBg: 'linear-gradient(135deg,#e8f0fe,#c5d9f9)',
+        name: 'Premium Plan',
+        status: 'active',
+        desc: 'Advanced insights and AI-powered wellness guidance.',
+        price: 'PKR 1,399',
+        cycle: 'Monthly',
+        subscribers: '3,742',
+        features: ['Basic Monitoring','History & Trends','Sleep Insights','Migraine Insights','Cloud Sync','Personalized Recommendations','Priority Support']
+      }
+    ];
+
+    let editingId = null;
+
+    function renderPlans() {
+      const grid = document.getElementById('plansGrid');
+      grid.innerHTML = plans.map(p => `
+        <div class="plan-card" id="plan-${p.id}">
+          <div class="plan-card-head">
+            <div class="plan-icon-wrap" style="background:${p.iconBg};">${p.icon}</div>
+            <div class="plan-info">
+              <div class="plan-name-row">
+                <span class="plan-name">${p.name}</span>
+                <span class="plan-badge ${p.status === 'active' ? 'badge-active' : 'badge-inactive'}">${p.status === 'active' ? 'Active' : 'Inactive'}</span>
+              </div>
+              <div class="plan-desc">${p.desc}</div>
+            </div>
+            <button class="plan-menu-btn" onclick="showPlanMenu(event,${p.id})">⋮</button>
+          </div>
+
+          <div class="plan-details">
+            <div class="detail-row">
+              <span class="detail-label"><span></span> Price</span>
+              <span class="detail-value">${p.price}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><span></span> Billing Cycle</span>
+              <span class="detail-value">${p.cycle}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><span></span> Subscribers</span>
+              <span class="detail-value">${p.subscribers}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><span>✓</span> Status</span>
+              <div class="toggle-wrap">
+                <span class="toggle-label" id="toggle-label-${p.id}">${p.status === 'active' ? 'Active' : 'Inactive'}</span>
+                <button class="toggle ${p.status === 'active' ? '' : 'off'}" id="toggle-${p.id}" onclick="togglePlan(${p.id})"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-divider"></div>
+
+          <div class="plan-actions">
+            <button class="action-edit" onclick="openEditModal(${p.id})"> Edit Plan</button>
+            <button class="action-deactivate" onclick="deactivatePlan(${p.id})">
+               ${p.status === 'active' ? 'Deactivate' : 'Activate'}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function togglePlan(id) {
+      const p = plans.find(x => x.id === id);
+      p.status = p.status === 'active' ? 'inactive' : 'active';
+      renderPlans();
+      showToast(`${p.name} ${p.status === 'active' ? 'activated' : 'deactivated'}`, p.status === 'active' ? 'success' : '');
+    }
+
+    function deactivatePlan(id) {
+      const p = plans.find(x => x.id === id);
+      p.status = p.status === 'active' ? 'inactive' : 'active';
+      renderPlans();
+      showToast(`${p.name} ${p.status === 'active' ? 'activated' : 'deactivated'}`, p.status === 'active' ? 'success' : 'danger');
+    }
+
+    // ── Modal ──
+    function openCreateModal() {
+      editingId = null;
+      document.getElementById('modalTitle').textContent = 'Create New Plan';
+      document.getElementById('modalSaveBtn').textContent = 'Create Plan';
+      document.getElementById('planName').value = '';
+      document.getElementById('planPrice').value = '';
+      document.getElementById('planDesc').value = '';
+      document.getElementById('planCycle').value = 'Monthly';
+      document.getElementById('planStatus').value = 'Active';
+      ['fcSleep','fcMigraine','fcCloud','fcRec','fcPriority'].forEach(id => { document.getElementById(id).checked = false; });
+      document.getElementById('planModal').classList.add('open');
+    }
+
+    function openEditModal(id) {
+      editingId = id;
+      const p = plans.find(x => x.id === id);
+      document.getElementById('modalTitle').textContent = 'Edit Plan';
+      document.getElementById('modalSaveBtn').textContent = 'Save Changes';
+      document.getElementById('planName').value = p.name;
+      document.getElementById('planPrice').value = parseFloat(p.price.replace('$','')) || 0;
+      document.getElementById('planDesc').value = p.desc;
+      document.getElementById('planCycle').value = p.cycle;
+      document.getElementById('planStatus').value = p.status === 'active' ? 'Active' : 'Inactive';
+      ['fcSleep','fcMigraine','fcCloud','fcRec','fcPriority'].forEach(id => { document.getElementById(id).checked = p.features.includes(id); });
+      document.getElementById('planModal').classList.add('open');
+    }
+
+    function closeModal() { document.getElementById('planModal').classList.remove('open'); }
+
+    function savePlan() {
+      const name = document.getElementById('planName').value.trim();
+      if (!name) { showToast('Please enter a plan name', 'danger'); return; }
+      const price = parseFloat(document.getElementById('planPrice').value) || 0;
+      const desc = document.getElementById('planDesc').value.trim() || 'Custom plan description.';
+      const cycle = document.getElementById('planCycle').value;
+      const status = document.getElementById('planStatus').value.toLowerCase();
+
+      if (editingId) {
+        const p = plans.find(x => x.id === editingId);
+        p.name = name;
+        p.price = '$' + price.toFixed(2);
+        p.desc = desc;
+        p.cycle = cycle;
+        p.status = status;
+        showToast('✓ Plan updated successfully', 'success');
+      } else {
+        plans.push({
+          id: Date.now(),
+          icon: '★',
+          iconBg: 'linear-gradient(135deg,#fff3e0,#ffe0b2)',
+          name, desc,
+          price: '$' + price.toFixed(2),
+          cycle, status,
+          subscribers: '0'
+        });
+        showToast('✓ New plan created successfully', 'success');
+      }
+      closeModal();
+      renderPlans();
+    }
+
+    function showPlanMenu(e, id) { e.stopPropagation(); showToast('Plan options menu'); }
+
+    function showToast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    document.getElementById('planModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+    renderPlans();
+  
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) {
+        drop.classList.remove('open');
+      }
+    });
+
+  </script>
+</body>
+</html>

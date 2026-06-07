@@ -18,10 +18,18 @@ const mimeTypes = {
 const server = http.createServer((req, res) => {
   let urlPath = req.url.split('?')[0];
 
-  // Redirect root to first onboarding screen (proper redirect keeps URL correct)
+  // Serve landing page at root
   if (urlPath === '/' || urlPath === '') {
-    res.writeHead(302, { Location: '/html/onboarding-1.html' });
-    res.end();
+    const landingPath = path.join(__dirname, 'index.html');
+    fs.readFile(landingPath, (err, data) => {
+      if (err) {
+        res.writeHead(302, { Location: '/html/onboarding-1.html' });
+        res.end();
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(data);
+    });
     return;
   }
 

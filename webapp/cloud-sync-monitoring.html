@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare – Cloud Sync Monitoring</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #4285F4;
+      --primary-light: #e8f0fe;
+      --secondary: #34A0D4;
+      --success: #34C759;
+      --warning: #FF9500;
+      --danger: #FF3B30;
+      --purple: #AF52DE;
+      --teal: #00B5A0;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --border: #e8edf5;
+      --text: #1a237e;
+      --text-muted: #6b7ca0;
+      --text-dim: #9fa8b8;
+      --active-bg: #e8f0fe;
+      --active-color: #4285F4;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px; background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      position: fixed; height: 100vh; left: 0; top: 0; z-index: 100;
+    }
+    .sidebar-logo {
+      padding: 1.4rem 1.2rem 1.2rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #4285F4, #34A0D4);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .logo-name { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1; }
+    .logo-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+
+    .sidebar-nav { padding: 1rem 0.6rem; flex: 1; overflow-y: auto; }
+    .nav-section { font-size: 0.62rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; padding: 0.6rem 0.8rem 0.3rem; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.6rem 0.8rem; border-radius: 10px; cursor: pointer;
+      color: var(--text-muted); font-size: 0.85rem; font-weight: 500;
+      margin-bottom: 2px; text-decoration: none; transition: all 0.15s;
+    }
+    .nav-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-item.active { background: var(--active-bg); color: var(--active-color); font-weight: 600; }
+    .nav-icon { font-size: 0.95rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-collapse {
+      padding: 0.8rem; border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; color: var(--text-muted); cursor: pointer;
+    }
+    .sidebar-collapse:hover { color: var(--text); }
+
+    /* Main */
+    .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.8rem; display: flex; align-items: center; gap: 1rem;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .menu-btn {
+      width: 32px; height: 32px; border-radius: 8px; border: none;
+      background: none; cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px;
+    }
+    .menu-btn span { width: 18px; height: 2px; background: var(--text-muted); border-radius: 2px; }
+    .search-bar {
+      flex: 1; max-width: 400px; display: flex; align-items: center; gap: 0.6rem;
+      background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.55rem 1rem;
+    }
+    .search-bar input { border: none; background: none; outline: none; font-size: 0.85rem; color: var(--text); width: 100%; font-family: inherit; }
+    .search-bar input::placeholder { color: var(--text-dim); }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+    .notif-btn {
+      width: 36px; height: 36px; border-radius: 9px; background: var(--bg);
+      border: 1.5px solid var(--border); display: flex; align-items: center;
+      justify-content: center; cursor: pointer; font-size: 1rem; position: relative;
+    }
+    .notif-badge { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--danger); border: 1.5px solid var(--surface); }
+    .help-btn-top {
+      width: 36px; height: 36px; border-radius: 9px; background: var(--bg);
+      border: 1.5px solid var(--border); display: flex; align-items: center;
+      justify-content: center; cursor: pointer; font-size: 1rem;
+    }
+    .admin-chip {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.7rem;
+      background: var(--bg); border: 1.5px solid var(--border); border-radius: 9px; cursor: pointer;
+    }
+    .admin-avatar-img {
+      width: 28px; height: 28px; border-radius: 50%; overflow: hidden;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; color: white; font-weight: 600;
+    }
+    .admin-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .admin-role { font-size: 0.68rem; color: var(--text-muted); }
+
+    .content { padding: 1.8rem; flex: 1; }
+
+    .page-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .page-title h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+    .page-title p { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .header-actions { display: flex; align-items: center; gap: 0.7rem; }
+    .refresh-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 1rem; background: var(--surface);
+      border: 1.5px solid var(--border); border-radius: 10px;
+      cursor: pointer; font-size: 0.82rem; color: var(--text);
+      font-weight: 500; font-family: inherit; transition: all 0.2s;
+    }
+    .refresh-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .retry-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 1.1rem; background: var(--primary); color: white;
+      border: none; border-radius: 10px; cursor: pointer;
+      font-size: 0.82rem; font-weight: 600; font-family: inherit;
+    }
+    .retry-btn:hover { background: #3574e2; }
+
+    /* Top Stats */
+    .top-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .top-stat {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: box-shadow 0.2s;
+    }
+    .top-stat:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .tstat-icon { width: 34px; height: 34px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .tstat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.2rem; }
+    .tstat-value { font-size: 1.3rem; font-weight: 600; color: var(--text); line-height: 1.1; }
+    .tstat-sub { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.2rem; }
+    .tstat-sub.good { color: var(--success); }
+    .tstat-sub.warn { color: var(--warning); }
+
+    /* Upload Overview */
+    .upload-section {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 1.3rem 1.5rem; margin-bottom: 1.2rem;
+    }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+    .section-title { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .view-details { font-size: 0.78rem; color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; }
+
+    .upload-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+
+    .upload-card {
+      background: var(--bg); border-radius: 12px;
+      padding: 1rem; text-align: center;
+      transition: box-shadow 0.2s;
+    }
+    .upload-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.07); }
+    .upload-card-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+    .upload-card-name { font-size: 0.78rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; }
+    .upload-card-status { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.7rem; }
+
+    /* Circular progress */
+    .ring-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
+    .ring-pct { position: absolute; font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .upload-nums { font-size: 0.7rem; color: var(--text-muted); }
+    .upload-trend { font-size: 0.68rem; color: var(--success); font-weight: 600; margin-top: 0.2rem; }
+
+    /* Activity Table */
+    .activity-section {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .act-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .view-logs { font-size: 0.78rem; color: var(--primary); font-weight: 600; cursor: pointer; }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 0.75rem 1.5rem; text-align: left; font-size: 0.72rem;
+      font-weight: 600; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 0.04em; background: #fafbff; border-bottom: 1px solid var(--border);
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafbff; }
+    tbody td { padding: 0.85rem 1.5rem; font-size: 0.82rem; vertical-align: middle; }
+
+    .time-cell { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; }
+    .user-cell { display: flex; align-items: center; gap: 0.6rem; }
+    .user-ava {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg); display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0; border: 1.5px solid var(--border);
+    }
+    .user-name { font-weight: 600; color: var(--text); font-size: 0.82rem; }
+    .user-device { font-size: 0.7rem; color: var(--text-muted); }
+
+    .sync-type { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text); }
+    .sync-icon { font-size: 0.9rem; }
+
+    .records-val { font-weight: 600; color: var(--text); }
+
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.7rem; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600;
+    }
+    .status-success { background: #d4f5e2; color: #1a7a3a; }
+    .status-failed { background: #ffe5e5; color: #c0001a; }
+
+    .details-cell { color: var(--text-muted); font-size: 0.75rem; }
+    .more-btn { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 1rem; padding: 0.3rem 0.5rem; border-radius: 6px; }
+
+    .footer { padding: 0.8rem 1.8rem; text-align: center; font-size: 0.72rem; color: var(--text-dim); }
+  
+    /* ── Sidebar nav groups ── */
+    .sidebar { width: 220px !important; }
+    .nav-section-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.9px; color: var(--text-dim); padding: 0.9rem 0.8rem 0.3rem; }
+    .nav-group { margin-bottom: 2px; }
+    .nav-group-header { display: flex; align-items: center; justify-content: space-between; padding: 0.58rem 0.8rem; border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; transition: all 0.15s; user-select: none; }
+    .nav-group-header:hover { background: #f5f7fd; color: var(--text); }
+    .nav-group-header.open { color: var(--text); }
+    .nav-group-left { display: flex; align-items: center; gap: 0.65rem; }
+    .nav-chevron { font-size: 0.6rem; transition: transform 0.2s; color: var(--text-dim); }
+    .nav-group-header.open .nav-chevron { transform: rotate(90deg); }
+    .nav-sub { overflow: hidden; max-height: 0; transition: max-height 0.25s ease; }
+    .nav-sub.open { max-height: 300px; }
+    .nav-sub-item { display: flex; align-items: center; gap: 0.55rem; padding: 0.48rem 0.8rem 0.48rem 2.3rem; border-radius: 9px; cursor: pointer; color: var(--text-muted); font-size: 0.81rem; font-weight: 500; margin-bottom: 1px; text-decoration: none; transition: all 0.15s; }
+    .nav-sub-item:hover { background: #f5f7fd; color: var(--text); }
+    .nav-sub-item.active { color: var(--primary); font-weight: 600; background: #e8f0fe; }
+
+  
+    /* ── Notification Dropdown ── */
+    .notif-wrap { position: relative; }
+    .notif-drop {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 320px;
+      background: #fff;
+      border: 1.5px solid #e8edf5;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .notif-drop.open { display: block; }
+    .notif-drop-head {
+      padding: 0.9rem 1rem 0.7rem;
+      border-bottom: 1px solid #f0f4f8;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .notif-drop-title { font-size: 0.88rem; font-weight: 600; color: #1a237e; }
+    .notif-mark-all { font-size: 0.73rem; color: #4285F4; font-weight: 600; cursor: pointer; border: none; background: none; font-family: inherit; }
+    .notif-item {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f7f9fc;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .notif-item:hover { background: #f7f9fc; }
+    .notif-item.unread { background: #f0f5ff; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 0.8rem; color: #1a237e; line-height: 1.4; font-weight: 500; }
+    .notif-time { font-size: 0.7rem; color: #9fa8b8; margin-top: 0.2rem; }
+    .notif-dot { width: 7px; height: 7px; border-radius: 50%; background: #4285F4; flex-shrink: 0; margin-top: 6px; }
+    .notif-drop-foot { padding: 0.7rem 1rem; text-align: center; }
+    .notif-drop-foot a { font-size: 0.78rem; color: #4285F4; font-weight: 600; text-decoration: none; }
+
+  </style>
+  <script src="../lucide.min.js"></script>
+  <script>window.addEventListener("load", function(){ if(window.lucide){ lucide.createIcons(); } });</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../images/logo.png" alt="StressCare" style="height:40px;width:auto;object-fit:contain;display:block;">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a class="nav-item" href="admin-dashboard.html"><span class="nav-icon"><i data-lucide="bar-chart-2" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Dashboard</a>
+
+      <a class="nav-item" href="user-management.html"><span class="nav-icon"><i data-lucide="users" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> User Management</a>
+
+      <div class="nav-section-label">Management</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="package" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Subscriptions</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="subscription-plans.html"><i data-lucide="clipboard-list" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Plan</a>
+          <a class="nav-sub-item" href="subscription-records.html"><i data-lucide="folder-open" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Subscription Records</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="wallet" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Finance</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="payment-management.html"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Payment Management</a>
+          <a class="nav-sub-item" href="revenue-analytics.html"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Revenue Analytics</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">System</div>
+
+      <div class="nav-group">
+        <div class="nav-group-header open" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> AI & Cloud</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub open">
+          <a class="nav-sub-item" href="model-management.html"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Model Management</a>
+          <a class="nav-sub-item active" href="cloud-sync-monitoring.html"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Cloud Sync</a>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleGroup(this)">
+          <div class="nav-group-left"><span class="nav-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Support</div>
+          <span class="nav-chevron">▶</span>
+        </div>
+        <div class="nav-sub">
+          <a class="nav-sub-item" href="feedback-pss.html"><i data-lucide="file-text" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Feedback / PSS</a>
+          <a class="nav-sub-item" href="notification-management.html"><i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Notification Management</a>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Config</div>
+
+      <a class="nav-item" href="admin-settings.html"><span class="nav-icon"><i data-lucide="settings" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Settings</a>
+
+    </nav>
+
+    <div style="margin:0.8rem;padding:0.8rem;background:linear-gradient(135deg,#e8f0fe,#f0f7ff);border-radius:12px;border:1px solid rgba(66,133,244,0.15);">
+      <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:#34C759;flex-shrink:0;"></div>
+        <span style="font-size:0.78rem;font-weight:700;color:var(--text);">System Status</span>
+      </div>
+      <div style="font-size:0.7rem;color:#34C759;font-weight:500;">All systems operational</div>
+    </div>
+
+    <div style="padding:0.5rem 0.6rem 0.8rem;">
+      <button class="logout-btn" onclick="logout()"><i data-lucide="power" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> &nbsp;Logout</button>
+    </div>
+  </aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <button class="menu-btn"><span></span><span></span><span></span></button>
+    <div class="search-bar">
+      <span><i data-lucide="search" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span>
+      <input type="text" placeholder="Search users, devices, records...">
+    </div>
+    <div class="topbar-right">
+      <div class="notif-wrap">
+          <div class="notif-btn" id="notifBtn" onclick="toggleNotif(event)">
+            <i data-lucide="bell" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>
+            <div class="notif-badge" id="notifBadge"></div>
+          </div>
+          <div class="notif-drop" id="notifDrop">
+            <div class="notif-drop-head">
+              <span class="notif-drop-title">Notifications</span>
+              <button class="notif-mark-all" onclick="markAllRead()">Mark all read</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8f0fe;"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Ayesha Khan subscribed to <b>Premium Plan</b></div>
+                <div class="notif-time">2 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#e8fff2;"><i data-lucide="credit-card" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment of <b>PKR 6,999</b> received from Omar Farooq</div>
+                <div class="notif-time">15 minutes ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon" style="background:#fff8e8;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Tariq Mehmood's subscription is <b>expiring soon</b></div>
+                <div class="notif-time">1 hour ago</div>
+              </div>
+              <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#f5f7ff;"><i data-lucide="bot" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">AI Model v2.4 update completed successfully</div>
+                <div class="notif-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon" style="background:#fff0f0;"><i data-lucide="ban" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+              <div class="notif-body">
+                <div class="notif-text">Payment failed for Hira Noor — card declined</div>
+                <div class="notif-time">Yesterday, 6:30 PM</div>
+              </div>
+            </div>
+            <div class="notif-drop-foot">
+              <a href="notification-management.html">View all notifications →</a>
+            </div>
+          </div>
+        </div>
+      <div class="help-btn-top"><i data-lucide="help-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+      <div class="admin-chip">
+        <div class="admin-avatar-img">AU</div>
+        <div>
+          <div class="admin-name">Admin User</div>
+          <div class="admin-role">Administrator</div>
+        </div>
+        <span style="color:var(--text-dim);font-size:0.7rem;">▾</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Cloud Sync Monitoring</h1>
+        <p>Monitor cloud synchronization status, data uploads, and system health.</p>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn">↺ Refresh</button>
+        <button class="retry-btn">↺ Retry Failed Syncs</button>
+      </div>
+    </div>
+
+    <!-- Top Stats -->
+    <div class="top-stats">
+      <div class="top-stat">
+        <div class="tstat-icon" style="background:#e8f0fe;"><i data-lucide="cloud" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="tstat-label">Total Synced Records</div>
+          <div class="tstat-value">12,48,392</div>
+          <div class="tstat-sub good">+12,584 today</div>
+        </div>
+      </div>
+      <div class="top-stat">
+        <div class="tstat-icon" style="background:#fff3e0;"><i data-lucide="alert-triangle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="tstat-label">Failed Syncs</div>
+          <div class="tstat-value">23</div>
+          <div class="tstat-sub warn">0.02% of total</div>
+        </div>
+      </div>
+      <div class="top-stat">
+        <div class="tstat-icon" style="background:#e8f4ff;"><i data-lucide="clock" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+        <div>
+          <div class="tstat-label">Last Sync Time</div>
+          <div class="tstat-value" style="font-size:1rem;">Today, 10:15 AM</div>
+          <div class="tstat-sub">2 minutes ago</div>
+        </div>
+      </div>
+      <div class="top-stat">
+        <div class="tstat-icon" style="background:#d4f5e2;"><i data-lucide="shield" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i>️</div>
+        <div>
+          <div class="tstat-label">Cloud Health</div>
+          <div class="tstat-value" style="color:var(--success);">Healthy</div>
+          <div class="tstat-sub good">All systems operational</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Upload Overview -->
+    <div class="upload-section">
+      <div class="section-head">
+        <div class="section-title">Data Upload Overview</div>
+        <a href="#" class="view-details">View Details</a>
+      </div>
+      <div class="upload-grid">
+        <!-- Sensor Data -->
+        <div class="upload-card">
+          <div class="upload-card-icon"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div class="upload-card-name">Sensor Data</div>
+          <div class="upload-card-status">Uploaded</div>
+          <div class="ring-wrap">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#e8edf5" stroke-width="8"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#4285F4" stroke-width="8"
+                stroke-dasharray="174.7 219.9" stroke-linecap="round" transform="rotate(-90 35 35)"/>
+            </svg>
+            <span class="ring-pct">98.7%</span>
+          </div>
+          <div class="upload-nums">11,02,345 / 11,17,890</div>
+          <div class="upload-trend">▲ +8,342 today</div>
+        </div>
+        <!-- Stress Predictions -->
+        <div class="upload-card">
+          <div class="upload-card-icon"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div class="upload-card-name">Stress Predictions</div>
+          <div class="upload-card-status">Uploaded</div>
+          <div class="ring-wrap">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#e8edf5" stroke-width="8"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#AF52DE" stroke-width="8"
+                stroke-dasharray="213.3 219.9" stroke-linecap="round" transform="rotate(-90 35 35)"/>
+            </svg>
+            <span class="ring-pct">97.1%</span>
+          </div>
+          <div class="upload-nums">5,12,784 / 5,28,456</div>
+          <div class="upload-trend">▲ +5,129 today</div>
+        </div>
+        <!-- Sleep Records -->
+        <div class="upload-card">
+          <div class="upload-card-icon"><i data-lucide="moon" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div class="upload-card-name">Sleep Records</div>
+          <div class="upload-card-status">Uploaded</div>
+          <div class="ring-wrap">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#e8edf5" stroke-width="8"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#34A0D4" stroke-width="8"
+                stroke-dasharray="212.0 219.9" stroke-linecap="round" transform="rotate(-90 35 35)"/>
+            </svg>
+            <span class="ring-pct">96.5%</span>
+          </div>
+          <div class="upload-nums">3,12,456 / 3,23,678</div>
+          <div class="upload-trend">▲ +2,987 today</div>
+        </div>
+        <!-- Migraine Records -->
+        <div class="upload-card">
+          <div class="upload-card-icon"><i data-lucide="dna" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div class="upload-card-name">Migraine Records</div>
+          <div class="upload-card-status">Uploaded</div>
+          <div class="ring-wrap">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#e8edf5" stroke-width="8"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#FF9500" stroke-width="8"
+                stroke-dasharray="207.0 219.9" stroke-linecap="round" transform="rotate(-90 35 35)"/>
+            </svg>
+            <span class="ring-pct">94.2%</span>
+          </div>
+          <div class="upload-nums">98,765 / 1,04,789</div>
+          <div class="upload-trend">▲ +1,203 today</div>
+        </div>
+        <!-- Feedback -->
+        <div class="upload-card">
+          <div class="upload-card-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+          <div class="upload-card-name">Feedback</div>
+          <div class="upload-card-status">Uploaded</div>
+          <div class="ring-wrap">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#e8edf5" stroke-width="8"/>
+              <circle cx="35" cy="35" r="28" fill="none" stroke="#FF9500" stroke-width="8"
+                stroke-dasharray="206.3 219.9" stroke-linecap="round" transform="rotate(-90 35 35)"/>
+            </svg>
+            <span class="ring-pct">93.8%</span>
+          </div>
+          <div class="upload-nums">45,678 / 48,756</div>
+          <div class="upload-trend">▲ +876 today</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Sync Activity -->
+    <div class="activity-section">
+      <div class="act-head">
+        <div class="section-title">Recent Sync Activity</div>
+        <a href="#" class="view-logs">View All Logs</a>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>User / Device</th>
+            <th>Sync Type</th>
+            <th>Records</th>
+            <th>Status</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="time-cell">22 May, 2025 10:15:32 AM</div></td>
+            <td>
+              <div class="user-cell">
+                <div class="user-ava"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="user-name">Ahmed Hassan</div>
+                  <div class="user-device">Pixel 8 Pro</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="sync-type">
+                <span class="sync-icon"><i data-lucide="trending-up" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Sensor Data
+              </div>
+            </td>
+            <td><span class="records-val">2,450</span></td>
+            <td><span class="status-pill status-success">✓ Success</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span class="details-cell">Synced in 18s</span>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="time-cell">22 May, 2025 10:14:08 AM</div></td>
+            <td>
+              <div class="user-cell">
+                <div class="user-ava"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="user-name">Sara Malik</div>
+                  <div class="user-device">iPhone 15</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="sync-type">
+                <span class="sync-icon"><i data-lucide="cpu" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Stress Predictions
+              </div>
+            </td>
+            <td><span class="records-val">1,245</span></td>
+            <td><span class="status-pill status-success">✓ Success</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span class="details-cell">Synced in 12s</span>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="time-cell">22 May, 2025 10:12:45 AM</div></td>
+            <td>
+              <div class="user-cell">
+                <div class="user-ava"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="user-name">Muhammad Imran</div>
+                  <div class="user-device">Galaxy S24</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="sync-type">
+                <span class="sync-icon"><i data-lucide="moon" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Sleep Records
+              </div>
+            </td>
+            <td><span class="records-val">890</span></td>
+            <td><span class="status-pill status-success">✓ Success</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span class="details-cell">Synced in 9s</span>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="time-cell">22 May, 2025 10:11:22 AM</div></td>
+            <td>
+              <div class="user-cell">
+                <div class="user-ava"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="user-name">Ayesha Siddiqui</div>
+                  <div class="user-device">iPhone 14</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="sync-type">
+                <span class="sync-icon"><i data-lucide="dna" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Migraine Records
+              </div>
+            </td>
+            <td><span class="records-val">156</span></td>
+            <td><span class="status-pill status-failed">✗ Failed</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span class="details-cell">Network timeout</span>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="time-cell">22 May, 2025 10:09:55 AM</div></td>
+            <td>
+              <div class="user-cell">
+                <div class="user-ava"><i data-lucide="user" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></div>
+                <div>
+                  <div class="user-name">Bilal Qureshi</div>
+                  <div class="user-device">Pixel 7</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="sync-type">
+                <span class="sync-icon"><i data-lucide="message-circle" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></span> Feedback
+              </div>
+            </td>
+            <td><span class="records-val">78</span></td>
+            <td><span class="status-pill status-success">✓ Success</span></td>
+            <td>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span class="details-cell">Synced in 6s</span>
+                <button class="more-btn">⋮</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 StressCare. All rights reserved.</div>
+</div>
+
+<!-- View Details Modal -->
+<div class="modal-overlay" id="syncDetailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:18px;padding:2rem;width:480px;max-width:95%;box-shadow:0 16px 48px rgba(0,0,0,0.18);position:relative;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+      <div style="font-size:1rem;font-weight:800;color:#1a237e;">Sync Session Details</div>
+      <button onclick="closeSyncDetail()" style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:#9aa4bc;line-height:1;"><i data-lucide="x" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i></button>
+    </div>
+    <div id="syncDetailBody" style="display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;">
+      <!-- Filled by JS -->
+    </div>
+    <div style="margin-top:1.5rem;display:flex;gap:0.7rem;">
+      <button onclick="closeSyncDetail()" style="flex:1;padding:0.6rem;border:1.5px solid #e8edf5;background:none;border-radius:10px;font-size:0.84rem;color:#6b7ca0;cursor:pointer;font-family:inherit;font-weight:600;">Close</button>
+      <button style="flex:1;padding:0.6rem;background:#4285F4;color:white;border:none;border-radius:10px;font-size:0.84rem;font-weight:600;cursor:pointer;font-family:inherit;"><i data-lucide="download" style="width:1em;height:1em;vertical-align:-0.125em;display:inline-block;"></i> Export Log</button>
+    </div>
+  </div>
+</div>
+<style>
+#syncDetailModal { display:none; }
+#syncDetailModal.open { display:flex !important; }
+.sync-detail-item { background:#f4f7fb; border-radius:10px; padding:0.75rem 0.9rem; }
+.sync-detail-label { font-size:0.7rem; font-weight:600; color:#6b7ca0; margin-bottom:0.3rem; }
+.sync-detail-val { font-size:0.9rem; font-weight:700; color:#1a237e; }
+.logout-btn {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.6rem 0.9rem; color: #FF3B30; font-size: 0.83rem; font-weight: 600;
+  cursor: pointer; border: 1.5px solid rgba(255,59,48,0.22);
+  background: rgba(255,59,48,0.06); font-family: inherit; width: 100%; border-radius: 10px; transition: all 0.15s;
+}
+.logout-btn:hover { background: rgba(255,59,48,0.13); border-color: rgba(255,59,48,0.38); }
+</style>
+
+<script>
+    function logout() {
+      sessionStorage.removeItem('sc_admin_auth');
+      window.location.replace('admin-login.html');
+    }
+    function toggleGroup(header) {
+      header.classList.toggle('open');
+      const sub = header.nextElementSibling;
+      sub.classList.toggle('open');
+    }
+    /* ── View Details Modal ── */
+    const syncData = [
+      { user:'Ahmed Hassan', device:'Pixel 8 Pro', type:'Sensor Data', records:'2,450', status:'Success', time:'22 May, 2025 10:15 AM', duration:'4.2s', size:'1.8 MB', ip:'192.168.1.10', region:'PK-Karachi' },
+      { user:'Fatima Malik', device:'iPhone 15', type:'PSS Survey', records:'1', status:'Success', time:'22 May, 2025 9:58 AM', duration:'0.8s', size:'12 KB', ip:'192.168.1.42', region:'PK-Lahore' },
+      { user:'Bilal Ahmed', device:'Galaxy S24', type:'Feedback', records:'3', status:'Failed', time:'22 May, 2025 9:30 AM', duration:'—', size:'—', ip:'10.0.0.5', region:'PK-Islamabad' },
+      { user:'Sana Riaz', device:'iPhone 14 Pro', type:'Profile Sync', records:'12', status:'Success', time:'22 May, 2025 8:45 AM', duration:'1.1s', size:'45 KB', ip:'172.16.0.8', region:'PK-Karachi' },
+      { user:'Arsalan Sheikh', device:'Pixel 7', type:'Feedback', records:'78', status:'Success', time:'22 May, 2025 7:20 AM', duration:'6.0s', size:'320 KB', ip:'192.168.2.5', region:'PK-Faisalabad' },
+    ];
+    let currentSyncIdx = 0;
+
+    function openSyncDetail(i) {
+      currentSyncIdx = i;
+      const d = syncData[i] || syncData[0];
+      document.getElementById('syncDetailBody').innerHTML = `
+        <div class="sync-detail-item"><div class="sync-detail-label">User</div><div class="sync-detail-val">${d.user}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Device</div><div class="sync-detail-val">${d.device}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Sync Type</div><div class="sync-detail-val">${d.type}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Records Synced</div><div class="sync-detail-val">${d.records}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Status</div><div class="sync-detail-val" style="color:${d.status==='Success'?'#34C759':'#FF3B30'};">${d.status==='Success'?'✓ Success':'✗ Failed'}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Duration</div><div class="sync-detail-val">${d.duration}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Data Size</div><div class="sync-detail-val">${d.size}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Timestamp</div><div class="sync-detail-val" style="font-size:0.78rem;">${d.time}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">IP Address</div><div class="sync-detail-val">${d.ip}</div></div>
+        <div class="sync-detail-item"><div class="sync-detail-label">Region</div><div class="sync-detail-val">${d.region}</div></div>
+      `;
+      document.getElementById('syncDetailModal').classList.add('open');
+    }
+
+    function closeSyncDetail() {
+      document.getElementById('syncDetailModal').classList.remove('open');
+    }
+
+    document.getElementById('syncDetailModal').addEventListener('click', function(e) {
+      if (e.target === this) closeSyncDetail();
+    });
+
+    /* Wire up all View Details links */
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.action-link').forEach((link, i) => {
+        link.style.cursor = 'pointer';
+        link.onclick = function(e) { e.preventDefault(); openSyncDetail(i); };
+      });
+    });
+
+    function toggleNotif(e) {
+      e.stopPropagation();
+      const drop = document.getElementById('notifDrop');
+      drop.classList.toggle('open');
+    }
+    function markAllRead() {
+      document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+      document.querySelectorAll('.notif-dot').forEach(el => el.style.display = 'none');
+      const badge = document.getElementById('notifBadge');
+      if (badge) badge.style.display = 'none';
+    }
+    document.addEventListener('click', function(e) {
+      const drop = document.getElementById('notifDrop');
+      if (drop && !drop.closest('.notif-wrap').contains(e.target)) {
+        drop.classList.remove('open');
+      }
+    });
+
+</script>
+</body>
+</html>
