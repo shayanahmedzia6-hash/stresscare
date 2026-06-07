@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Calibration</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/device-setup.css">
+</head>
+<body>
+  <div class="screen">
+    <div class="screen-header">
+      <a href="device-pairing.html" class="back-btn">←</a>
+      <h1>Calibration</h1>
+    </div>
+
+    <div class="screen-main">
+      <div class="setup-container">
+        <div class="alert alert-info">
+          <strong>Info:</strong> We'll record your baseline vitals to calibrate stress detection. This takes about 5 minutes.
+        </div>
+
+        <div class="calibration-form">
+          <h3>Record Your Baseline</h3>
+          
+          <div class="form-group">
+            <label for="restingHR">Resting Heart Rate (bpm)</label>
+            <input type="number" id="restingHR" placeholder="Enter your resting HR" required>
+          </div>
+
+          <div class="form-group">
+            <label for="bp">Blood Pressure (Sys/Dia)</label>
+            <div class="input-group">
+              <input type="number" placeholder="120" style="flex: 1;">
+              <span style="align-self: center; padding: 0 var(--spacing-sm);">/</span>
+              <input type="number" placeholder="80" style="flex: 1;">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="respirationRate">Respiration Rate (breaths/min)</label>
+            <input type="number" id="respirationRate" placeholder="Enter your respiration rate" required>
+          </div>
+
+          <div class="form-group">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" placeholder="Any other relevant information..."></textarea>
+          </div>
+
+          <button class="btn btn-primary btn-block btn-lg">Save Baseline</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-footer">
+      <button class="btn btn-ghost btn-block" onclick="window.location.href='home.html'">Skip Calibration</button>
+    </div>
+  </div>
+</body>
+</html>

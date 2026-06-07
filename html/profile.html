@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Profile</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="home.html" class="back-btn">←</a>
+      <h1>Profile</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- User Info -->
+      <div class="user-card">
+        <div class="avatar">👤</div>
+        <div class="user-info">
+          <h2>John Doe</h2>
+          <p class="user-email">john@example.com</p>
+          <p class="user-plan">Premium Plan • Since June 2024</p>
+        </div>
+      </div>
+
+      <a href="#" class="btn btn-outline btn-block btn-sm">Edit Profile</a>
+
+      <!-- Stats -->
+      <h3 class="section-title">Your Statistics</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Sessions</div>
+          <div class="stat-value">148</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg Stress</div>
+          <div class="stat-value">58</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Current Streak</div>
+          <div class="stat-value">7 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Stress Reduced</div>
+          <div class="stat-value">22%</div>
+        </div>
+      </div>
+
+      <!-- Menu Items -->
+      <h3 class="section-title">Account</h3>
+      <div class="menu-list">
+        <a href="settings.html" class="menu-item">
+          <span class="menu-icon">⚙️</span>
+          <span class="menu-text">Settings</span>
+          <span class="menu-arrow">→</span>
+        </a>
+
+        <a href="device-management.html" class="menu-item">
+          <span class="menu-icon">📱</span>
+          <span class="menu-text">Device Management</span>
+          <span class="menu-arrow">→</span>
+        </a>
+
+        <a href="cloud-sync.html" class="menu-item">
+          <span class="menu-icon">☁️</span>
+          <span class="menu-text">Cloud Sync & Backup</span>
+          <span class="menu-arrow">→</span>
+        </a>
+
+        <a href="subscription.html" class="menu-item">
+          <span class="menu-icon">💳</span>
+          <span class="menu-text">Subscription</span>
+          <span class="menu-arrow">→</span>
+        </a>
+      </div>
+
+      <h3 class="section-title">Support</h3>
+      <div class="menu-list">
+        <a href="help.html" class="menu-item">
+          <span class="menu-icon">❓</span>
+          <span class="menu-text">Help & Support</span>
+          <span class="menu-arrow">→</span>
+        </a>
+
+        <a href="#" class="menu-item" onclick="logout()">
+          <span class="menu-icon">🚪</span>
+          <span class="menu-text">Logout</span>
+          <span class="menu-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item active">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function logout() {
+      alert('Logged out successfully!');
+      window.location.href = '../html/splash.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Monitoring</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/monitoring.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="home.html" class="back-btn">←</a>
+      <h1>Real-Time Monitor</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- Timer -->
+      <div class="monitoring-card">
+        <div class="timer">
+          <div class="time-display">12:34</div>
+          <div class="time-label">Session Time</div>
+        </div>
+        <div class="monitoring-controls">
+          <button class="btn btn-primary">Start</button>
+          <button class="btn btn-outline">Pause</button>
+          <button class="btn btn-secondary">Stop</button>
+        </div>
+      </div>
+
+      <!-- Live Metrics -->
+      <h3 class="section-title">Live Metrics</h3>
+      <div class="metrics-container">
+        <div class="metric-card">
+          <div class="metric-label">Heart Rate</div>
+          <div class="metric-value">72 <span>bpm</span></div>
+          <div class="metric-trend trend-up">↑ +2</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Stress Level</div>
+          <div class="metric-value">62 <span>/100</span></div>
+          <div class="metric-trend trend-stable">→ stable</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Respiration</div>
+          <div class="metric-value">16 <span>br/m</span></div>
+          <div class="metric-trend trend-down">↓ -1</div>
+        </div>
+      </div>
+
+      <!-- Alert -->
+      <div class="alert alert-warning">
+        ⚠️ Your stress level is elevated. Consider taking a break.
+      </div>
+
+      <!-- Trend Chart Placeholder -->
+      <h3 class="section-title">Stress Trend (Last 30 min)</h3>
+      <div class="chart-placeholder">
+        <svg viewBox="0 0 300 150" style="width: 100%; height: 150px;">
+          <polyline points="10,100 30,80 50,70 70,85 90,60 110,75 130,55 150,70 170,50 190,65 210,45 230,60 250,40 270,55 290,35" 
+                    fill="none" stroke="#6C63FF" stroke-width="3"/>
+          <line x1="10" y1="120" x2="290" y2="120" stroke="#E5E7EB" stroke-width="1"/>
+          <text x="5" y="140" font-size="10" fill="#999">0 min</text>
+          <text x="280" y="140" font-size="10" fill="#999">30 min</text>
+        </svg>
+      </div>
+
+      <!-- Notes -->
+      <div class="notes-section">
+        <label>Session Notes</label>
+        <textarea placeholder="What were you doing during this session?"></textarea>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item active">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

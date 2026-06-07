@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Interventions</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/interventions.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="home.html" class="back-btn">←</a>
+      <h1>Wellness Interventions</h1>
+    </div>
+
+    <div class="screen-main">
+      <p class="intro-text">Choose a relaxation technique to reduce your stress level.</p>
+
+      <!-- Breathing Exercise -->
+      <div class="intervention-card">
+        <div class="intervention-header">
+          <span class="intervention-icon">🫁</span>
+          <h3>Guided Breathing</h3>
+        </div>
+        <p class="intervention-desc">Slow, controlled breathing to calm your nervous system.</p>
+        <div class="exercise-details">
+          <span>⏱️ 5-10 minutes</span>
+          <span>★★★★★</span>
+        </div>
+        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('breathing')">Start Exercise</a>
+      </div>
+
+      <!-- Meditation -->
+      <div class="intervention-card">
+        <div class="intervention-header">
+          <span class="intervention-icon">🧘</span>
+          <h3>Mindfulness Meditation</h3>
+        </div>
+        <p class="intervention-desc">Guided meditation to focus your mind and reduce anxiety.</p>
+        <div class="exercise-details">
+          <span>⏱️ 10-15 minutes</span>
+          <span>★★★★☆</span>
+        </div>
+        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('meditation')">Start Exercise</a>
+      </div>
+
+      <!-- Progressive Relaxation -->
+      <div class="intervention-card">
+        <div class="intervention-header">
+          <span class="intervention-icon">💪</span>
+          <h3>Progressive Muscle Relaxation</h3>
+        </div>
+        <p class="intervention-desc">Tense and relax different muscle groups for physical relaxation.</p>
+        <div class="exercise-details">
+          <span>⏱️ 15-20 minutes</span>
+          <span>★★★★★</span>
+        </div>
+        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('pmr')">Start Exercise</a>
+      </div>
+
+      <!-- Visualization -->
+      <div class="intervention-card">
+        <div class="intervention-header">
+          <span class="intervention-icon">🌅</span>
+          <h3>Guided Visualization</h3>
+        </div>
+        <p class="intervention-desc">Imagine calming scenes to transport your mind to peaceful places.</p>
+        <div class="exercise-details">
+          <span>⏱️ 10 minutes</span>
+          <span>★★★★☆</span>
+        </div>
+        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('visualization')">Start Exercise</a>
+      </div>
+
+      <!-- Yoga -->
+      <div class="intervention-card">
+        <div class="intervention-header">
+          <span class="intervention-icon">🧘‍♀️</span>
+          <h3>Gentle Yoga</h3>
+        </div>
+        <p class="intervention-desc">Easy yoga poses to stretch and calm your body.</p>
+        <div class="exercise-details">
+          <span>⏱️ 12 minutes</span>
+          <span>★★★★☆</span>
+        </div>
+        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('yoga')">Start Exercise</a>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function startExercise(type) {
+      alert('Starting ' + type + ' exercise...');
+    }
+  </script>
+</body>
+</html>

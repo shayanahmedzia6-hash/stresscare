@@ -1,0 +1,76 @@
+/* Notifications Screen Styles */
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.notification-item {
+  background-color: var(--white);
+  border-left: 4px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+  position: relative;
+}
+
+.notification-item.alert-type {
+  border-color: var(--secondary-color);
+  background-color: rgba(255, 107, 107, 0.05);
+}
+
+.notification-item.achievement-type {
+  border-color: var(--warning-color);
+  background-color: rgba(255, 165, 0, 0.05);
+}
+
+.notification-item.reminder-type {
+  border-color: var(--primary-color);
+  background-color: rgba(108, 99, 255, 0.05);
+}
+
+.notification-icon {
+  font-size: var(--font-size-2xl);
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.notification-desc {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-sm);
+}
+
+.notification-time {
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: var(--font-size-lg);
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.btn-close:hover {
+  color: var(--dark-color);
+}

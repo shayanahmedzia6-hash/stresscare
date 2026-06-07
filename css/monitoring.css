@@ -1,0 +1,112 @@
+/* Monitoring Screen Styles */
+
+.monitoring-card {
+  background-color: var(--gray-50);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.timer {
+  margin-bottom: var(--spacing-lg);
+}
+
+.time-display {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-family: 'Courier New', monospace;
+  margin-bottom: var(--spacing-sm);
+}
+
+.time-label {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+}
+
+.monitoring-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+
+.monitoring-controls .btn {
+  margin: 0;
+  padding: var(--spacing-md);
+}
+
+.metrics-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.metric-card {
+  background-color: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.metric-label {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+}
+
+.metric-value {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--dark-color);
+}
+
+.metric-value span {
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  color: var(--gray-600);
+}
+
+.metric-trend {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: right;
+}
+
+.trend-up {
+  color: var(--danger-color);
+}
+
+.trend-down {
+  color: var(--success-color);
+}
+
+.trend-stable {
+  color: var(--warning-color);
+}
+
+.chart-placeholder {
+  background-color: var(--gray-50);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--gray-200);
+}
+
+.notes-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.notes-section label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+  .metrics-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

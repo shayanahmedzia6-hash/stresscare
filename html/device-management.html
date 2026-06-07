@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Device Management</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/device-management.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="profile.html" class="back-btn">←</a>
+      <h1>Device Management</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- Connected Devices -->
+      <h3 class="section-title">Connected Devices</h3>
+      <div class="device-list">
+        <div class="device-card connected">
+          <div class="device-header">
+            <div class="device-name">Fitbit Charge 5</div>
+            <span class="device-status-badge">Connected</span>
+          </div>
+          <div class="device-details">
+            <p>Battery: <strong>85%</strong></p>
+            <p>Last Sync: <strong>2 minutes ago</strong></p>
+            <p>Status: <strong>Syncing data...</strong></p>
+          </div>
+          <div class="device-actions">
+            <button class="btn btn-sm btn-outline">Settings</button>
+            <button class="btn btn-sm btn-secondary">Disconnect</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Available Devices -->
+      <h3 class="section-title">Available Devices</h3>
+      <p class="subtitle">Add more wearables to track your data from multiple sources.</p>
+      <div class="device-list">
+        <div class="device-card available">
+          <div class="device-name">Apple Watch Series 8</div>
+          <button class="btn btn-primary btn-sm">Pair Device</button>
+        </div>
+
+        <div class="device-card available">
+          <div class="device-name">Garmin Vívosmart 5</div>
+          <button class="btn btn-primary btn-sm">Pair Device</button>
+        </div>
+
+        <div class="device-card available">
+          <div class="device-name">Samsung Galaxy Watch</div>
+          <button class="btn btn-primary btn-sm">Pair Device</button>
+        </div>
+
+        <div class="device-card available">
+          <div class="device-name">Withings ScanWatch</div>
+          <button class="btn btn-primary btn-sm">Pair Device</button>
+        </div>
+      </div>
+
+      <!-- Recently Paired -->
+      <h3 class="section-title">Pairing History</h3>
+      <div class="history-list">
+        <div class="history-item">
+          <span>Fitbit Charge 5</span>
+          <span class="time">Paired on June 3, 2024</span>
+        </div>
+        <div class="history-item">
+          <span>Phone Sensors</span>
+          <span class="time">Paired on June 1, 2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

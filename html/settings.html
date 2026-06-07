@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Settings</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/settings.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="profile.html" class="back-btn">←</a>
+      <h1>Settings</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- General Settings -->
+      <h3 class="section-title">General</h3>
+      <div class="settings-group">
+        <div class="setting-item">
+          <div class="setting-label">
+            <label for="theme">Theme</label>
+          </div>
+          <select id="theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="auto">Auto</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">
+            <label for="language">Language</label>
+          </div>
+          <select id="language">
+            <option value="en">English</option>
+            <option value="hi">Hindi</option>
+            <option value="es">Spanish</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Notifications Settings -->
+      <h3 class="section-title">Notifications</h3>
+      <div class="settings-group">
+        <div class="setting-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" checked>
+            <span class="toggle-text">Enable Notifications</span>
+          </label>
+        </div>
+
+        <div class="setting-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" checked>
+            <span class="toggle-text">High Stress Alerts</span>
+          </label>
+        </div>
+
+        <div class="setting-toggle">
+          <label class="toggle-label">
+            <input type="checkbox">
+            <span class="toggle-text">Daily Reminder</span>
+          </label>
+        </div>
+
+        <div class="setting-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" checked>
+            <span class="toggle-text">Achievement Badges</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Privacy & Data -->
+      <h3 class="section-title">Privacy & Data</h3>
+      <div class="settings-group">
+        <div class="setting-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" checked>
+            <span class="toggle-text">Share Health Data</span>
+          </label>
+        </div>
+
+        <div class="setting-toggle">
+          <label class="toggle-label">
+            <input type="checkbox">
+            <span class="toggle-text">Analytics</span>
+          </label>
+        </div>
+
+        <a href="#" class="setting-link">Privacy Policy →</a>
+        <a href="#" class="setting-link">Terms of Service →</a>
+      </div>
+
+      <!-- Advanced -->
+      <h3 class="section-title">Advanced</h3>
+      <div class="settings-group">
+        <button class="btn btn-outline btn-block btn-sm">Clear Cache</button>
+        <button class="btn btn-outline btn-block btn-sm">Export Data</button>
+        <button class="btn btn-secondary btn-block btn-sm" onclick="deleteAccount()">Delete Account</button>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function deleteAccount() {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        alert('Account deletion initiated.');
+      }
+    }
+  </script>
+</body>
+</html>

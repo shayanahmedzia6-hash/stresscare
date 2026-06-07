@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Dashboard</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <h1>StressCare</h1>
+      <div class="header-icons">
+        <a href="notifications.html">🔔</a>
+        <a href="profile.html">👤</a>
+      </div>
+    </div>
+
+    <div class="screen-main">
+      <!-- Current Stress Level -->
+      <div class="stress-card">
+        <div class="stress-level">
+          <div class="stress-gauge">
+            <svg viewBox="0 0 100 50" style="width: 100%; height: 80px;">
+              <path d="M 10 45 A 35 35 0 0 1 90 45" fill="none" stroke="#E5E7EB" stroke-width="8" stroke-linecap="round"/>
+              <path d="M 10 45 A 35 35 0 0 1 50 15" fill="none" stroke="#6C63FF" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="stress-value">
+            <span class="value">65</span>
+            <span class="unit">/ 100</span>
+          </div>
+        </div>
+        <div class="stress-label">Current Stress Level</div>
+        <div class="stress-status">Moderate - Take a break</div>
+      </div>
+
+      <!-- Vital Signs -->
+      <h3 class="section-title">Your Vitals</h3>
+      <div class="vitals-grid">
+        <div class="vital-card">
+          <div class="vital-icon">❤️</div>
+          <div class="vital-info">
+            <div class="vital-value">72</div>
+            <div class="vital-label">BPM</div>
+          </div>
+        </div>
+
+        <div class="vital-card">
+          <div class="vital-icon">🫁</div>
+          <div class="vital-info">
+            <div class="vital-value">16</div>
+            <div class="vital-label">RR</div>
+          </div>
+        </div>
+
+        <div class="vital-card">
+          <div class="vital-icon">🌡️</div>
+          <div class="vital-info">
+            <div class="vital-value">98.6</div>
+            <div class="vital-label">°F</div>
+          </div>
+        </div>
+
+        <div class="vital-card">
+          <div class="vital-icon">⚡</div>
+          <div class="vital-info">
+            <div class="vital-value">120/80</div>
+            <div class="vital-label">mmHg</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <h3 class="section-title">Quick Actions</h3>
+      <div class="action-buttons">
+        <a href="monitoring.html" class="btn btn-secondary btn-block">Start Monitoring</a>
+        <a href="interventions.html" class="btn btn-primary btn-block">Relaxation Exercise</a>
+      </div>
+
+      <!-- Today's Stats -->
+      <h3 class="section-title">Today's Stats</h3>
+      <div class="stats-container">
+        <div class="stat-row">
+          <div class="stat-label">Average Stress</div>
+          <div class="stat-value">58</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label">Peak Stress</div>
+          <div class="stat-value">78</div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label">Relaxed Time</div>
+          <div class="stat-value">2h 15m</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item active">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

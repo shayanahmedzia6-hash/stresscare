@@ -1,0 +1,56 @@
+/* Interventions Screen Styles */
+
+.intro-text {
+  text-align: center;
+  color: var(--gray-600);
+  margin-bottom: var(--spacing-lg);
+}
+
+.intervention-card {
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  transition: all var(--transition-base);
+}
+
+.intervention-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.intervention-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.intervention-icon {
+  font-size: var(--font-size-2xl);
+}
+
+.intervention-header h3 {
+  margin: 0;
+  color: var(--dark-color);
+  font-size: var(--font-size-lg);
+}
+
+.intervention-desc {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.exercise-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+}
+
+.intervention-card .btn {
+  margin: 0;
+}

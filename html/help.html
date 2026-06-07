@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Help & Support</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/help.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="profile.html" class="back-btn">←</a>
+      <h1>Help & Support</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- FAQ Section -->
+      <h3 class="section-title">Frequently Asked Questions</h3>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFAQ(this)">
+            <span>How does StressCare measure stress?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p>StressCare uses advanced AI algorithms to analyze your heart rate variability, respiration rate, and other biometric markers from your connected wearable device to calculate your stress level.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFAQ(this)">
+            <span>Which devices are supported?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p>We support most popular wearables including Fitbit, Apple Watch, Garmin, Samsung Galaxy Watch, and many others. Check the Device Management section for a complete list.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFAQ(this)">
+            <span>Is my data secure?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p>Yes, all your data is encrypted and stored securely on our servers. We follow HIPAA and GDPR compliance standards to ensure your privacy.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFAQ(this)">
+            <span>How often should I calibrate?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p>We recommend calibrating your device weekly for the most accurate stress detection. Calibration ensures the app understands your unique baseline vitals.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header" onclick="toggleFAQ(this)">
+            <span>Can I export my data?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-content">
+            <p>Yes! You can export your data in CSV or PDF format from the Settings > Advanced menu. Your data is yours to keep.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Support -->
+      <h3 class="section-title">Contact Support</h3>
+      <div class="support-card">
+        <div class="support-option">
+          <span class="support-icon">📧</span>
+          <div class="support-info">
+            <h4>Email Support</h4>
+            <p>support@stresscare.app</p>
+          </div>
+        </div>
+
+        <div class="support-option">
+          <span class="support-icon">💬</span>
+          <div class="support-info">
+            <h4>Live Chat</h4>
+            <p>Available 9 AM - 6 PM EST</p>
+          </div>
+          <button class="btn btn-primary btn-sm">Start Chat</button>
+        </div>
+
+        <div class="support-option">
+          <span class="support-icon">📞</span>
+          <div class="support-info">
+            <h4>Phone Support</h4>
+            <p>+1 (800) STRESS-1</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- App Info -->
+      <h3 class="section-title">App Information</h3>
+      <div class="app-info">
+        <div class="info-row">
+          <span>App Version</span>
+          <strong>2.4.1</strong>
+        </div>
+        <div class="info-row">
+          <span>Build Number</span>
+          <strong>20240605</strong>
+        </div>
+        <div class="info-row">
+          <span>Last Updated</span>
+          <strong>June 5, 2024</strong>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="links-section">
+        <a href="#" class="link-item">Privacy Policy</a>
+        <a href="#" class="link-item">Terms of Service</a>
+        <a href="#" class="link-item">Community Forum</a>
+        <a href="#" class="link-item">Report a Bug</a>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function toggleFAQ(header) {
+      const item = header.parentElement;
+      item.classList.toggle('open');
+      const icon = header.querySelector('.faq-icon');
+      icon.textContent = item.classList.contains('open') ? '−' : '+';
+    }
+  </script>
+</body>
+</html>

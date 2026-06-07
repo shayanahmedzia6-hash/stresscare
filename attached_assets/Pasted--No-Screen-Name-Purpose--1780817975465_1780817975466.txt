@@ -1,0 +1,57 @@
+
+| No. | Screen Name                    | Purpose                             |
+| --: | ------------------------------ | ----------------------------------- |
+|   1 | Splash Screen                  | App loading and branding            |
+|   2 | Onboarding Screens             | Introduce app features              |
+|   3 | Register Screen                | New user account creation           |
+|   4 | Login Screen                   | Existing user authentication        |
+|   5 | Forgot Password Screen         | Password recovery                   |
+
+|   7 | Subscription Plan Screen       | Free/Premium plan selection         |
+|   8 | Device Pairing Screen          | Connect wearable through BLE        |
+|   9 | Calibration Screen             | Record user baseline values         |
+|  10 | Home Dashboard                 | Show current stress and vitals      |
+|  11 | Monitoring Screen              | Real-time stress monitoring         |
+|  12 | History Screen                 | View previous stress records        |
+|  13 | Report Detail Screen           | Detailed daily/weekly reports       |
+|  14 | Interventions Screen           | Breathing, meditation, relaxation   |
+|  15 | Feedback/PSS Screen            | User feedback and PSS questionnaire |
+|  16 | Insights Screen                | Sleep and migraine risk insights    |
+|  17 | Sleep Analysis Screen          | Sleep quality and duration          |
+|  18 | Migraine Risk Detail Screen    | Migraine risk factors and advice    |
+|  19 | Notifications Screen           | Alerts and reminders                |
+|  20 | Profile Screen                 | User details and plan               |
+|  21 | Settings Screen                | App preferences                     |
+|  22 | Device Management Screen       | Manage wearable connection          |
+|  23 | Cloud Sync/Model Update Screen | Sync data and update model          |
+|  24 | Help & Support Screen          | User assistance                     |
+; mujhe ap frontend main ye sab rakhna 
+
+
+| No. | Screen Name                    | Purpose                             |
+| --: | ------------------------------ | ----------------------------------- |
+|   1 | Splash Screen                  | App loading and branding            |
+|   2 | Onboarding Screens             | Introduce app features              |
+|   3 | Register Screen                | New user account creation           |
+|   4 | Login Screen                   | Existing user authentication        |
+|   5 | Forgot Password Screen         | Password recovery                   |
+
+|   7 | Subscription Plan Screen       | Free/Premium plan selection         |
+|   8 | Device Pairing Screen          | Connect wearable through BLE        |
+|   9 | Calibration Screen             | Record user baseline values         |
+|  10 | Home Dashboard                 | Show current stress and vitals      |
+|  11 | Monitoring Screen              | Real-time stress monitoring         |
+|  12 | History Screen                 | View previous stress records        |
+|  13 | Report Detail Screen           | Detailed daily/weekly reports       |
+|  14 | Interventions Screen           | Breathing, meditation, relaxation   |
+|  15 | Feedback/PSS Screen            | User feedback and PSS questionnaire |
+|  16 | Insights Screen                | Sleep and migraine risk insights    |
+|  17 | Sleep Analysis Screen          | Sleep quality and duration          |
+|  18 | Migraine Risk Detail Screen    | Migraine risk factors and advice    |
+|  19 | Notifications Screen           | Alerts and reminders                |
+|  20 | Profile Screen                 | User details and plan               |
+|  21 | Settings Screen                | App preferences                     |
+|  22 | Device Management Screen       | Manage wearable connection          |
+|  23 | Cloud Sync/Model Update Screen | Sync data and update model          |
+|  24 | Help & Support Screen          | User assistance                     |
+; mujhe na ye mobile application banani hai html css par tw mujhe iska clean folder structure chahye usme code na ho tum mujhe zip file dedo bana ke 

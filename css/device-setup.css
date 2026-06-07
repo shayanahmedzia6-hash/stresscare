@@ -1,0 +1,69 @@
+/* Device Setup Screens Styles */
+
+.setup-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.setup-step {
+  margin-bottom: var(--spacing-2xl);
+  text-align: center;
+}
+
+.step-icon {
+  width: 50px;
+  height: 50px;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.setup-step h3 {
+  color: var(--dark-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.setup-step p {
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+}
+
+.device-list {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.device-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--gray-50);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+}
+
+.device-info {
+  flex: 1;
+  text-align: left;
+}
+
+.device-name {
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+.device-status {
+  font-size: var(--font-size-xs);
+  color: var(--success-color);
+  font-weight: 600;
+}

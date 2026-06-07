@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Device Pairing</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/device-setup.css">
+</head>
+<body>
+  <div class="screen">
+    <div class="screen-header">
+      <a href="subscription.html" class="back-btn">←</a>
+      <h1>Connect Device</h1>
+    </div>
+
+    <div class="screen-main">
+      <div class="setup-container">
+        <div class="setup-step">
+          <div class="step-icon">1</div>
+          <h3>Enable Bluetooth</h3>
+          <p>Turn on Bluetooth on your device and the wearable</p>
+        </div>
+
+        <div class="setup-step">
+          <div class="step-icon">2</div>
+          <h3>Scan for Devices</h3>
+          <p>Available devices will appear below</p>
+          
+          <div class="device-list">
+            <div class="device-item">
+              <div class="device-info">
+                <div class="device-name">Fitbit Charge 5</div>
+                <div class="device-status">Available</div>
+              </div>
+              <button class="btn btn-sm btn-primary">Pair</button>
+            </div>
+
+            <div class="device-item">
+              <div class="device-info">
+                <div class="device-name">Apple Watch Series 7</div>
+                <div class="device-status">Available</div>
+              </div>
+              <button class="btn btn-sm btn-primary">Pair</button>
+            </div>
+
+            <div class="device-item">
+              <div class="device-info">
+                <div class="device-name">Garmin Vívosmart 5</div>
+                <div class="device-status">Available</div>
+              </div>
+              <button class="btn btn-sm btn-primary">Pair</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="setup-step">
+          <div class="step-icon">3</div>
+          <h3>Confirm Pairing</h3>
+          <p>Check both devices for confirmation</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen-footer">
+      <button class="btn btn-ghost btn-block">Skip for Now</button>
+      <button class="btn btn-success btn-block" onclick="window.location.href='calibration.html'">Done</button>
+    </div>
+  </div>
+</body>
+</html>

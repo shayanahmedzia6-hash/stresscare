@@ -1,0 +1,85 @@
+/* History Screen Styles */
+
+.filter-section {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  justify-content: center;
+}
+
+.filter-section .btn {
+  margin: 0;
+  flex: 1;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.history-item {
+  margin-bottom: var(--spacing-lg);
+}
+
+.item-date {
+  font-weight: 700;
+  color: var(--dark-color);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--gray-100);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.item-entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.history-entry {
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  color: inherit;
+}
+
+.history-entry:hover {
+  background-color: var(--gray-50);
+  box-shadow: var(--shadow-md);
+}
+
+.entry-time {
+  font-weight: 700;
+  color: var(--dark-color);
+  font-size: var(--font-size-base);
+}
+
+.entry-stats {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xs);
+}
+
+.entry-stats .stat {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+}
+
+.entry-duration {
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+  margin-top: var(--spacing-xs);
+}
+
+.arrow {
+  color: var(--primary-color);
+  font-size: var(--font-size-lg);
+}

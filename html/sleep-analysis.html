@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Sleep Analysis</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/analysis.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="insights.html" class="back-btn">←</a>
+      <h1>Sleep Analysis</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- Sleep Score -->
+      <div class="analysis-card featured">
+        <div class="score-circle">
+          <div class="score-number">78</div>
+          <div class="score-label">Sleep Score</div>
+        </div>
+        <div class="score-detail">Good - Keep it up!</div>
+      </div>
+
+      <!-- Key Metrics -->
+      <h3 class="section-title">Last Night's Sleep</h3>
+      <div class="metrics-list">
+        <div class="metric-item">
+          <span class="metric-icon">🌙</span>
+          <div class="metric-details">
+            <span class="label">Sleep Duration</span>
+            <span class="value">7h 15m</span>
+          </div>
+        </div>
+
+        <div class="metric-item">
+          <span class="metric-icon">😴</span>
+          <div class="metric-details">
+            <span class="label">Deep Sleep</span>
+            <span class="value">1h 45m (24%)</span>
+          </div>
+        </div>
+
+        <div class="metric-item">
+          <span class="metric-icon">🔄</span>
+          <div class="metric-details">
+            <span class="label">REM Sleep</span>
+            <span class="value">1h 30m (21%)</span>
+          </div>
+        </div>
+
+        <div class="metric-item">
+          <span class="metric-icon">😔</span>
+          <div class="metric-details">
+            <span class="label">Awake Time</span>
+            <span class="value">25m (6%)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sleep Stages -->
+      <h3 class="section-title">Sleep Stages</h3>
+      <div class="stage-bars">
+        <div class="stage">
+          <div class="stage-label">Awake</div>
+          <div class="stage-bar" style="width: 6%; background-color: #FF6B6B;"></div>
+          <div class="stage-percent">6%</div>
+        </div>
+        <div class="stage">
+          <div class="stage-label">Light</div>
+          <div class="stage-bar" style="width: 49%; background-color: #FFA500;"></div>
+          <div class="stage-percent">49%</div>
+        </div>
+        <div class="stage">
+          <div class="stage-label">Deep</div>
+          <div class="stage-bar" style="width: 24%; background-color: #6C63FF;"></div>
+          <div class="stage-percent">24%</div>
+        </div>
+        <div class="stage">
+          <div class="stage-label">REM</div>
+          <div class="stage-bar" style="width: 21%; background-color: #51CF66;"></div>
+          <div class="stage-percent">21%</div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <h3 class="section-title">Sleep Tips</h3>
+      <div class="tips">
+        <div class="tip">
+          <span class="tip-num">1</span>
+          <p>Maintain a consistent sleep schedule by going to bed at the same time daily.</p>
+        </div>
+        <div class="tip">
+          <span class="tip-num">2</span>
+          <p>Reduce screen time 1 hour before bed to improve sleep quality.</p>
+        </div>
+        <div class="tip">
+          <span class="tip-num">3</span>
+          <p>Your deep sleep is optimal. Continue your current sleep hygiene routine.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>

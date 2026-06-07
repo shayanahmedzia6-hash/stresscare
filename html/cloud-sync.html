@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Cloud Sync</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/cloud-sync.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="profile.html" class="back-btn">←</a>
+      <h1>Cloud Sync & Backup</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- Sync Status -->
+      <div class="sync-card">
+        <h3>Last Backup</h3>
+        <div class="sync-status">
+          <div class="status-icon">✓</div>
+          <div class="status-info">
+            <p class="status-title">Successfully backed up</p>
+            <p class="status-time">Today at 2:30 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sync Options -->
+      <h3 class="section-title">Automatic Sync</h3>
+      <div class="sync-options">
+        <div class="sync-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" checked>
+            <div class="toggle-info">
+              <span class="label-text">Enable Auto Sync</span>
+              <span class="label-desc">Sync every 6 hours</span>
+            </div>
+          </label>
+        </div>
+
+        <div class="sync-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" checked>
+            <div class="toggle-info">
+              <span class="label-text">WiFi Only</span>
+              <span class="label-desc">Only sync on WiFi connection</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Model Update -->
+      <h3 class="section-title">AI Model Update</h3>
+      <div class="update-card">
+        <div class="update-header">
+          <div class="update-info">
+            <h4>StressCare Model v2.4</h4>
+            <p>Latest AI model for accurate stress detection</p>
+          </div>
+          <span class="update-status">Installed</span>
+        </div>
+
+        <div class="alert alert-info">
+          <strong>New Version Available:</strong> Version 2.5 is ready to download. It includes improved accuracy and faster detection.
+        </div>
+
+        <button class="btn btn-primary btn-block">Download Update</button>
+      </div>
+
+      <!-- Data Statistics -->
+      <h3 class="section-title">Data Storage</h3>
+      <div class="stats-card">
+        <div class="stat-row">
+          <span>Local Storage Used</span>
+          <strong>245 MB</strong>
+        </div>
+        <div class="stat-row">
+          <span>Cloud Storage Used</span>
+          <strong>180 MB</strong>
+        </div>
+        <div class="stat-row">
+          <span>Cloud Storage Total</span>
+          <strong>5 GB</strong>
+        </div>
+      </div>
+
+      <!-- Manual Actions -->
+      <h3 class="section-title">Manual Sync</h3>
+      <div class="action-buttons">
+        <button class="btn btn-outline btn-block" onclick="syncNow()">Sync Now</button>
+        <button class="btn btn-outline btn-block" onclick="backupNow()">Backup Now</button>
+        <button class="btn btn-secondary btn-block" onclick="clearData()">Clear Local Data</button>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    function syncNow() {
+      alert('Syncing data...');
+    }
+    function backupNow() {
+      alert('Creating backup...');
+    }
+    function clearData() {
+      if (confirm('Are you sure? This will clear local data but keep cloud backup.')) {
+        alert('Local data cleared.');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Splash</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/splash.css">
+</head>
+<body>
+  <div class="screen splash-screen">
+    <div class="splash-container">
+      <div class="splash-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-width="2"/>
+            <path d="M30 50 Q50 35 70 50" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h1>StressCare</h1>
+      </div>
+
+      <p class="splash-tagline">Monitor Your Stress, Improve Your Health</p>
+
+      <div class="loading-animation">
+        <div class="spinner"></div>
+      </div>
+
+      <p class="splash-text">Loading...</p>
+    </div>
+
+    <script>
+      // Navigate to onboarding after 3 seconds
+      setTimeout(() => {
+        window.location.href = '../html/onboarding-1.html';
+      }, 3000);
+    </script>
+  </div>
+</body>
+</html>

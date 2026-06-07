@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Feedback</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/feedback.css">
+</head>
+<body>
+  <div class="screen has-footer">
+    <div class="screen-header">
+      <a href="home.html" class="back-btn">←</a>
+      <h1>Feedback & Questionnaire</h1>
+    </div>
+
+    <div class="screen-main">
+      <!-- PSS Questionnaire -->
+      <div class="form-section">
+        <h3>Perceived Stress Scale (PSS-10)</h3>
+        <p class="instruction">How often have the following statements been true for you in the last month?</p>
+
+        <form id="feedbackForm">
+          <div class="form-group">
+            <label>1. In the last month, how often have you been upset because of something that happened unexpectedly?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="q1" value="never"> Never
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q1" value="rarely"> Rarely
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q1" value="sometimes"> Sometimes
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q1" value="often"> Often
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q1" value="veryOften"> Very Often
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>2. In the last month, how often have you felt that you were unable to control the important things in your life?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="q2" value="never"> Never
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q2" value="rarely"> Rarely
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q2" value="sometimes"> Sometimes
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q2" value="often"> Often
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="q2" value="veryOften"> Very Often
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>How would you rate the app's helpfulness?</label>
+            <div class="rating-stars">
+              <span class="star" data-rating="1">⭐</span>
+              <span class="star" data-rating="2">⭐</span>
+              <span class="star" data-rating="3">⭐</span>
+              <span class="star" data-rating="4">⭐</span>
+              <span class="star" data-rating="5">⭐</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="comments">Additional Comments</label>
+            <textarea id="comments" placeholder="Share your thoughts..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg">Submit Feedback</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-bottom">
+      <a href="home.html" class="nav-item">
+        <span>🏠</span>
+        <span>Home</span>
+      </a>
+      <a href="history.html" class="nav-item">
+        <span>📊</span>
+        <span>History</span>
+      </a>
+      <a href="monitoring.html" class="nav-item">
+        <span>📱</span>
+        <span>Monitor</span>
+      </a>
+      <a href="insights.html" class="nav-item">
+        <span>💡</span>
+        <span>Insights</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>
