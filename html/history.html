@@ -4,116 +4,338 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - History</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/history.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="home.html" class="back-btn">←</a>
-      <h1>History</h1>
-    </div>
 
-    <div class="screen-main">
-      <!-- Date Filter -->
-      <div class="filter-section">
-        <button class="btn btn-sm btn-outline">Week</button>
-        <button class="btn btn-sm btn-primary">Month</button>
-        <button class="btn btn-sm btn-outline">Year</button>
-      </div>
+  <div class="phone-frame">
+    <div class="hist-screen">
 
-      <!-- History Items -->
-      <div class="history-list">
-        <div class="history-item">
-          <div class="item-date">Today</div>
-          <div class="item-entries">
-            <a href="report-detail.html" class="history-entry">
-              <div class="entry-time">10:30 AM</div>
-              <div class="entry-stats">
-                <span class="stat">Stress: 65</span>
-                <span class="stat">HR: 72</span>
-              </div>
-              <div class="entry-duration">Duration: 15 min</div>
-              <span class="arrow">→</span>
-            </a>
-
-            <a href="report-detail.html" class="history-entry">
-              <div class="entry-time">02:15 PM</div>
-              <div class="entry-stats">
-                <span class="stat">Stress: 78</span>
-                <span class="stat">HR: 85</span>
-              </div>
-              <div class="entry-duration">Duration: 10 min</div>
-              <span class="arrow">→</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="history-item">
-          <div class="item-date">Yesterday</div>
-          <div class="item-entries">
-            <a href="report-detail.html" class="history-entry">
-              <div class="entry-time">09:00 AM</div>
-              <div class="entry-stats">
-                <span class="stat">Stress: 55</span>
-                <span class="stat">HR: 68</span>
-              </div>
-              <div class="entry-duration">Duration: 20 min</div>
-              <span class="arrow">→</span>
-            </a>
-
-            <a href="report-detail.html" class="history-entry">
-              <div class="entry-time">08:00 PM</div>
-              <div class="entry-stats">
-                <span class="stat">Stress: 42</span>
-                <span class="stat">HR: 62</span>
-              </div>
-              <div class="entry-duration">Duration: 25 min</div>
-              <span class="arrow">→</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="history-item">
-          <div class="item-date">June 4, 2024</div>
-          <div class="item-entries">
-            <a href="report-detail.html" class="history-entry">
-              <div class="entry-time">03:30 PM</div>
-              <div class="entry-stats">
-                <span class="stat">Stress: 70</span>
-                <span class="stat">HR: 80</span>
-              </div>
-              <div class="entry-duration">Duration: 18 min</div>
-              <span class="arrow">→</span>
-            </a>
-          </div>
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
         </div>
       </div>
-    </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item active">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="hist-scroll">
+
+        <!-- Title -->
+        <h1 class="hist-title">History</h1>
+
+        <!-- Day / Week / Month Toggle -->
+        <div class="hist-toggle">
+          <button class="hist-tab" id="tabDay" onclick="switchTab('Day')">Day</button>
+          <button class="hist-tab hist-tab-active" id="tabWeek" onclick="switchTab('Week')">Week</button>
+          <button class="hist-tab" id="tabMonth" onclick="switchTab('Month')">Month</button>
+        </div>
+
+        <!-- Stress Trend Chart -->
+        <div class="hist-card">
+          <div class="hist-card-title-row">
+            <i class="fa-solid fa-wave-square" style="color:#2563eb;font-size:13px;"></i>
+            <span class="hist-card-title">Stress Trend <span class="hist-card-sub">(Last 7 Days)</span></span>
+          </div>
+
+          <div class="hist-chart-wrap">
+            <svg id="trendChart" viewBox="0 0 320 130" preserveAspectRatio="none" style="width:100%;height:130px;">
+              <defs>
+                <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#f97316" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#f97316" stop-opacity="0.00"/>
+                </linearGradient>
+              </defs>
+              <!-- Y-axis labels -->
+              <text x="0"   y="14"  font-size="9" fill="#aab" text-anchor="start">100</text>
+              <text x="0"   y="42"  font-size="9" fill="#aab" text-anchor="start">75</text>
+              <text x="0"   y="70"  font-size="9" fill="#aab" text-anchor="start">50</text>
+              <text x="0"   y="98"  font-size="9" fill="#aab" text-anchor="start">25</text>
+              <text x="0"   y="122" font-size="9" fill="#aab" text-anchor="start">0</text>
+              <!-- Grid lines -->
+              <line x1="22" y1="10"  x2="318" y2="10"  stroke="#eef0f5" stroke-width="1"/>
+              <line x1="22" y1="38"  x2="318" y2="38"  stroke="#eef0f5" stroke-width="1"/>
+              <line x1="22" y1="66"  x2="318" y2="66"  stroke="#eef0f5" stroke-width="1"/>
+              <line x1="22" y1="94"  x2="318" y2="94"  stroke="#eef0f5" stroke-width="1"/>
+              <line x1="22" y1="118" x2="318" y2="118" stroke="#eef0f5" stroke-width="1"/>
+              <!-- Area fill under line -->
+              <!-- Points: May16=75, May17=70, May18=55, May19=28, May20=42, May21=60, May22=72 -->
+              <!-- Map value 0-100 to y: y = 118 - (val/100)*108 -->
+              <!-- May16(75)→y=37, May17(70)→y=42.4, May18(55)→y=58.6, May19(28)→y=87.8, May20(42)→y=72.6, May21(60)→y=53.2, May22(72)→y=40.2 -->
+              <polygon points="22,37 68,42 114,59 160,88 206,73 252,53 298,40 298,118 22,118" fill="url(#chartFill)"/>
+              <!-- Line -->
+              <polyline points="22,37 68,42 114,59 160,88 206,73 252,53 298,40"
+                        fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                        stroke="url(#lineGrad)" id="trendLine"/>
+              <defs>
+                <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#f97316"/>
+                  <stop offset="40%"  stop-color="#f59e0b"/>
+                  <stop offset="57%"  stop-color="#22c55e"/>
+                  <stop offset="75%"  stop-color="#f59e0b"/>
+                  <stop offset="100%" stop-color="#f97316"/>
+                </linearGradient>
+              </defs>
+              <!-- Colored dots -->
+              <circle cx="22"  cy="37" r="4.5" fill="#f97316"/>
+              <circle cx="68"  cy="42" r="4.5" fill="#f59e0b"/>
+              <circle cx="114" cy="59" r="4.5" fill="#f59e0b"/>
+              <circle cx="160" cy="88" r="4.5" fill="#22c55e"/>
+              <circle cx="206" cy="73" r="4.5" fill="#f59e0b"/>
+              <circle cx="252" cy="53" r="4.5" fill="#f59e0b"/>
+              <circle cx="298" cy="40" r="4.5" fill="#f97316"/>
+              <!-- X-axis labels -->
+              <text x="22"  y="130" font-size="7.5" fill="#9aadc9" text-anchor="middle">May 16</text>
+              <text x="22"  y="138" font-size="7" fill="#b0bcd4" text-anchor="middle">Fri</text>
+              <text x="68"  y="130" font-size="7.5" fill="#9aadc9" text-anchor="middle">May 17</text>
+              <text x="68"  y="138" font-size="7" fill="#b0bcd4" text-anchor="middle">Sat</text>
+              <text x="114" y="130" font-size="7.5" fill="#9aadc9" text-anchor="middle">May 18</text>
+              <text x="114" y="138" font-size="7" fill="#b0bcd4" text-anchor="middle">Sun</text>
+              <text x="160" y="130" font-size="7.5" fill="#9aadc9" text-anchor="middle">May 19</text>
+              <text x="160" y="138" font-size="7" fill="#b0bcd4" text-anchor="middle">Mon</text>
+              <text x="206" y="130" font-size="7.5" fill="#9aadc9" text-anchor="middle">May 20</text>
+              <text x="206" y="138" font-size="7" fill="#b0bcd4" text-anchor="middle">Tue</text>
+              <text x="252" y="130" font-size="7.5" fill="#9aadc9" text-anchor="middle">May 21</text>
+              <text x="252" y="138" font-size="7" fill="#b0bcd4" text-anchor="middle">Wed</text>
+              <text x="298" y="130" font-size="7.5" fill="#9aadc9" text-anchor="middle">May 22</text>
+              <text x="298" y="138" font-size="7" fill="#b0bcd4" text-anchor="middle">Thu</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Stress Distribution + Stats -->
+        <div class="hist-card hist-distrib-card">
+          <div class="hist-distrib-left">
+            <div class="hist-card-title" style="margin-bottom:10px;">
+              Stress Distribution <span class="hist-card-sub">(Last 7 Days)</span>
+            </div>
+            <!-- Donut chart -->
+            <div class="hist-donut-wrap">
+              <svg viewBox="0 0 120 120" class="hist-donut-svg">
+                <!-- High (15%) = 54°, Moderate (50%) = 180°, Low (35%) = 126° -->
+                <!-- r=46, circ=289 -->
+                <!-- Low (35%) stroke=101.15, offset=0 -->
+                <!-- Moderate (50%) stroke=144.5, offset=-101.15 -->
+                <!-- High (15%) stroke=43.35, offset=-245.65 -->
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#22c55e"
+                  stroke-width="18" stroke-dasharray="101.15 187.85"
+                  stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#f59e0b"
+                  stroke-width="18" stroke-dasharray="144.5 144.5"
+                  stroke-dashoffset="-101.15" transform="rotate(-90 60 60)"/>
+                <circle cx="60" cy="60" r="46" fill="none" stroke="#ef4444"
+                  stroke-width="18" stroke-dasharray="43.35 245.65"
+                  stroke-dashoffset="-245.65" transform="rotate(-90 60 60)"/>
+              </svg>
+            </div>
+            <!-- Legend -->
+            <div class="hist-legend">
+              <div class="hist-legend-item">
+                <span class="hist-legend-dot" style="background:#22c55e;"></span>
+                <div>
+                  <div class="hist-legend-label">Low <strong>35%</strong></div>
+                  <div class="hist-legend-sub">(6h 12m)</div>
+                </div>
+              </div>
+              <div class="hist-legend-item">
+                <span class="hist-legend-dot" style="background:#f59e0b;"></span>
+                <div>
+                  <div class="hist-legend-label">Moderate <strong>50%</strong></div>
+                  <div class="hist-legend-sub">(8h 53m)</div>
+                </div>
+              </div>
+              <div class="hist-legend-item">
+                <span class="hist-legend-dot" style="background:#ef4444;"></span>
+                <div>
+                  <div class="hist-legend-label">High <strong>15%</strong></div>
+                  <div class="hist-legend-sub">(2h 39m)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats right side -->
+          <div class="hist-distrib-right">
+            <div class="hist-stat-item">
+              <div class="hist-stat-icon" style="background:#fee2e2;">
+                <i class="fa-solid fa-heart" style="color:#ef4444;"></i>
+              </div>
+              <div>
+                <div class="hist-stat-label">Average Stress Score</div>
+                <div class="hist-stat-val">52 <span class="hist-stat-unit">/100</span></div>
+              </div>
+            </div>
+            <div class="hist-stat-item">
+              <div class="hist-stat-icon" style="background:#ffe4e6;">
+                <i class="fa-solid fa-heart-pulse" style="color:#f43f5e;"></i>
+              </div>
+              <div>
+                <div class="hist-stat-label">Average Heart Rate</div>
+                <div class="hist-stat-val">84 <span class="hist-stat-unit">bpm</span></div>
+              </div>
+            </div>
+            <div class="hist-stat-item">
+              <div class="hist-stat-icon" style="background:#ede9fe;">
+                <i class="fa-regular fa-clock" style="color:#7c3aed;"></i>
+              </div>
+              <div>
+                <div class="hist-stat-label">Most Common Stress Window</div>
+                <div class="hist-stat-val hist-stat-val-sm">2:00 PM – 5:00 PM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Sessions -->
+        <div class="hist-section-title">Recent Sessions</div>
+
+        <div class="hist-sessions-list">
+
+          <a href="#" class="hist-session-row">
+            <div class="hist-session-date">
+              <i class="fa-regular fa-calendar-days" style="color:#9aadc9;font-size:13px;"></i>
+              <div>
+                <div class="hist-session-day">May 22, 2025</div>
+                <div class="hist-session-time">10:30 AM</div>
+              </div>
+            </div>
+            <div class="hist-session-stress">
+              <span class="hist-stress-dot" style="background:#f59e0b;"></span>
+              <div>
+                <div class="hist-stress-level">Moderate</div>
+                <div class="hist-stress-label">Stress</div>
+              </div>
+            </div>
+            <div class="hist-session-dur">
+              <i class="fa-regular fa-clock" style="color:#9aadc9;font-size:11px;"></i>
+              <span>35 min</span>
+            </div>
+            <i class="fa-solid fa-chevron-right hist-session-arrow"></i>
+          </a>
+
+          <a href="#" class="hist-session-row">
+            <div class="hist-session-date">
+              <i class="fa-regular fa-calendar-days" style="color:#9aadc9;font-size:13px;"></i>
+              <div>
+                <div class="hist-session-day">May 21, 2025</div>
+                <div class="hist-session-time">08:15 PM</div>
+              </div>
+            </div>
+            <div class="hist-session-stress">
+              <span class="hist-stress-dot" style="background:#f59e0b;"></span>
+              <div>
+                <div class="hist-stress-level">Moderate</div>
+                <div class="hist-stress-label">Stress</div>
+              </div>
+            </div>
+            <div class="hist-session-dur">
+              <i class="fa-regular fa-clock" style="color:#9aadc9;font-size:11px;"></i>
+              <span>28 min</span>
+            </div>
+            <i class="fa-solid fa-chevron-right hist-session-arrow"></i>
+          </a>
+
+          <a href="#" class="hist-session-row">
+            <div class="hist-session-date">
+              <i class="fa-regular fa-calendar-days" style="color:#9aadc9;font-size:13px;"></i>
+              <div>
+                <div class="hist-session-day">May 20, 2025</div>
+                <div class="hist-session-time">01:45 PM</div>
+              </div>
+            </div>
+            <div class="hist-session-stress">
+              <span class="hist-stress-dot" style="background:#22c55e;"></span>
+              <div>
+                <div class="hist-stress-level">Low</div>
+                <div class="hist-stress-label">Stress</div>
+              </div>
+            </div>
+            <div class="hist-session-dur">
+              <i class="fa-regular fa-clock" style="color:#9aadc9;font-size:11px;"></i>
+              <span>22 min</span>
+            </div>
+            <i class="fa-solid fa-chevron-right hist-session-arrow"></i>
+          </a>
+
+        </div>
+
+        <!-- Migraine Risk Summary -->
+        <div class="hist-migraine-card">
+          <div class="hist-migraine-icon">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div class="hist-migraine-info">
+            <div class="hist-migraine-label">Migraine Risk Summary <span class="hist-card-sub">(Last 7 Days)</span></div>
+            <div class="hist-migraine-status">Low Risk</div>
+            <div class="hist-migraine-sub">No significant signs detected</div>
+          </div>
+          <div class="hist-migraine-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:#9aadc9;font-size:12px;flex-shrink:0;"></i>
+        </div>
+
+        <!-- View Full Report Button -->
+        <button class="hist-report-btn">
+          <i class="fa-solid fa-chart-line"></i>
+          View Full Report
+        </button>
+
+        <div style="height:80px;"></div>
+
+      </div><!-- /hist-scroll -->
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item nav-active">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
+    </div>
   </div>
+
+  <script>
+    function switchTab(tab) {
+      ['Day','Week','Month'].forEach(t => {
+        const el = document.getElementById('tab' + t);
+        el.classList.toggle('hist-tab-active', t === tab);
+      });
+    }
+  </script>
+
 </body>
 </html>
