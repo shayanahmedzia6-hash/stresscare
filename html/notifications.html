@@ -4,99 +4,298 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Notifications</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/notifications.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="home.html" class="back-btn">←</a>
-      <h1>Notifications</h1>
-    </div>
 
-    <div class="screen-main">
-      <!-- Alert Section -->
-      <h3 class="section-title">Today</h3>
-      <div class="notification-list">
-        <div class="notification-item alert-type">
-          <div class="notification-icon">⚠️</div>
-          <div class="notification-content">
-            <div class="notification-title">High Stress Detected</div>
-            <div class="notification-desc">Your stress level reached 85. Try a relaxation exercise.</div>
-            <div class="notification-time">2 hours ago</div>
-          </div>
-          <button class="btn-close">×</button>
-        </div>
+  <div class="phone-frame">
+    <div class="notif-screen">
 
-        <div class="notification-item achievement-type">
-          <div class="notification-icon">🏆</div>
-          <div class="notification-content">
-            <div class="notification-title">Achievement Unlocked!</div>
-            <div class="notification-desc">7-day streak! You've been monitoring consistently.</div>
-            <div class="notification-time">5 hours ago</div>
-          </div>
-          <button class="btn-close">×</button>
-        </div>
-
-        <div class="notification-item reminder-type">
-          <div class="notification-icon">🔔</div>
-          <div class="notification-content">
-            <div class="notification-title">Time for Calibration</div>
-            <div class="notification-desc">Weekly calibration due. Update your baseline vitals.</div>
-            <div class="notification-time">8 hours ago</div>
-          </div>
-          <button class="btn-close">×</button>
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
         </div>
       </div>
 
-      <!-- Yesterday -->
-      <h3 class="section-title">Yesterday</h3>
-      <div class="notification-list">
-        <div class="notification-item reminder-type">
-          <div class="notification-icon">💧</div>
-          <div class="notification-content">
-            <div class="notification-title">Hydration Reminder</div>
-            <div class="notification-desc">Remember to drink water to maintain optimal stress levels.</div>
-            <div class="notification-time">Yesterday at 2:00 PM</div>
-          </div>
-          <button class="btn-close">×</button>
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <a href="home.html" class="notif-back-btn">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div class="notif-topnav-center">
+          <div class="notif-page-title">Notifications</div>
+          <div class="notif-badge-count" id="badgeCount">5 new</div>
         </div>
-
-        <div class="notification-item reminder-type">
-          <div class="notification-icon">🚴</div>
-          <div class="notification-content">
-            <div class="notification-title">Exercise Suggestion</div>
-            <div class="notification-desc">Your stress is lower on days with exercise. Go for a walk!</div>
-            <div class="notification-time">Yesterday at 10:00 AM</div>
-          </div>
-          <button class="btn-close">×</button>
-        </div>
+        <button class="notif-read-all-btn" onclick="markAllRead()">Mark all read</button>
       </div>
-    </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
+      <!-- ── Filter Tabs ─────────────────────────── -->
+      <div class="notif-filter-tabs">
+        <button class="notif-ftab notif-ftab-active" onclick="filterTab(this,'all')">All</button>
+        <button class="notif-ftab" onclick="filterTab(this,'alert')">Alerts</button>
+        <button class="notif-ftab" onclick="filterTab(this,'insight')">Insights</button>
+        <button class="notif-ftab" onclick="filterTab(this,'reminder')">Reminders</button>
+      </div>
+
+      <!-- ── Scrollable ─────────────────────────── -->
+      <div class="notif-scroll">
+
+        <!-- ── Today ─────────────────────────────── -->
+        <div class="notif-section-label">Today</div>
+
+        <!-- High Stress Alert -->
+        <div class="notif-card notif-unread" data-type="alert" id="n1">
+          <div class="notif-unread-dot"></div>
+          <div class="notif-icon-wrap notif-icon-red">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">High Stress Detected</div>
+            <div class="notif-desc">Your stress level reached <strong>85%</strong> at 2:45 PM. Consider a breathing exercise.</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> 2 hours ago</span>
+              <a href="interventions.html" class="notif-action-link">Try exercise →</a>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n1')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Achievement -->
+        <div class="notif-card notif-unread" data-type="insight" id="n2">
+          <div class="notif-unread-dot"></div>
+          <div class="notif-icon-wrap notif-icon-amber">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">Achievement Unlocked! 🎉</div>
+            <div class="notif-desc">7-day monitoring streak! You've been consistently tracking your stress.</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> 5 hours ago</span>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n2')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Calibration Reminder -->
+        <div class="notif-card notif-unread" data-type="reminder" id="n3">
+          <div class="notif-unread-dot"></div>
+          <div class="notif-icon-wrap notif-icon-blue">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">Calibration Due</div>
+            <div class="notif-desc">Your weekly calibration is due. Update your baseline vitals for accurate readings.</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> 8 hours ago</span>
+              <a href="calibration.html" class="notif-action-link">Calibrate →</a>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n3')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Daily Insight -->
+        <div class="notif-card notif-unread" data-type="insight" id="n4">
+          <div class="notif-unread-dot"></div>
+          <div class="notif-icon-wrap notif-icon-purple">
+            <i class="fa-regular fa-lightbulb"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">Daily Insight Ready</div>
+            <div class="notif-desc">Your stress was <strong>23% lower</strong> on days you exercised. Check today's full insights.</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> 10 hours ago</span>
+              <a href="insights.html" class="notif-action-link">View insights →</a>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n4')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Migraine Risk -->
+        <div class="notif-card notif-unread" data-type="alert" id="n5">
+          <div class="notif-unread-dot"></div>
+          <div class="notif-icon-wrap notif-icon-teal">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">Migraine Risk: Low</div>
+            <div class="notif-desc">Today's migraine risk is <strong style="color:#22c55e;">Low (12%)</strong>. Your HRV and stress patterns look stable.</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> 11 hours ago</span>
+              <a href="migraine-risk.html" class="notif-action-link">View risk →</a>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n5')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- ── Yesterday ───────────────────────────── -->
+        <div class="notif-section-label">Yesterday</div>
+
+        <!-- Hydration -->
+        <div class="notif-card" data-type="reminder" id="n6">
+          <div class="notif-icon-wrap notif-icon-blue">
+            <i class="fa-solid fa-droplet"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">Hydration Reminder</div>
+            <div class="notif-desc">Remember to drink water regularly. Dehydration can elevate stress levels.</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> Yesterday at 2:00 PM</span>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n6')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Exercise -->
+        <div class="notif-card" data-type="reminder" id="n7">
+          <div class="notif-icon-wrap notif-icon-green">
+            <i class="fa-solid fa-person-running"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">Exercise Suggestion</div>
+            <div class="notif-desc">Your stress is consistently lower on days with physical activity. Go for a walk!</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> Yesterday at 10:00 AM</span>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n7')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Report Ready -->
+        <div class="notif-card" data-type="insight" id="n8">
+          <div class="notif-icon-wrap notif-icon-indigo">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="notif-body">
+            <div class="notif-title">Weekly Report Ready</div>
+            <div class="notif-desc">Your stress report for May 16–22 is ready to view and export.</div>
+            <div class="notif-meta">
+              <span class="notif-time"><i class="fa-regular fa-clock"></i> Yesterday at 8:00 AM</span>
+              <a href="report-detail.html" class="notif-action-link">View report →</a>
+            </div>
+          </div>
+          <button class="notif-dismiss" onclick="dismissNotif('n8')" title="Dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Empty state -->
+        <div id="notifEmpty" class="notif-empty" style="display:none;">
+          <div class="notif-empty-icon">
+            <i class="fa-regular fa-bell-slash"></i>
+          </div>
+          <div class="notif-empty-title">All caught up!</div>
+          <div class="notif-empty-sub">No notifications to show right now.</div>
+        </div>
+
+        <div style="height:80px;"></div>
+      </div>
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
+    </div>
   </div>
+
+  <script>
+    let unreadCount = 5;
+
+    function updateBadge() {
+      const badge = document.getElementById('badgeCount');
+      if (unreadCount <= 0) {
+        badge.style.display = 'none';
+      } else {
+        badge.textContent = unreadCount + ' new';
+        badge.style.display = 'inline-flex';
+      }
+    }
+
+    function dismissNotif(id) {
+      const card = document.getElementById(id);
+      if (!card) return;
+      if (card.classList.contains('notif-unread')) {
+        unreadCount = Math.max(0, unreadCount - 1);
+        updateBadge();
+      }
+      card.style.animation = 'notifFadeOut 0.3s forwards';
+      setTimeout(() => {
+        card.remove();
+        checkEmpty();
+      }, 300);
+    }
+
+    function markAllRead() {
+      document.querySelectorAll('.notif-unread').forEach(c => {
+        c.classList.remove('notif-unread');
+        const dot = c.querySelector('.notif-unread-dot');
+        if (dot) dot.remove();
+      });
+      unreadCount = 0;
+      updateBadge();
+    }
+
+    function filterTab(btn, type) {
+      document.querySelectorAll('.notif-ftab').forEach(t => t.classList.remove('notif-ftab-active'));
+      btn.classList.add('notif-ftab-active');
+
+      document.querySelectorAll('.notif-card').forEach(card => {
+        const match = (type === 'all') || (card.dataset.type === type);
+        card.style.display = match ? 'flex' : 'none';
+      });
+
+      document.querySelectorAll('.notif-section-label').forEach(lbl => {
+        lbl.style.display = 'block';
+      });
+    }
+
+    function checkEmpty() {
+      const visible = document.querySelectorAll('.notif-card:not([style*="display: none"])');
+      document.getElementById('notifEmpty').style.display =
+        visible.length === 0 ? 'flex' : 'none';
+    }
+  </script>
+
 </body>
 </html>
