@@ -461,3 +461,25 @@
   color: #9aadc9;
   text-align: center;
 }
+
+/* Start Free button inside free card */
+.btn-choose-free {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px;
+  background: transparent;
+  border: 2px solid #16a34a;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #16a34a;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+.btn-choose-free:hover {
+  background: #16a34a;
+  color: #fff;
+}

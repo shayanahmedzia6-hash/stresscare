@@ -4,68 +4,257 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Device Pairing</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/device-setup.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen">
-    <div class="screen-header">
-      <a href="subscription.html" class="back-btn">←</a>
-      <h1>Connect Device</h1>
-    </div>
 
-    <div class="screen-main">
-      <div class="setup-container">
-        <div class="setup-step">
-          <div class="step-icon">1</div>
-          <h3>Enable Bluetooth</h3>
-          <p>Turn on Bluetooth on your device and the wearable</p>
+  <div class="phone-frame">
+    <div class="dp-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
         </div>
+      </div>
 
-        <div class="setup-step">
-          <div class="step-icon">2</div>
-          <h3>Scan for Devices</h3>
-          <p>Available devices will appear below</p>
-          
-          <div class="device-list">
-            <div class="device-item">
-              <div class="device-info">
-                <div class="device-name">Fitbit Charge 5</div>
-                <div class="device-status">Available</div>
-              </div>
-              <button class="btn btn-sm btn-primary">Pair</button>
-            </div>
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <button class="dp-back-btn" onclick="history.back()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="dp-logo-name">
+          <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        </div>
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </div>
+      </div>
 
-            <div class="device-item">
-              <div class="device-info">
-                <div class="device-name">Apple Watch Series 7</div>
-                <div class="device-status">Available</div>
-              </div>
-              <button class="btn btn-sm btn-primary">Pair</button>
-            </div>
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="dp-scroll">
 
-            <div class="device-item">
-              <div class="device-info">
-                <div class="device-name">Garmin Vívosmart 5</div>
-                <div class="device-status">Available</div>
-              </div>
-              <button class="btn btn-sm btn-primary">Pair</button>
+        <!-- Page Title -->
+        <h1 class="dp-title">Device Pairing</h1>
+        <p class="dp-subtitle">Connect Your Wearable</p>
+
+        <!-- Bluetooth Scanning Card -->
+        <div class="bt-scan-card">
+          <div class="bt-spin-wrap">
+            <div class="bt-ring"></div>
+            <div class="bt-icon-circle">
+              <i class="fa-brands fa-bluetooth-b"></i>
             </div>
+          </div>
+          <div class="bt-scan-text">
+            <p class="bt-scan-title">Searching for devices</p>
+            <p class="bt-scan-sub">Make sure your wearable is powered on and nearby.</p>
           </div>
         </div>
 
-        <div class="setup-step">
-          <div class="step-icon">3</div>
-          <h3>Confirm Pairing</h3>
-          <p>Check both devices for confirmation</p>
-        </div>
-      </div>
-    </div>
+        <!-- Available Devices -->
+        <h2 class="section-label">Available Devices</h2>
 
-    <div class="screen-footer">
-      <button class="btn btn-ghost btn-block">Skip for Now</button>
-      <button class="btn btn-success btn-block" onclick="window.location.href='calibration.html'">Done</button>
+        <div class="devices-list">
+
+          <!-- Device 1 — Recommended -->
+          <div class="device-item device-featured">
+            <div class="device-img-wrap">
+              <img src="../images/band.png" alt="Band" class="device-img" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=\'fa-solid fa-watch\' style=\'font-size:26px;color:#2563eb\'></i>'">
+            </div>
+            <div class="device-info">
+              <div class="device-name-row">
+                <span class="device-name">StressCare Band 2.0</span>
+                <div class="device-icons">
+                  <i class="fa-brands fa-bluetooth-b di-blue"></i>
+                  <i class="fa-solid fa-signal di-green"></i>
+                </div>
+              </div>
+              <span class="recommended-badge"><i class="fa-solid fa-circle-check"></i> Recommended</span>
+              <span class="device-id">SCB-7F3A</span>
+            </div>
+            <button class="btn-pair-now" onclick="pairDevice(this)">Pair Now</button>
+          </div>
+
+          <!-- Device 2 -->
+          <div class="device-item">
+            <div class="device-img-wrap device-img-sm">
+              <i class="fa-solid fa-watch di-gray-icon"></i>
+            </div>
+            <div class="device-info">
+              <div class="device-name-row">
+                <span class="device-name">SCB-7F3A</span>
+                <div class="device-icons">
+                  <i class="fa-brands fa-bluetooth-b di-blue"></i>
+                  <i class="fa-solid fa-signal di-green"></i>
+                  <i class="fa-solid fa-chevron-right di-arrow"></i>
+                </div>
+              </div>
+              <span class="device-id">SCB-1A2B</span>
+            </div>
+          </div>
+
+          <!-- Device 3 -->
+          <div class="device-item">
+            <div class="device-img-wrap device-img-sm">
+              <i class="fa-solid fa-clock di-gray-icon"></i>
+            </div>
+            <div class="device-info">
+              <div class="device-name-row">
+                <span class="device-name">FitLife Watch 3</span>
+                <div class="device-icons">
+                  <i class="fa-brands fa-bluetooth-b di-blue"></i>
+                  <i class="fa-solid fa-signal di-green"></i>
+                  <i class="fa-solid fa-chevron-right di-arrow"></i>
+                </div>
+              </div>
+              <span class="device-id">FLW-3C9D</span>
+            </div>
+          </div>
+
+          <!-- Device 4 -->
+          <div class="device-item">
+            <div class="device-img-wrap device-img-sm">
+              <i class="fa-solid fa-volume-high di-gray-icon"></i>
+            </div>
+            <div class="device-info">
+              <div class="device-name-row">
+                <span class="device-name">SoundCore Mini</span>
+                <div class="device-icons">
+                  <i class="fa-brands fa-bluetooth-b di-blue"></i>
+                  <i class="fa-solid fa-signal di-gray"></i>
+                  <i class="fa-solid fa-chevron-right di-arrow"></i>
+                </div>
+              </div>
+              <span class="device-id">SCM-2E6F</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- How to Pair -->
+        <h2 class="section-label">How to Pair</h2>
+        <div class="how-to-pair">
+          <div class="pair-step">
+            <div class="pair-num">1</div>
+            <div class="pair-icon-wrap">
+              <i class="fa-solid fa-power-off"></i>
+            </div>
+            <span class="pair-label">Turn on<br>your band</span>
+          </div>
+          <div class="pair-step">
+            <div class="pair-num">2</div>
+            <div class="pair-icon-wrap bt-icon-bg">
+              <i class="fa-brands fa-bluetooth-b"></i>
+            </div>
+            <span class="pair-label">Enable<br>Bluetooth</span>
+          </div>
+          <div class="pair-step">
+            <div class="pair-num">3</div>
+            <div class="pair-icon-wrap phone-icon-bg">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+            <span class="pair-label">Keep device<br>nearby</span>
+          </div>
+        </div>
+
+        <!-- Connection Requirements -->
+        <h2 class="section-label">Connection Requirements</h2>
+        <div class="req-row">
+          <div class="req-item">
+            <div class="req-icon-wrap req-green">
+              <i class="fa-solid fa-battery-three-quarters"></i>
+            </div>
+            <span class="req-title">Battery</span>
+            <span class="req-sub">30% or higher</span>
+          </div>
+          <div class="req-item">
+            <div class="req-icon-wrap req-blue">
+              <i class="fa-solid fa-tower-broadcast"></i>
+            </div>
+            <span class="req-title">BLE Range</span>
+            <span class="req-sub">Within 3 meters</span>
+          </div>
+          <div class="req-item">
+            <div class="req-icon-wrap req-purple">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <span class="req-title">Permissions</span>
+            <span class="req-sub">Bluetooth &amp; Location</span>
+          </div>
+        </div>
+
+        <div style="height: 100px;"></div>
+
+      </div><!-- /dp-scroll -->
+
+      <!-- ── Bottom Buttons ─────────────────────── -->
+      <div class="dp-bottom-btns">
+        <button class="btn-scan-again" onclick="scanAgain()">
+          <i class="fa-solid fa-rotate"></i> Scan Again
+        </button>
+        <button class="btn-continue" onclick="window.location.href='home.html'">
+          Continue <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item nav-active">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
     </div>
   </div>
+
+  <script>
+    function pairDevice(btn) {
+      btn.textContent = 'Pairing…';
+      btn.disabled = true;
+      btn.style.background = '#64748b';
+      setTimeout(() => {
+        btn.textContent = 'Paired ✓';
+        btn.style.background = '#16a34a';
+        btn.parentElement.style.borderColor = '#16a34a';
+      }, 1500);
+    }
+
+    function scanAgain() {
+      const ring = document.querySelector('.bt-ring');
+      const title = document.querySelector('.bt-scan-title');
+      ring.style.animation = 'none';
+      title.textContent = 'Scanning…';
+      setTimeout(() => {
+        ring.style.animation = '';
+        title.textContent = 'Searching for devices';
+      }, 2500);
+    }
+  </script>
+
 </body>
 </html>
