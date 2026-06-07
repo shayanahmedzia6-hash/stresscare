@@ -18,8 +18,25 @@ const mimeTypes = {
 const server = http.createServer((req, res) => {
   let urlPath = req.url.split('?')[0];
 
+  // Redirect root to first onboarding screen (proper redirect keeps URL correct)
   if (urlPath === '/' || urlPath === '') {
-    urlPath = '/html/onboarding-1.html';
+    res.writeHead(302, { Location: '/html/onboarding-1.html' });
+    res.end();
+    return;
+  }
+
+  // If someone requests /onboarding-*.html directly, redirect to /html/onboarding-*.html
+  if (/^\/onboarding-\d+\.html$/.test(urlPath)) {
+    res.writeHead(302, { Location: '/html' + urlPath });
+    res.end();
+    return;
+  }
+
+  // If someone requests /register.html directly, redirect to /html/register.html
+  if (/^\/[a-z-]+\.html$/.test(urlPath)) {
+    res.writeHead(302, { Location: '/html' + urlPath });
+    res.end();
+    return;
   }
 
   const filePath = path.join(__dirname, urlPath);
