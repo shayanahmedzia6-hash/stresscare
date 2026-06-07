@@ -4,109 +4,242 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Feedback</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/feedback.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="home.html" class="back-btn">←</a>
-      <h1>Feedback & Questionnaire</h1>
-    </div>
 
-    <div class="screen-main">
-      <!-- PSS Questionnaire -->
-      <div class="form-section">
-        <h3>Perceived Stress Scale (PSS-10)</h3>
-        <p class="instruction">How often have the following statements been true for you in the last month?</p>
+  <div class="phone-frame">
+    <div class="fb-screen">
 
-        <form id="feedbackForm">
-          <div class="form-group">
-            <label>1. In the last month, how often have you been upset because of something that happened unexpectedly?</label>
-            <div class="radio-group">
-              <label class="radio-label">
-                <input type="radio" name="q1" value="never"> Never
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q1" value="rarely"> Rarely
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q1" value="sometimes"> Sometimes
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q1" value="often"> Often
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q1" value="veryOften"> Very Often
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>2. In the last month, how often have you felt that you were unable to control the important things in your life?</label>
-            <div class="radio-group">
-              <label class="radio-label">
-                <input type="radio" name="q2" value="never"> Never
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q2" value="rarely"> Rarely
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q2" value="sometimes"> Sometimes
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q2" value="often"> Often
-              </label>
-              <label class="radio-label">
-                <input type="radio" name="q2" value="veryOften"> Very Often
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>How would you rate the app's helpfulness?</label>
-            <div class="rating-stars">
-              <span class="star" data-rating="1">⭐</span>
-              <span class="star" data-rating="2">⭐</span>
-              <span class="star" data-rating="3">⭐</span>
-              <span class="star" data-rating="4">⭐</span>
-              <span class="star" data-rating="5">⭐</span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="comments">Additional Comments</label>
-            <textarea id="comments" placeholder="Share your thoughts..."></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block btn-lg">Submit Feedback</button>
-        </form>
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
       </div>
-    </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="fb-scroll">
+
+        <!-- Page Title with back arrow -->
+        <div class="fb-title-row">
+          <a href="home.html" class="fb-back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <h1 class="fb-title">Feedback</h1>
+        </div>
+
+        <!-- How do you feel right now? -->
+        <div class="fb-card">
+          <div class="fb-feel-title">How do you feel right now?</div>
+          <div class="fb-feel-sub">Your feedback helps us understand your stress better.</div>
+          <div class="fb-feel-row">
+            <button class="fb-feel-btn fb-feel-green" id="feelLow" onclick="selectFeel('Low')">
+              <i class="fa-solid fa-leaf"></i>
+              <span>Low Stress</span>
+            </button>
+            <button class="fb-feel-btn fb-feel-blue fb-feel-active" id="feelMod" onclick="selectFeel('Moderate')">
+              <i class="fa-solid fa-wave-square"></i>
+              <span>Moderate Stress</span>
+            </button>
+            <button class="fb-feel-btn fb-feel-red" id="feelHigh" onclick="selectFeel('High')">
+              <i class="fa-solid fa-fire"></i>
+              <span>High Stress</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PSS Questionnaire -->
+        <div class="fb-card" id="questionnaireCard">
+          <div class="fb-pss-header">
+            <div>
+              <div class="fb-pss-title">Weekly PSS Questionnaire</div>
+              <div class="fb-pss-sub">Perceived Stress Scale (PSS-10)</div>
+            </div>
+            <div class="fb-pss-progress-label" id="progressLabel">Question 1 of 10</div>
+          </div>
+          <!-- Progress bar -->
+          <div class="fb-progress-bar">
+            <div class="fb-progress-fill" id="progressFill" style="width:10%"></div>
+          </div>
+
+          <!-- Question text -->
+          <div class="fb-q-text" id="questionText"></div>
+
+          <!-- Options -->
+          <div class="fb-options" id="optionsContainer"></div>
+
+          <!-- Nav row: Prev / Next -->
+          <div class="fb-nav-row">
+            <button class="fb-nav-btn" id="prevBtn" onclick="prevQuestion()">
+              <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            <button class="fb-nav-btn fb-nav-next" id="nextBtn" onclick="nextQuestion()">
+              Next <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Info tip -->
+          <div class="fb-tip">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Your responses help improve the accuracy of your stress insights and personalized predictions over time.</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="fb-submit-btn" id="submitBtn" onclick="submitFeedback()">
+          <i class="fa-solid fa-paper-plane" id="submitIcon"></i>
+          <span id="submitText">Submit Feedback</span>
+        </button>
+
+        <!-- Success Message (hidden initially) -->
+        <div class="fb-success" id="successMsg" style="display:none;">
+          <div class="fb-success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div class="fb-success-title">Feedback Submitted!</div>
+          <div class="fb-success-sub">Thank you. Your responses help us personalize your stress care experience.</div>
+        </div>
+
+        <div style="height:80px;"></div>
+
+      </div><!-- /fb-scroll -->
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
+    </div>
   </div>
+
+  <script>
+    /* ── PSS-10 Questions ── */
+    const questions = [
+      "In the last month, how often have you been upset because of something that happened unexpectedly?",
+      "In the last month, how often have you felt that you were unable to control the important things in your life?",
+      "In the last month, how often have you felt nervous and stressed?",
+      "In the last month, how often have you felt confident about your ability to handle your personal problems?",
+      "In the last month, how often have you felt that things were going your way?",
+      "In the last month, how often have you been able to control irritations in your life?",
+      "In the last month, how often have you felt that you were on top of things?",
+      "In the last month, how often have you been angered because of things that happened outside your control?",
+      "In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?",
+      "In the last month, how often have you felt that you were unable to cope with all the things you had to do?"
+    ];
+
+    const options = [
+      { val: 0, label: "Never" },
+      { val: 1, label: "Almost Never" },
+      { val: 2, label: "Sometimes" },
+      { val: 3, label: "Fairly Often" },
+      { val: 4, label: "Very Often" }
+    ];
+
+    let currentQ = 0;
+    const answers = new Array(10).fill(null);
+
+    function renderQuestion() {
+      const q = currentQ;
+      document.getElementById('progressLabel').textContent = `Question ${q + 1} of 10`;
+      document.getElementById('progressFill').style.width = `${((q + 1) / 10) * 100}%`;
+      document.getElementById('questionText').textContent = questions[q];
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      options.forEach(opt => {
+        const selected = answers[q] === opt.val;
+        const row = document.createElement('div');
+        row.className = 'fb-option-row' + (selected ? ' fb-option-selected' : '');
+        row.onclick = () => selectOption(opt.val);
+        row.innerHTML = `
+          <div class="fb-radio-circle${selected ? ' fb-radio-filled' : ''}">
+            ${selected ? '<i class="fa-solid fa-circle" style="font-size:8px;color:#fff;"></i>' : ''}
+          </div>
+          <span class="fb-option-num">${opt.val}</span>
+          <span class="fb-option-label">${opt.label}</span>
+        `;
+        container.appendChild(row);
+      });
+
+      document.getElementById('prevBtn').style.visibility = q === 0 ? 'hidden' : 'visible';
+      document.getElementById('nextBtn').style.display   = q === 9 ? 'none' : 'flex';
+    }
+
+    function selectOption(val) {
+      answers[currentQ] = val;
+      renderQuestion();
+    }
+
+    function nextQuestion() {
+      if (currentQ < 9) { currentQ++; renderQuestion(); }
+    }
+
+    function prevQuestion() {
+      if (currentQ > 0) { currentQ--; renderQuestion(); }
+    }
+
+    /* ── Feel selection ── */
+    function selectFeel(level) {
+      ['Low','Moderate','High'].forEach(l => {
+        const btn = document.getElementById('feel' + l.charAt(0).toUpperCase() + l.slice(1, l === 'Moderate' ? 8 : 4));
+        if (btn) btn.classList.remove('fb-feel-active');
+      });
+      document.getElementById('feel' + (level === 'Low' ? 'Low' : level === 'Moderate' ? 'Mod' : 'High')).classList.add('fb-feel-active');
+    }
+
+    /* ── Submit ── */
+    function submitFeedback() {
+      const btn = document.getElementById('submitBtn');
+      btn.classList.add('fb-submit-success');
+      document.getElementById('submitIcon').className = 'fa-solid fa-circle-check';
+      document.getElementById('submitText').textContent = 'Submitted!';
+      document.getElementById('successMsg').style.display = 'flex';
+      document.getElementById('questionnaireCard').style.opacity = '0.5';
+      document.getElementById('questionnaireCard').style.pointerEvents = 'none';
+      btn.disabled = true;
+      // Scroll to success message
+      document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    /* ── Init ── */
+    renderQuestion();
+  </script>
+
 </body>
 </html>
