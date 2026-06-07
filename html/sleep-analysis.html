@@ -4,128 +4,317 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Sleep Analysis</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/analysis.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="../css/sleep-analysis.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="insights.html" class="back-btn">←</a>
-      <h1>Sleep Analysis</h1>
+
+  <div class="phone-frame">
+    <div class="sl-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </div>
+      </div>
+
+      <!-- ── Scrollable ─────────────────────────── -->
+      <div class="sl-scroll">
+
+        <!-- Page Header -->
+        <div class="sl-page-header">
+          <div class="sl-header-left">
+            <a href="insights.html" class="sl-back-btn">
+              <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div>
+              <h1 class="sl-title">Sleep Analysis</h1>
+              <div class="sl-date">May 22, 2025</div>
+            </div>
+          </div>
+          <button class="sl-cal-btn">
+            <i class="fa-regular fa-calendar"></i>
+          </button>
+        </div>
+
+        <!-- ── Sleep Summary Card ───────────────── -->
+        <div class="sl-card sl-summary-card">
+
+          <!-- Moon ring gauge -->
+          <div class="sl-moon-wrap">
+            <svg class="sl-moon-svg" viewBox="0 0 120 120">
+              <defs>
+                <linearGradient id="moonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%"   stop-color="#818cf8"/>
+                  <stop offset="100%" stop-color="#2563eb"/>
+                </linearGradient>
+              </defs>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#e8f0fb" stroke-width="9"/>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="url(#moonGrad)"
+                stroke-width="9" stroke-linecap="round"
+                stroke-dasharray="314" stroke-dashoffset="75"
+                transform="rotate(-90 60 60)"/>
+            </svg>
+            <div class="sl-moon-center">
+              <i class="fa-solid fa-moon sl-moon-icon"></i>
+              <span class="sl-zzz">z<sup>z</sup></span>
+            </div>
+          </div>
+
+          <!-- Duration -->
+          <div class="sl-dur-block">
+            <div class="sl-label-sm">Sleep Duration</div>
+            <div class="sl-dur-val">7h <span>28m</span></div>
+            <div class="sl-sub-sm">Total Sleep Time</div>
+          </div>
+
+          <div class="sl-divider"></div>
+
+          <!-- Quality -->
+          <div class="sl-quality-block">
+            <div class="sl-label-sm">Sleep Quality</div>
+            <div class="sl-quality-val">
+              78 <span class="sl-q-unit">/100</span>
+              <span class="sl-q-dot"></span>
+            </div>
+            <div class="sl-quality-badge">Good</div>
+          </div>
+
+        </div>
+
+        <!-- ── Sleep Stages ─────────────────────── -->
+        <div class="sl-card">
+          <div class="sl-stages-hdr">
+            <div class="sl-card-title">Sleep Stages</div>
+            <a href="#" class="sl-learn-link">
+              Learn more <i class="fa-solid fa-circle-info"></i>
+            </a>
+          </div>
+
+          <div class="sl-stages-list">
+
+            <div class="sl-stage-row">
+              <div class="sl-stage-left">
+                <span class="sl-dot" style="background:#2563eb;"></span>
+                <span class="sl-stage-name">Deep Sleep</span>
+              </div>
+              <div class="sl-bar-track">
+                <div class="sl-bar-fill" style="width:54%;background:#2563eb;"></div>
+              </div>
+              <span class="sl-stage-dur">2h 01m</span>
+              <span class="sl-stage-pct">27%</span>
+            </div>
+
+            <div class="sl-stage-row">
+              <div class="sl-stage-left">
+                <span class="sl-dot" style="background:#60a5fa;"></span>
+                <span class="sl-stage-name">Light Sleep</span>
+              </div>
+              <div class="sl-bar-track">
+                <div class="sl-bar-fill" style="width:85%;background:#60a5fa;"></div>
+              </div>
+              <span class="sl-stage-dur">3h 56m</span>
+              <span class="sl-stage-pct">53%</span>
+            </div>
+
+            <div class="sl-stage-row">
+              <div class="sl-stage-left">
+                <span class="sl-dot" style="background:#a855f7;"></span>
+                <span class="sl-stage-name">REM Sleep</span>
+              </div>
+              <div class="sl-bar-track">
+                <div class="sl-bar-fill" style="width:40%;background:#a855f7;"></div>
+              </div>
+              <span class="sl-stage-dur">1h 31m</span>
+              <span class="sl-stage-pct">20%</span>
+            </div>
+
+            <div class="sl-stage-row">
+              <div class="sl-stage-left">
+                <span class="sl-dot" style="background:#f87171;"></span>
+                <span class="sl-stage-name">Awake</span>
+              </div>
+              <div class="sl-bar-track">
+                <div class="sl-bar-fill" style="width:6%;background:#f87171;"></div>
+              </div>
+              <span class="sl-stage-dur">12m</span>
+              <span class="sl-stage-pct">3%</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Sleep Trend Chart ─────────────────── -->
+        <div class="sl-card">
+          <div class="sl-trend-hdr">
+            <div>
+              <span class="sl-card-title">Sleep Trend </span>
+              <span class="sl-card-sub">(This Week)</span>
+            </div>
+            <div class="sl-trend-avg">Avg: 7h 12m</div>
+          </div>
+
+          <div class="sl-chart-wrap">
+            <svg viewBox="0 0 310 130" preserveAspectRatio="none" style="width:100%;height:130px;">
+              <defs>
+                <linearGradient id="slAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#2563eb" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#2563eb" stop-opacity="0.00"/>
+                </linearGradient>
+              </defs>
+              <!-- Y labels -->
+              <text x="0" y="12"  font-size="8" fill="#b0bcd4">10h</text>
+              <text x="0" y="35"  font-size="8" fill="#b0bcd4">8h</text>
+              <text x="0" y="58"  font-size="8" fill="#b0bcd4">6h</text>
+              <text x="0" y="81"  font-size="8" fill="#b0bcd4">4h</text>
+              <text x="0" y="104" font-size="8" fill="#b0bcd4">2h</text>
+              <text x="0" y="116" font-size="8" fill="#b0bcd4">0h</text>
+              <!-- Grid lines -->
+              <line x1="20" y1="8"   x2="308" y2="8"   stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="20" y1="31"  x2="308" y2="31"  stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="20" y1="54"  x2="308" y2="54"  stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="20" y1="77"  x2="308" y2="77"  stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="20" y1="100" x2="308" y2="100" stroke="#f0f4fa" stroke-width="1"/>
+              <!-- Data: Fri=7h→y38, Sat=6h→y54, Sun=6.5→y46, Mon=7h→y38, Tue=7.5→y31, Wed=8h→y23, Thu=7.5→y31 -->
+              <polygon points="28,38 74,54 120,46 166,38 212,31 258,23 304,31 304,108 28,108"
+                fill="url(#slAreaGrad)"/>
+              <polyline points="28,38 74,54 120,46 166,38 212,31 258,23 304,31"
+                fill="none" stroke="#2563eb" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Open dots -->
+              <circle cx="28"  cy="38" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+              <circle cx="74"  cy="54" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+              <circle cx="120" cy="46" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+              <circle cx="166" cy="38" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+              <circle cx="212" cy="31" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+              <circle cx="258" cy="23" r="3.5" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+              <!-- Today highlighted dot -->
+              <circle cx="304" cy="31" r="5.5" fill="#2563eb"/>
+              <!-- X labels -->
+              <text x="28"  y="120" font-size="7.5" fill="#9aadc9" text-anchor="middle">Fri</text>
+              <text x="28"  y="128" font-size="7"   fill="#b0bcd4" text-anchor="middle">5/16</text>
+              <text x="74"  y="120" font-size="7.5" fill="#9aadc9" text-anchor="middle">Sat</text>
+              <text x="74"  y="128" font-size="7"   fill="#b0bcd4" text-anchor="middle">5/17</text>
+              <text x="120" y="120" font-size="7.5" fill="#9aadc9" text-anchor="middle">Sun</text>
+              <text x="120" y="128" font-size="7"   fill="#b0bcd4" text-anchor="middle">5/18</text>
+              <text x="166" y="120" font-size="7.5" fill="#9aadc9" text-anchor="middle">Mon</text>
+              <text x="166" y="128" font-size="7"   fill="#b0bcd4" text-anchor="middle">5/19</text>
+              <text x="212" y="120" font-size="7.5" fill="#9aadc9" text-anchor="middle">Tue</text>
+              <text x="212" y="128" font-size="7"   fill="#b0bcd4" text-anchor="middle">5/20</text>
+              <text x="258" y="120" font-size="7.5" fill="#9aadc9" text-anchor="middle">Wed</text>
+              <text x="258" y="128" font-size="7"   fill="#b0bcd4" text-anchor="middle">5/21</text>
+              <text x="304" y="120" font-size="7.5" fill="#2563eb" font-weight="700" text-anchor="middle">Thu</text>
+              <text x="304" y="128" font-size="7"   fill="#2563eb" font-weight="700" text-anchor="middle">5/22</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ── Sleep Insights ───────────────────── -->
+        <div class="sl-section-title">Sleep Insights</div>
+
+        <div class="sl-insights-row">
+
+          <div class="sl-insight-card">
+            <div class="sl-ins-icon" style="background:#dbeafe;">
+              <i class="fa-regular fa-calendar-check" style="color:#2563eb;font-size:16px;"></i>
+            </div>
+            <div class="sl-ins-label">Bedtime Consistency</div>
+            <div class="sl-ins-val sl-green">Good</div>
+            <div class="sl-ins-sub">± 22 min</div>
+          </div>
+
+          <div class="sl-insight-card">
+            <div class="sl-ins-icon" style="background:#d1fae5;">
+              <i class="fa-regular fa-clock" style="color:#059669;font-size:16px;"></i>
+            </div>
+            <div class="sl-ins-label">Sleep Efficiency</div>
+            <div class="sl-ins-val sl-green">85%</div>
+            <div class="sl-ins-sub">Good</div>
+          </div>
+
+          <div class="sl-insight-card">
+            <div class="sl-ins-icon" style="background:#ede9fe;">
+              <i class="fa-solid fa-star" style="color:#7c3aed;font-size:16px;"></i>
+            </div>
+            <div class="sl-ins-label">Recommendation</div>
+            <div class="sl-ins-rec">Maintain a regular sleep schedule</div>
+          </div>
+
+        </div>
+
+        <!-- ── Sleep & Stress Correlation ────────── -->
+        <div class="sl-card sl-corr-card">
+          <div class="sl-corr-left">
+            <div class="sl-corr-icons">
+              <i class="fa-solid fa-moon" style="color:#6366f1;font-size:16px;"></i>
+              <i class="fa-solid fa-right-long" style="color:#c5d3e8;font-size:11px;"></i>
+              <i class="fa-solid fa-brain" style="color:#059669;font-size:16px;"></i>
+            </div>
+            <div class="sl-corr-title">
+              Sleep &amp; Stress Correlation
+              <i class="fa-solid fa-circle-info sl-info-i"></i>
+            </div>
+            <div class="sl-corr-desc">Good sleep quality is associated with lower stress levels.</div>
+          </div>
+          <div class="sl-corr-badge">
+            <div>Strong</div>
+            <div>Correlation</div>
+          </div>
+        </div>
+
+        <!-- ── View Full Insights Button ──────────── -->
+        <button class="sl-view-btn">
+          <i class="fa-solid fa-chart-bar"></i>
+          View Full Insights
+          <i class="fa-solid fa-chevron-right sl-btn-chev"></i>
+        </button>
+
+        <div style="height:80px;"></div>
+
+      </div><!-- /sl-scroll -->
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item nav-active">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
     </div>
-
-    <div class="screen-main">
-      <!-- Sleep Score -->
-      <div class="analysis-card featured">
-        <div class="score-circle">
-          <div class="score-number">78</div>
-          <div class="score-label">Sleep Score</div>
-        </div>
-        <div class="score-detail">Good - Keep it up!</div>
-      </div>
-
-      <!-- Key Metrics -->
-      <h3 class="section-title">Last Night's Sleep</h3>
-      <div class="metrics-list">
-        <div class="metric-item">
-          <span class="metric-icon">🌙</span>
-          <div class="metric-details">
-            <span class="label">Sleep Duration</span>
-            <span class="value">7h 15m</span>
-          </div>
-        </div>
-
-        <div class="metric-item">
-          <span class="metric-icon">😴</span>
-          <div class="metric-details">
-            <span class="label">Deep Sleep</span>
-            <span class="value">1h 45m (24%)</span>
-          </div>
-        </div>
-
-        <div class="metric-item">
-          <span class="metric-icon">🔄</span>
-          <div class="metric-details">
-            <span class="label">REM Sleep</span>
-            <span class="value">1h 30m (21%)</span>
-          </div>
-        </div>
-
-        <div class="metric-item">
-          <span class="metric-icon">😔</span>
-          <div class="metric-details">
-            <span class="label">Awake Time</span>
-            <span class="value">25m (6%)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sleep Stages -->
-      <h3 class="section-title">Sleep Stages</h3>
-      <div class="stage-bars">
-        <div class="stage">
-          <div class="stage-label">Awake</div>
-          <div class="stage-bar" style="width: 6%; background-color: #FF6B6B;"></div>
-          <div class="stage-percent">6%</div>
-        </div>
-        <div class="stage">
-          <div class="stage-label">Light</div>
-          <div class="stage-bar" style="width: 49%; background-color: #FFA500;"></div>
-          <div class="stage-percent">49%</div>
-        </div>
-        <div class="stage">
-          <div class="stage-label">Deep</div>
-          <div class="stage-bar" style="width: 24%; background-color: #6C63FF;"></div>
-          <div class="stage-percent">24%</div>
-        </div>
-        <div class="stage">
-          <div class="stage-label">REM</div>
-          <div class="stage-bar" style="width: 21%; background-color: #51CF66;"></div>
-          <div class="stage-percent">21%</div>
-        </div>
-      </div>
-
-      <!-- Recommendations -->
-      <h3 class="section-title">Sleep Tips</h3>
-      <div class="tips">
-        <div class="tip">
-          <span class="tip-num">1</span>
-          <p>Maintain a consistent sleep schedule by going to bed at the same time daily.</p>
-        </div>
-        <div class="tip">
-          <span class="tip-num">2</span>
-          <p>Reduce screen time 1 hour before bed to improve sleep quality.</p>
-        </div>
-        <div class="tip">
-          <span class="tip-num">3</span>
-          <p>Your deep sleep is optimal. Continue your current sleep hygiene routine.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
+
 </body>
 </html>

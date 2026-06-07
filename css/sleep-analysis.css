@@ -1,0 +1,478 @@
+/* ── Sleep Analysis Screen ─────────────────────────────── */
+
+.sl-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #deeeff 0%, #f0f6ff 18%, #f5f8ff 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Scrollable ──────────────────────────────────────── */
+.sl-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 16px;
+}
+.sl-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Page Header ─────────────────────────────────────── */
+.sl-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 14px;
+}
+
+.sl-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sl-back-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid #d0dff0;
+  background: #fff;
+  color: #1a2b4b;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  box-shadow: 0 1px 6px rgba(37,99,235,0.07);
+}
+
+.sl-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a2b4b;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.sl-date {
+  font-size: 11px;
+  color: #9aadc9;
+  margin-top: 1px;
+}
+
+.sl-cal-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid #d0dff0;
+  background: #fff;
+  color: #1a2b4b;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(37,99,235,0.07);
+}
+
+/* ── Card base ───────────────────────────────────────── */
+.sl-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+}
+
+/* ── Summary Card ────────────────────────────────────── */
+.sl-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 14px;
+}
+
+/* Moon ring */
+.sl-moon-wrap {
+  position: relative;
+  width: 100px; height: 100px;
+  flex-shrink: 0;
+}
+
+.sl-moon-svg { width: 100px; height: 100px; }
+
+.sl-moon-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.sl-moon-icon {
+  font-size: 26px;
+  color: #6366f1;
+  line-height: 1;
+}
+
+.sl-zzz {
+  font-size: 11px;
+  color: #a5b4fc;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Duration block */
+.sl-dur-block { flex: 1; min-width: 0; }
+
+.sl-label-sm {
+  font-size: 10px;
+  color: #9aadc9;
+  margin-bottom: 3px;
+}
+
+.sl-dur-val {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a2b4b;
+  line-height: 1.05;
+}
+
+.sl-dur-val span { font-size: 20px; }
+
+.sl-sub-sm {
+  font-size: 10px;
+  color: #9aadc9;
+  margin-top: 2px;
+}
+
+/* Divider */
+.sl-divider {
+  width: 1px;
+  height: 60px;
+  background: #e8f0fb;
+  flex-shrink: 0;
+}
+
+/* Quality block */
+.sl-quality-block {
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sl-quality-val {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a2b4b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.sl-q-unit {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9aadc9;
+}
+
+.sl-q-dot {
+  width: 9px; height: 9px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 1px;
+}
+
+.sl-quality-badge {
+  background: #d1fae5;
+  color: #059669;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 3px 12px;
+  border: 1px solid #6ee7b7;
+}
+
+/* ── Sleep Stages ────────────────────────────────────── */
+.sl-stages-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sl-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1a2b4b;
+  display: inline;
+}
+
+.sl-card-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9aadc9;
+}
+
+.sl-learn-link {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sl-stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sl-stage-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sl-stage-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.sl-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sl-stage-name {
+  font-size: 11.5px;
+  color: #1a2b4b;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.sl-bar-track {
+  flex: 1;
+  height: 7px;
+  background: #f0f4fa;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sl-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.sl-stage-dur {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a2b4b;
+  min-width: 38px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.sl-stage-pct {
+  font-size: 10.5px;
+  color: #9aadc9;
+  min-width: 26px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Trend Chart ─────────────────────────────────────── */
+.sl-trend-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.sl-trend-avg {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.sl-chart-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ── Sleep Insights ──────────────────────────────────── */
+.sl-section-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1a2b4b;
+  margin-bottom: 10px;
+}
+
+.sl-insights-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.sl-insight-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 10px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.sl-ins-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 4px;
+}
+
+.sl-ins-label {
+  font-size: 10px;
+  color: #7a8cad;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.sl-ins-val {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.sl-green { color: #22c55e; }
+
+.sl-ins-sub {
+  font-size: 10px;
+  color: #9aadc9;
+}
+
+.sl-ins-rec {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #1a2b4b;
+  line-height: 1.4;
+}
+
+/* ── Correlation Card ────────────────────────────────── */
+.sl-corr-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.sl-corr-left { flex: 1; min-width: 0; }
+
+.sl-corr-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.sl-corr-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2b4b;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sl-info-i {
+  color: #9aadc9;
+  font-size: 11px;
+}
+
+.sl-corr-desc {
+  font-size: 11px;
+  color: #7a8cad;
+  line-height: 1.4;
+}
+
+.sl-corr-badge {
+  background: #d1fae5;
+  border: 1.5px solid #6ee7b7;
+  border-radius: 12px;
+  padding: 8px 12px;
+  text-align: center;
+  color: #059669;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+
+/* ── View Insights Button ────────────────────────────── */
+.sl-view-btn {
+  width: 100%;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.28);
+  transition: all 0.2s;
+  margin-bottom: 4px;
+}
+
+.sl-view-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37,99,235,0.38);
+}
+
+.sl-btn-chev { font-size: 12px; margin-left: auto; }
+
+/* ── Bottom Nav ─────────────────────────────────────── */
+.dp-bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #fff;
+  border-top: 1px solid #e8f0fb;
+  padding: 8px 0 10px;
+  flex-shrink: 0;
+}
+
+.dp-bottom-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #9aadc9;
+  font-size: 10px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.dp-bottom-nav .nav-item i { font-size: 18px; }
+.dp-bottom-nav .nav-item.nav-active { color: #2563eb; }
