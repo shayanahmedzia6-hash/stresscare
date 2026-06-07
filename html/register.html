@@ -3,53 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StressCare - Register</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <title>StressCare - Create Account</title>
   <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen">
-    <div class="screen-header">
-      <a href="onboarding-3.html" class="back-btn">←</a>
-      <h1>Create Account</h1>
-    </div>
 
-    <div class="screen-main">
-      <div class="auth-container">
-        <form id="registerForm" class="auth-form">
-          <div class="form-group">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="John Doe" required>
+  <div class="phone-frame">
+    <div class="auth-screen">
+
+      <!-- ── Hero ─────────────────────────────────── -->
+      <div class="auth-hero">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span class="status-time">10:30</span>
+          <div class="status-icons">
+            <i class="fa-solid fa-signal"></i>
+            <i class="fa-solid fa-wifi"></i>
+            <i class="fa-solid fa-battery-three-quarters"></i>
+            <span class="battery-text">88%</span>
           </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="john@example.com" required>
-          </div>
-
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="••••••••" required>
-          </div>
-
-          <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" placeholder="••••••••" required>
-          </div>
-
-          <div class="form-group checkbox">
-            <input type="checkbox" id="terms" required>
-            <label for="terms">I agree to Terms & Conditions</label>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block btn-lg">Create Account</button>
-        </form>
-
-        <div class="auth-footer">
-          <p>Already have an account? <a href="login.html">Login</a></p>
         </div>
+
+        <!-- Logo -->
+        <div class="auth-logo">
+          <img src="../images/logo.png" alt="StressCare Logo">
+        </div>
+
+        <!-- Title + Illustration -->
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">Create<br>Account</h1>
+            <p class="hero-subtitle">Register to monitor stress, sleep and migraine risk.</p>
+          </div>
+          <img src="../images/onboarding3.png" alt="Illustration" class="hero-illus">
+        </div>
+
+      </div>
+
+      <!-- ── White Form Card ────────────────────── -->
+      <div class="auth-card">
+
+        <!-- Full Name -->
+        <div class="input-group">
+          <i class="fa-regular fa-user"></i>
+          <input type="text" placeholder="Full Name" autocomplete="name">
+        </div>
+
+        <!-- Email -->
+        <div class="input-group">
+          <i class="fa-regular fa-envelope"></i>
+          <input type="email" placeholder="Email Address" autocomplete="email">
+        </div>
+
+        <!-- Phone -->
+        <div class="input-group">
+          <i class="fa-solid fa-phone"></i>
+          <input type="tel" placeholder="Phone Number" autocomplete="tel">
+        </div>
+
+        <!-- Password -->
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="pwd1" placeholder="Password">
+          <button class="eye-btn" onclick="togglePwd('pwd1', this)" tabindex="-1">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="pwd2" placeholder="Confirm Password">
+          <button class="eye-btn" onclick="togglePwd('pwd2', this)" tabindex="-1">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+
+        <!-- Terms checkbox -->
+        <div class="check-row">
+          <div class="custom-checkbox">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <span class="check-label">
+            I agree to the <a href="#">Terms &amp; Privacy Policy</a>
+          </span>
+        </div>
+
+        <!-- Create Account button -->
+        <button class="btn-primary-auth" onclick="window.location.href='login.html'">
+          Create Account
+        </button>
+
+        <!-- OR -->
+        <div class="or-divider"><span>or</span></div>
+
+        <!-- Continue with Google -->
+        <button class="btn-social">
+          <svg class="google-icon" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.29-8.16 2.29-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <!-- Continue with Apple -->
+        <button class="btn-social">
+          <i class="fa-brands fa-apple apple-icon"></i>
+          Continue with Apple
+        </button>
+
+        <!-- Sign In link -->
+        <div class="auth-bottom">
+          Already have an account? <a href="login.html">Sign In</a>
+        </div>
+
       </div>
     </div>
   </div>
+
+  <script>
+    function togglePwd(id, btn) {
+      const input = document.getElementById(id);
+      const icon = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-regular fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-regular fa-eye';
+      }
+    }
+  </script>
+
 </body>
 </html>
