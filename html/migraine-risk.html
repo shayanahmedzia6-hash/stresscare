@@ -45,17 +45,16 @@
             </a>
             <div>
               <h1 class="mg-title">Migraine Risk</h1>
-              <div class="mg-date">May 22, 2025</div>
+              <div class="mg-date" id="mgHeaderDate">May 22, 2025</div>
             </div>
           </div>
-          <button class="mg-cal-btn">
+          <button class="mg-cal-btn" onclick="openCalendar()">
             <i class="fa-regular fa-calendar"></i>
           </button>
         </div>
 
         <!-- ── Risk Summary Card ─────────────────── -->
         <div class="mg-card mg-risk-summary-card">
-          <!-- Gauge -->
           <div class="mg-gauge-wrap">
             <svg viewBox="0 0 120 70" width="120" height="70">
               <defs>
@@ -65,33 +64,29 @@
                   <stop offset="100%" stop-color="#ef4444"/>
                 </linearGradient>
               </defs>
-              <!-- Track -->
               <path d="M 10 65 A 50 50 0 0 1 110 65"
                 fill="none" stroke="#f0f4fa" stroke-width="10" stroke-linecap="round"/>
-              <!-- Fill — 12% = ~21.6° of 180° arc -->
-              <path d="M 10 65 A 50 50 0 0 1 110 65"
+              <path id="mgGaugeFill" d="M 10 65 A 50 50 0 0 1 110 65"
                 fill="none" stroke="url(#mgGaugeTrack)" stroke-width="10"
                 stroke-linecap="round"
                 stroke-dasharray="157" stroke-dashoffset="138"/>
-              <!-- Needle dot -->
-              <circle cx="18" cy="59" r="5" fill="#22c55e"/>
+              <circle id="mgGaugeDot" cx="18" cy="59" r="5" fill="#22c55e"/>
             </svg>
             <div class="mg-gauge-label">
-              <div class="mg-gauge-level">Low</div>
-              <div class="mg-gauge-pct">12<span class="mg-gauge-sign">%</span></div>
+              <div class="mg-gauge-level" id="mgGaugeLevel">Low</div>
+              <div class="mg-gauge-pct" id="mgGaugePct">12<span class="mg-gauge-sign">%</span></div>
               <div class="mg-gauge-sub">Migraine Risk</div>
             </div>
           </div>
 
-          <!-- Right Info -->
           <div class="mg-risk-info">
             <div class="mg-risk-info-lbl">Current Risk Level</div>
             <div class="mg-risk-level-row">
-              <span class="mg-risk-level-val">Low Risk</span>
-              <span class="mg-risk-green-dot"></span>
+              <span class="mg-risk-level-val" id="mgRiskLevelVal">Low Risk</span>
+              <span class="mg-risk-green-dot" id="mgRiskDot"></span>
             </div>
             <div class="mg-risk-info-lbl" style="margin-top:12px;">Early Warning Status:</div>
-            <div class="mg-risk-stable">Stable</div>
+            <div class="mg-risk-stable" id="mgRiskStable">Stable</div>
           </div>
         </div>
 
@@ -100,64 +95,58 @@
           <div class="mg-card-title">Risk Factors</div>
           <div class="mg-factors-grid">
 
-            <div class="mg-factor-cell">
-              <div class="mg-factor-icon mg-fi-purple">
-                <i class="fa-solid fa-moon"></i>
-              </div>
+            <div class="mg-factor-cell" onclick="openFactor(0)">
+              <div class="mg-factor-icon mg-fi-purple"><i class="fa-solid fa-moon"></i></div>
               <div class="mg-factor-info">
                 <div class="mg-factor-lbl">Sleep Quality</div>
                 <div class="mg-factor-val mg-val-green">Good</div>
               </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:9px;color:#c5d3e8;margin-left:auto;"></i>
             </div>
 
-            <div class="mg-factor-cell">
-              <div class="mg-factor-icon mg-fi-red">
-                <i class="fa-solid fa-heart-pulse"></i>
-              </div>
+            <div class="mg-factor-cell" onclick="openFactor(1)">
+              <div class="mg-factor-icon mg-fi-red"><i class="fa-solid fa-heart-pulse"></i></div>
               <div class="mg-factor-info">
                 <div class="mg-factor-lbl">HRV Trend</div>
                 <div class="mg-factor-val mg-val-green">Stable</div>
               </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:9px;color:#c5d3e8;margin-left:auto;"></i>
             </div>
 
-            <div class="mg-factor-cell">
-              <div class="mg-factor-icon mg-fi-blue">
-                <i class="fa-solid fa-sliders"></i>
-              </div>
+            <div class="mg-factor-cell" onclick="openFactor(2)">
+              <div class="mg-factor-icon mg-fi-blue"><i class="fa-solid fa-sliders"></i></div>
               <div class="mg-factor-info">
                 <div class="mg-factor-lbl">Stress Level</div>
                 <div class="mg-factor-val mg-val-amber">Moderate</div>
               </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:9px;color:#c5d3e8;margin-left:auto;"></i>
             </div>
 
-            <div class="mg-factor-cell">
-              <div class="mg-factor-icon mg-fi-orange">
-                <i class="fa-solid fa-temperature-half"></i>
-              </div>
+            <div class="mg-factor-cell" onclick="openFactor(3)">
+              <div class="mg-factor-icon mg-fi-orange"><i class="fa-solid fa-temperature-half"></i></div>
               <div class="mg-factor-info">
                 <div class="mg-factor-lbl">Skin Temperature</div>
                 <div class="mg-factor-val mg-val-green">Normal</div>
               </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:9px;color:#c5d3e8;margin-left:auto;"></i>
             </div>
 
-            <div class="mg-factor-cell">
-              <div class="mg-factor-icon mg-fi-cyan">
-                <i class="fa-solid fa-droplet"></i>
-              </div>
+            <div class="mg-factor-cell" onclick="openFactor(4)">
+              <div class="mg-factor-icon mg-fi-cyan"><i class="fa-solid fa-droplet"></i></div>
               <div class="mg-factor-info">
                 <div class="mg-factor-lbl">GSR Spikes</div>
                 <div class="mg-factor-val mg-val-green">Low</div>
               </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:9px;color:#c5d3e8;margin-left:auto;"></i>
             </div>
 
-            <div class="mg-factor-cell">
-              <div class="mg-factor-icon mg-fi-green">
-                <i class="fa-solid fa-person-walking"></i>
-              </div>
+            <div class="mg-factor-cell" onclick="openFactor(5)">
+              <div class="mg-factor-icon mg-fi-green"><i class="fa-solid fa-person-walking"></i></div>
               <div class="mg-factor-info">
                 <div class="mg-factor-lbl">Motion Pattern</div>
                 <div class="mg-factor-val mg-val-green">Stable</div>
               </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:9px;color:#c5d3e8;margin-left:auto;"></i>
             </div>
 
           </div>
@@ -170,19 +159,16 @@
             <span class="mg-weekly-badge">Weekly Pattern</span>
           </div>
 
-          <div style="width:100%;overflow:hidden;">
-            <svg viewBox="0 0 310 100" preserveAspectRatio="none" style="width:100%;height:100px;">
-              <!-- Y labels -->
+          <div style="width:100%;overflow:hidden;position:relative;">
+            <svg id="mgTrendSvg" viewBox="0 0 310 100" preserveAspectRatio="none" style="width:100%;height:100px;cursor:pointer;">
               <text x="0" y="14"  font-size="7" fill="#b0bcd4">High</text>
               <text x="0" y="36"  font-size="7" fill="#b0bcd4">Medium</text>
               <text x="0" y="58"  font-size="7" fill="#b0bcd4">Low</text>
               <text x="0" y="80"  font-size="7" fill="#b0bcd4">0%</text>
-              <!-- Grid lines -->
               <line x1="30" y1="10" x2="308" y2="10" stroke="#f0f4fa" stroke-width="1"/>
               <line x1="30" y1="32" x2="308" y2="32" stroke="#f0f4fa" stroke-width="1"/>
               <line x1="30" y1="54" x2="308" y2="54" stroke="#f0f4fa" stroke-width="1"/>
               <line x1="30" y1="76" x2="308" y2="76" stroke="#f0f4fa" stroke-width="1"/>
-              <!-- Area -->
               <defs>
                 <linearGradient id="mgTrendFill" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%"   stop-color="#22c55e" stop-opacity="0.18"/>
@@ -192,23 +178,21 @@
               <polygon
                 points="30,60 72,56 114,58 156,52 198,54 244,56 290,58 290,76 30,76"
                 fill="url(#mgTrendFill)"/>
-              <!-- Line -->
               <polyline
                 points="30,60 72,56 114,58 156,52 198,54 244,56 290,58"
                 fill="none" stroke="#22c55e" stroke-width="2.2"
                 stroke-linecap="round" stroke-linejoin="round"/>
-              <!-- Dots -->
-              <circle cx="30"  cy="60" r="3.5" fill="#22c55e"/>
-              <circle cx="72"  cy="56" r="3.5" fill="#22c55e"/>
-              <circle cx="114" cy="58" r="3.5" fill="#22c55e"/>
-              <circle cx="156" cy="52" r="3.5" fill="#22c55e"/>
-              <circle cx="198" cy="54" r="3.5" fill="#22c55e"/>
-              <circle cx="244" cy="56" r="3.5" fill="#22c55e"/>
-              <circle cx="290" cy="58" r="3.5" fill="#22c55e"/>
-              <!-- 12% tooltip at end -->
+              <!-- Clickable dots -->
+              <circle class="mg-dot" cx="30"  cy="60" r="5" fill="#22c55e" data-date="May 16" data-val="15%" onclick="showDotTip(this,event)"/>
+              <circle class="mg-dot" cx="72"  cy="56" r="5" fill="#22c55e" data-date="May 17" data-val="18%" onclick="showDotTip(this,event)"/>
+              <circle class="mg-dot" cx="114" cy="58" r="5" fill="#22c55e" data-date="May 18" data-val="16%" onclick="showDotTip(this,event)"/>
+              <circle class="mg-dot" cx="156" cy="52" r="5" fill="#22c55e" data-date="May 19" data-val="20%" onclick="showDotTip(this,event)"/>
+              <circle class="mg-dot" cx="198" cy="54" r="5" fill="#22c55e" data-date="May 20" data-val="19%" onclick="showDotTip(this,event)"/>
+              <circle class="mg-dot" cx="244" cy="56" r="5" fill="#22c55e" data-date="May 21" data-val="18%" onclick="showDotTip(this,event)"/>
+              <circle class="mg-dot" cx="290" cy="58" r="5" fill="#2563eb" stroke="#fff" stroke-width="2" data-date="May 22" data-val="12%" onclick="showDotTip(this,event)"/>
+              <!-- Today label -->
               <rect x="263" y="42" width="34" height="16" rx="6" fill="#22c55e"/>
               <text x="280" y="53" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">12%</text>
-              <!-- X labels -->
               <text x="30"  y="92" font-size="7" fill="#9aadc9" text-anchor="middle">May 16</text>
               <text x="72"  y="92" font-size="7" fill="#9aadc9" text-anchor="middle">May 17</text>
               <text x="114" y="92" font-size="7" fill="#9aadc9" text-anchor="middle">May 18</text>
@@ -217,6 +201,8 @@
               <text x="244" y="92" font-size="7" fill="#9aadc9" text-anchor="middle">May 21</text>
               <text x="290" y="92" font-size="7" fill="#9aadc9" text-anchor="middle">May 22</text>
             </svg>
+            <!-- Dot tooltip -->
+            <div id="dotTooltip" class="mg-dot-tooltip" style="display:none;"></div>
           </div>
         </div>
 
@@ -225,31 +211,23 @@
           <div class="mg-card-title" style="margin-bottom:12px;">Recent Signals</div>
           <div class="mg-signals-row">
 
-            <div class="mg-signal-cell">
-              <div class="mg-signal-icon mg-si-green">
-                <i class="fa-solid fa-shield-halved"></i>
-              </div>
+            <div class="mg-signal-cell" onclick="openSignal(0)">
+              <div class="mg-signal-icon mg-si-green"><i class="fa-solid fa-shield-halved"></i></div>
               <div class="mg-signal-lbl">No severe warning signs</div>
             </div>
 
-            <div class="mg-signal-cell">
-              <div class="mg-signal-icon mg-si-amber">
-                <i class="fa-solid fa-sun"></i>
-              </div>
+            <div class="mg-signal-cell" onclick="openSignal(1)">
+              <div class="mg-signal-icon mg-si-amber"><i class="fa-solid fa-sun"></i></div>
               <div class="mg-signal-lbl">Stress elevated in afternoon</div>
             </div>
 
-            <div class="mg-signal-cell">
-              <div class="mg-signal-icon mg-si-purple">
-                <i class="fa-solid fa-moon"></i>
-              </div>
+            <div class="mg-signal-cell" onclick="openSignal(2)">
+              <div class="mg-signal-icon mg-si-purple"><i class="fa-solid fa-moon"></i></div>
               <div class="mg-signal-lbl">Sleep acceptable</div>
             </div>
 
-            <div class="mg-signal-cell">
-              <div class="mg-signal-icon mg-si-blue">
-                <i class="fa-solid fa-droplet"></i>
-              </div>
+            <div class="mg-signal-cell" onclick="openSignal(3)">
+              <div class="mg-signal-icon mg-si-blue"><i class="fa-solid fa-droplet"></i></div>
               <div class="mg-signal-lbl">Hydration reminder</div>
             </div>
 
@@ -261,34 +239,26 @@
           <div class="mg-card-title" style="margin-bottom:10px;">Recommendations</div>
           <div class="mg-rec-list">
 
-            <div class="mg-rec-row">
-              <div class="mg-rec-icon-wrap mg-ri-blue">
-                <i class="fa-solid fa-droplet"></i>
-              </div>
+            <div class="mg-rec-row" onclick="openRec(0)">
+              <div class="mg-rec-icon-wrap mg-ri-blue"><i class="fa-solid fa-droplet"></i></div>
               <span class="mg-rec-text">Stay hydrated</span>
               <i class="fa-solid fa-chevron-right mg-rec-arrow"></i>
             </div>
 
-            <div class="mg-rec-row">
-              <div class="mg-rec-icon-wrap mg-ri-green">
-                <i class="fa-solid fa-mug-hot"></i>
-              </div>
+            <div class="mg-rec-row" onclick="openRec(1)">
+              <div class="mg-rec-icon-wrap mg-ri-green"><i class="fa-solid fa-mug-hot"></i></div>
               <span class="mg-rec-text">Take regular breaks</span>
               <i class="fa-solid fa-chevron-right mg-rec-arrow"></i>
             </div>
 
-            <div class="mg-rec-row">
-              <div class="mg-rec-icon-wrap mg-ri-purple">
-                <i class="fa-solid fa-spa"></i>
-              </div>
+            <div class="mg-rec-row" onclick="openRec(2)">
+              <div class="mg-rec-icon-wrap mg-ri-purple"><i class="fa-solid fa-spa"></i></div>
               <span class="mg-rec-text">Practice relaxation</span>
               <i class="fa-solid fa-chevron-right mg-rec-arrow"></i>
             </div>
 
-            <div class="mg-rec-row" style="border:none;">
-              <div class="mg-rec-icon-wrap mg-ri-indigo">
-                <i class="fa-solid fa-moon"></i>
-              </div>
+            <div class="mg-rec-row" style="border:none;" onclick="openRec(3)">
+              <div class="mg-rec-icon-wrap mg-ri-indigo"><i class="fa-solid fa-moon"></i></div>
               <span class="mg-rec-text">Maintain a consistent sleep routine</span>
               <i class="fa-solid fa-chevron-right mg-rec-arrow"></i>
             </div>
@@ -297,16 +267,12 @@
         </div>
 
         <!-- ── Set Risk Alerts Button ─────────────── -->
-        <button class="mg-alert-btn" onclick="showAlertToast()">
+        <button class="mg-alert-btn" id="mgAlertBtn" onclick="toggleAlerts()">
           <i class="fa-solid fa-shield-halved"></i>
-          Set Risk Alerts
+          <span id="mgAlertBtnText">Set Risk Alerts</span>
         </button>
 
-        <!-- Toast -->
-        <div id="mgToast" class="mg-toast">
-          <i class="fa-solid fa-bell"></i> Risk alerts enabled!
-        </div>
-
+        <div id="mgToast" class="mg-toast"></div>
         <div style="height:80px;"></div>
       </div><!-- /mg-scroll -->
 
@@ -317,15 +283,315 @@
         <a href="interventions.html" class="nav-item"><i class="fa-solid fa-spa"></i><span>Interventions</span></a>
         <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
       </div>
-</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       OVERLAYS
+  ════════════════════════════════════════════ -->
+  <div class="mg-overlay" id="mgOverlay" onclick="closeAll()"></div>
+
+  <!-- ── Calendar Modal ───────────────────────── -->
+  <div class="mg-modal" id="calModal">
+    <div class="mg-modal-drag"></div>
+    <div class="mg-modal-header">
+      <div class="mg-modal-title">Select Date</div>
+      <button class="mg-modal-close" onclick="closeAll()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mg-cal-nav">
+      <button class="mg-cal-nav-btn" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+      <span class="mg-cal-month-lbl" id="calMonthLbl">May 2025</span>
+      <button class="mg-cal-nav-btn" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+    <div class="mg-cal-days-header">
+      <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+    </div>
+    <div class="mg-cal-grid" id="calGrid"></div>
+    <div class="mg-cal-legend">
+      <div class="mg-cal-leg-item"><span class="mg-cal-leg-dot" style="background:#22c55e;"></span> Low Risk</div>
+      <div class="mg-cal-leg-item"><span class="mg-cal-leg-dot" style="background:#f59e0b;"></span> Moderate</div>
+      <div class="mg-cal-leg-item"><span class="mg-cal-leg-dot" style="background:#ef4444;"></span> High Risk</div>
+    </div>
+  </div>
+
+  <!-- ── Factor Detail Sheet ──────────────────── -->
+  <div class="mg-modal" id="factorModal">
+    <div class="mg-modal-drag"></div>
+    <div class="mg-modal-header">
+      <div class="mg-modal-title" id="factorTitle">Sleep Quality</div>
+      <button class="mg-modal-close" onclick="closeAll()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mg-factor-detail-body">
+      <div class="mg-fd-icon-row">
+        <div class="mg-fd-icon" id="factorIconWrap"><i id="factorIcon" class="fa-solid fa-moon"></i></div>
+        <div>
+          <div class="mg-fd-status" id="factorStatus">Good</div>
+          <div class="mg-fd-sub" id="factorSub">7.5 hours · Deep sleep detected</div>
+        </div>
+      </div>
+      <div class="mg-fd-bar-wrap">
+        <div class="mg-fd-bar-track">
+          <div class="mg-fd-bar-fill" id="factorBar" style="width:80%;background:#22c55e;"></div>
+        </div>
+        <div class="mg-fd-bar-labels">
+          <span>Low</span><span>Moderate</span><span>High Risk</span>
+        </div>
+      </div>
+      <div class="mg-fd-desc" id="factorDesc">Your sleep quality is good and is not contributing to migraine risk today. Maintaining 7–9 hours of restful sleep helps reduce migraine frequency significantly.</div>
+      <div class="mg-fd-trend-label">7-Day Trend</div>
+      <div class="mg-fd-trend-pills" id="factorTrend"></div>
+    </div>
+  </div>
+
+  <!-- ── Signal Detail Sheet ──────────────────── -->
+  <div class="mg-modal" id="signalModal">
+    <div class="mg-modal-drag"></div>
+    <div class="mg-modal-header">
+      <div class="mg-modal-title" id="signalTitle">Signal Detail</div>
+      <button class="mg-modal-close" onclick="closeAll()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mg-signal-detail-body">
+      <div class="mg-sd-icon-wrap" id="signalIconWrap">
+        <i id="signalIcon" class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div class="mg-sd-status" id="signalStatus">All Clear</div>
+      <div class="mg-sd-desc" id="signalDesc">No severe migraine warning signs detected in your biometric data today.</div>
+      <div class="mg-sd-time" id="signalTime"><i class="fa-regular fa-clock"></i> Detected at 10:30 AM</div>
+      <div class="mg-sd-action-btn" id="signalAction" onclick="closeAll()">Got it</div>
+    </div>
+  </div>
+
+  <!-- ── Recommendation Sheet ─────────────────── -->
+  <div class="mg-modal" id="recModal">
+    <div class="mg-modal-drag"></div>
+    <div class="mg-modal-header">
+      <div class="mg-modal-title" id="recTitle">Stay Hydrated</div>
+      <button class="mg-modal-close" onclick="closeAll()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mg-rec-detail-body">
+      <div class="mg-rd-icon-wrap" id="recIconWrap"><i id="recIcon" class="fa-solid fa-droplet"></i></div>
+      <div class="mg-rd-why-title">Why This Helps</div>
+      <div class="mg-rd-why-text" id="recWhyText">Dehydration is a common migraine trigger. Even mild dehydration can cause blood vessels to constrict, increasing risk.</div>
+      <div class="mg-rd-steps-title">Steps to Follow</div>
+      <div class="mg-rd-steps" id="recSteps"></div>
+      <div class="mg-rd-impact">
+        <div class="mg-rd-impact-label">Estimated Risk Reduction</div>
+        <div class="mg-rd-impact-val" id="recImpact">↓ 8–12%</div>
+      </div>
+      <button class="mg-rd-cta" onclick="markDone()">Mark as Done <i class="fa-solid fa-check"></i></button>
+    </div>
   </div>
 
   <script>
-    function showAlertToast() {
-      const t = document.getElementById('mgToast');
-      t.classList.add('mg-toast-show');
-      setTimeout(() => t.classList.remove('mg-toast-show'), 2600);
+  /* ═══════════════════════════════════════
+     DATA
+  ═══════════════════════════════════════ */
+  const factors = [
+    { title:'Sleep Quality', icon:'fa-moon', color:'#7c3aed', bg:'#ede9fe', status:'Good', sub:'7.5 hours · Deep sleep detected', bar:80, barColor:'#22c55e', desc:'Your sleep quality is good and is not contributing to migraine risk today. Maintaining 7–9 hours of restful sleep helps reduce migraine frequency significantly.', trend:['G','G','G','G','G','G','G'] },
+    { title:'HRV Trend', icon:'fa-heart-pulse', color:'#ef4444', bg:'#fee2e2', status:'Stable', sub:'Avg. 45ms · Within healthy range', bar:25, barColor:'#22c55e', desc:'Your Heart Rate Variability is stable, indicating a balanced autonomic nervous system. Low HRV is a known predictor of migraine onset.', trend:['G','G','G','A','G','G','G'] },
+    { title:'Stress Level', icon:'fa-sliders', color:'#2563eb', bg:'#dbeafe', status:'Moderate', sub:'62% · Elevated in afternoon', bar:62, barColor:'#f59e0b', desc:'Moderate stress was detected in the afternoon hours. Chronic or acute stress is one of the most common migraine triggers. Try short breathing exercises to lower cortisol levels.', trend:['G','A','G','A','A','G','A'] },
+    { title:'Skin Temperature', icon:'fa-temperature-half', color:'#f97316', bg:'#ffedd5', status:'Normal', sub:'33.2°C · Stable all day', bar:30, barColor:'#22c55e', desc:'Your skin temperature is within the normal range. Abnormal fluctuations (especially drops) can signal vasomotor changes associated with migraines.', trend:['G','G','G','G','G','G','G'] },
+    { title:'GSR Spikes', icon:'fa-droplet', color:'#0891b2', bg:'#cffafe', status:'Low', sub:'2 spikes detected · Minimal impact', bar:15, barColor:'#22c55e', desc:'Galvanic Skin Response spikes indicate moments of acute stress or physical effort. Only 2 minor spikes were detected today — a very low count that poses minimal migraine risk.', trend:['G','G','A','G','G','G','G'] },
+    { title:'Motion Pattern', icon:'fa-person-walking', color:'#16a34a', bg:'#dcfce7', status:'Stable', sub:'Regular activity · No sudden changes', bar:20, barColor:'#22c55e', desc:'Your motion pattern is consistent and regular. Sudden bursts of physical exertion or prolonged inactivity can both trigger migraines. Your current pattern is healthy.', trend:['G','G','G','G','G','G','G'] },
+  ];
+
+  const signals = [
+    { title:'No Warning Signs', icon:'fa-shield-halved', iconBg:'#dcfce7', iconColor:'#16a34a', status:'All Clear', statusColor:'#22c55e', desc:'No severe migraine warning signs detected in your biometric data today. Your readings are all within safe thresholds.', time:'Checked at 10:30 AM', action:'Got it' },
+    { title:'Afternoon Stress Spike', icon:'fa-sun', iconBg:'#fef3c7', iconColor:'#d97706', status:'Caution', statusColor:'#d97706', desc:'Stress levels elevated between 2–4 PM today. This is a common migraine trigger window. Consider a 5-minute breathing exercise during this period tomorrow.', time:'Detected at 2:14 PM', action:'Set Reminder' },
+    { title:'Sleep Quality', icon:'fa-moon', iconBg:'#ede9fe', iconColor:'#7c3aed', status:'Acceptable', statusColor:'#7c3aed', desc:'You got 7.5 hours of sleep last night. While acceptable, 8+ hours with consistent sleep/wake times would further reduce your migraine risk.', time:'Logged at 7:00 AM', action:'View Sleep Tips' },
+    { title:'Hydration Reminder', icon:'fa-droplet', iconBg:'#dbeafe', iconColor:'#2563eb', status:'Reminder', statusColor:'#2563eb', desc:'Dehydration detected based on activity and biometric patterns. Aim to drink at least 2 more glasses of water before 6 PM today.', time:'Detected at 3:45 PM', action:'Log Water Intake' },
+  ];
+
+  const recs = [
+    { title:'Stay Hydrated', icon:'fa-droplet', iconBg:'#dbeafe', iconColor:'#2563eb', why:'Dehydration is one of the most common migraine triggers. Even mild dehydration (1–2% fluid loss) can cause blood vessels to temporarily constrict, increasing pain sensitivity.', steps:['Drink at least 8 glasses (2L) of water daily','Set hourly hydration reminders in StressCare','Avoid excessive caffeine and alcohol','Eat water-rich foods like cucumber, watermelon'], impact:'↓ 8–12%' },
+    { title:'Take Regular Breaks', icon:'fa-mug-hot', iconBg:'#dcfce7', iconColor:'#16a34a', why:'Prolonged screen time and sustained focus create muscular tension in the neck and shoulders — a direct pathway to tension-type and cervicogenic migraines.', steps:['Follow the 20-20-20 rule (every 20 min, look 20 ft away for 20 sec)','Stand and stretch for 2 minutes every hour','Reduce overhead lighting glare on your screen','Use StressCare break reminders'], impact:'↓ 6–10%' },
+    { title:'Practice Relaxation', icon:'fa-spa', iconBg:'#ede9fe', iconColor:'#7c3aed', why:'Stress activates the sympathetic nervous system, raising cortisol and adrenaline — both of which are known to trigger or worsen migraines in susceptible individuals.', steps:['Try the Box Breathing exercise in Interventions','Spend 10 minutes meditating before bed','Use progressive muscle relaxation on tense days','Journal your stress triggers to spot patterns'], impact:'↓ 10–15%' },
+    { title:'Consistent Sleep Routine', icon:'fa-moon', iconBg:'#e0e7ff', iconColor:'#4f46e5', why:'Irregular sleep patterns disrupt serotonin production — a key neurotransmitter in migraine prevention. Even sleeping in on weekends can trigger "weekend migraines."', steps:['Wake up and sleep at the same time every day','Avoid screens 30 minutes before bedtime','Keep your bedroom dark and cool (18–20°C)','Use StressCare sleep tracking to monitor quality'], impact:'↓ 12–18%' },
+  ];
+
+  /* ═══════════════════════════════════════
+     CALENDAR
+  ═══════════════════════════════════════ */
+  let calYear = 2025, calMonth = 4; // May = index 4
+  const calRiskMap = { 1:'low',2:'low',3:'low',4:'low',5:'mod',6:'low',7:'low',8:'low',9:'low',10:'low',11:'low',12:'mod',13:'mod',14:'low',15:'low',16:'low',17:'low',18:'low',19:'low',20:'low',21:'low',22:'low',23:'low',24:'low',25:'mod',26:'low',27:'low',28:'low',29:'low',30:'low',31:'low' };
+  let selectedDay = 22;
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function openCalendar() {
+    renderCalendar();
+    showModal('calModal');
+  }
+
+  function renderCalendar() {
+    document.getElementById('calMonthLbl').textContent = months[calMonth] + ' ' + calYear;
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    for (let i = 0; i < firstDay; i++) {
+      const blank = document.createElement('div');
+      blank.className = 'mg-cal-day mg-cal-blank';
+      grid.appendChild(blank);
     }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cell = document.createElement('div');
+      const risk = calRiskMap[d] || 'low';
+      const isSelected = (d === selectedDay && calMonth === 4 && calYear === 2025);
+      const isToday = (d === 22 && calMonth === 4 && calYear === 2025);
+      cell.className = 'mg-cal-day' + (isSelected ? ' mg-cal-selected' : '') + (isToday && !isSelected ? ' mg-cal-today' : '');
+      cell.innerHTML = `<span>${d}</span><span class="mg-cal-risk-dot mg-dot-${risk}"></span>`;
+      cell.onclick = () => selectDay(d);
+      grid.appendChild(cell);
+    }
+  }
+
+  function selectDay(d) {
+    selectedDay = d;
+    renderCalendar();
+    const dateStr = `${months[calMonth].slice(0,3)} ${d}, ${calYear}`;
+    document.getElementById('mgHeaderDate').textContent = dateStr;
+    setTimeout(() => closeAll(), 300);
+  }
+
+  function changeMonth(dir) {
+    calMonth += dir;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+  }
+
+  /* ═══════════════════════════════════════
+     RISK FACTORS
+  ═══════════════════════════════════════ */
+  function openFactor(i) {
+    const f = factors[i];
+    document.getElementById('factorTitle').textContent = f.title;
+    const iw = document.getElementById('factorIconWrap');
+    iw.style.background = f.bg;
+    iw.style.color = f.color;
+    document.getElementById('factorIcon').className = 'fa-solid ' + f.icon;
+    document.getElementById('factorStatus').textContent = f.status;
+    document.getElementById('factorStatus').style.color = f.barColor;
+    document.getElementById('factorSub').textContent = f.sub;
+    document.getElementById('factorBar').style.width = f.bar + '%';
+    document.getElementById('factorBar').style.background = f.barColor;
+    document.getElementById('factorDesc').textContent = f.desc;
+    const trendEl = document.getElementById('factorTrend');
+    const colors = { G:'#22c55e', A:'#f59e0b', R:'#ef4444' };
+    const labels = { G:'Good', A:'Mod', R:'High' };
+    trendEl.innerHTML = f.trend.map(v => `<span class="mg-trend-pill" style="background:${colors[v]}20;color:${colors[v]}">${labels[v]}</span>`).join('');
+    showModal('factorModal');
+  }
+
+  /* ═══════════════════════════════════════
+     CHART DOT TOOLTIP
+  ═══════════════════════════════════════ */
+  let dotTipOpen = false;
+  function showDotTip(dot, e) {
+    e.stopPropagation();
+    const tip = document.getElementById('dotTooltip');
+    const date = dot.getAttribute('data-date');
+    const val  = dot.getAttribute('data-val');
+    tip.innerHTML = `<strong>${date}</strong><br>${val} Risk`;
+    tip.style.display = 'block';
+    // Position near dot
+    const svg = document.getElementById('mgTrendSvg');
+    const svgRect = svg.getBoundingClientRect();
+    const dotRect = dot.getBoundingClientRect();
+    const left = dotRect.left - svgRect.left + (dotRect.width / 2);
+    const top  = dotRect.top - svgRect.top - 44;
+    tip.style.left = Math.min(Math.max(left - 40, 0), svgRect.width - 88) + 'px';
+    tip.style.top  = top + 'px';
+    dotTipOpen = true;
+    setTimeout(() => { tip.style.display = 'none'; dotTipOpen = false; }, 2200);
+  }
+
+  /* ═══════════════════════════════════════
+     SIGNALS
+  ═══════════════════════════════════════ */
+  function openSignal(i) {
+    const s = signals[i];
+    document.getElementById('signalTitle').textContent = s.title;
+    const iw = document.getElementById('signalIconWrap');
+    iw.style.background = s.iconBg;
+    iw.style.color = s.iconColor;
+    document.getElementById('signalIcon').className = 'fa-solid ' + s.icon;
+    const statusEl = document.getElementById('signalStatus');
+    statusEl.textContent = s.status;
+    statusEl.style.color = s.statusColor;
+    document.getElementById('signalDesc').textContent = s.desc;
+    document.getElementById('signalTime').innerHTML = `<i class="fa-regular fa-clock"></i> ${s.time}`;
+    document.getElementById('signalAction').textContent = s.action;
+    showModal('signalModal');
+  }
+
+  /* ═══════════════════════════════════════
+     RECOMMENDATIONS
+  ═══════════════════════════════════════ */
+  function openRec(i) {
+    const r = recs[i];
+    document.getElementById('recTitle').textContent = r.title;
+    const iw = document.getElementById('recIconWrap');
+    iw.style.background = r.iconBg;
+    iw.style.color = r.iconColor;
+    document.getElementById('recIcon').className = 'fa-solid ' + r.icon;
+    document.getElementById('recWhyText').textContent = r.why;
+    document.getElementById('recSteps').innerHTML = r.steps.map(s => `<div class="mg-rd-step"><i class="fa-solid fa-circle-check"></i> ${s}</div>`).join('');
+    document.getElementById('recImpact').textContent = r.impact;
+    showModal('recModal');
+  }
+
+  function markDone() {
+    closeAll();
+    showToast('<i class="fa-solid fa-circle-check"></i> Marked as done!', '#22c55e');
+  }
+
+  /* ═══════════════════════════════════════
+     ALERTS TOGGLE
+  ═══════════════════════════════════════ */
+  let alertsOn = false;
+  function toggleAlerts() {
+    alertsOn = !alertsOn;
+    const btn = document.getElementById('mgAlertBtn');
+    const txt = document.getElementById('mgAlertBtnText');
+    if (alertsOn) {
+      btn.style.background = '#16a34a';
+      txt.textContent = 'Alerts Enabled ✓';
+      showToast('<i class="fa-solid fa-bell"></i> Risk alerts enabled!', '#16a34a');
+    } else {
+      btn.style.background = '#2563eb';
+      txt.textContent = 'Set Risk Alerts';
+      showToast('<i class="fa-solid fa-bell-slash"></i> Alerts disabled', '#5a6882');
+    }
+  }
+
+  /* ═══════════════════════════════════════
+     UTILITY
+  ═══════════════════════════════════════ */
+  function showModal(id) {
+    document.getElementById('mgOverlay').classList.add('mg-overlay-show');
+    document.getElementById(id).classList.add('mg-modal-show');
+  }
+
+  function closeAll() {
+    document.querySelectorAll('.mg-modal').forEach(m => m.classList.remove('mg-modal-show'));
+    document.getElementById('mgOverlay').classList.remove('mg-overlay-show');
+  }
+
+  function showToast(html, color) {
+    const t = document.getElementById('mgToast');
+    t.innerHTML = html;
+    t.style.background = color || '#1a2b4b';
+    t.classList.add('mg-toast-show');
+    setTimeout(() => t.classList.remove('mg-toast-show'), 2600);
+  }
+
+  // Close dot tooltip on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('mg-dot')) {
+      document.getElementById('dotTooltip').style.display = 'none';
+    }
+  });
   </script>
 
 </body>
