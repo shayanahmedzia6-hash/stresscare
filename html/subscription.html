@@ -3,69 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StressCare - Subscription Plan</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <title>StressCare - Choose Your Plan</title>
+  <link rel="stylesheet" href="../css/auth.css">
   <link rel="stylesheet" href="../css/subscription.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen">
-    <div class="screen-header">
-      <a href="login.html" class="back-btn">←</a>
-      <h1>Choose Your Plan</h1>
-    </div>
 
-    <div class="screen-main">
-      <div class="plans-container">
-        <!-- Free Plan -->
-        <div class="plan-card">
-          <div class="plan-header">
-            <h3>Free</h3>
-            <div class="plan-price">
-              <span class="price">₹0</span>
-              <span class="period">/month</span>
-            </div>
-          </div>
-          <ul class="plan-features">
-            <li>✓ Basic stress monitoring</li>
-            <li>✓ 7-day history</li>
-            <li>✓ Daily reports</li>
-            <li>✗ Real-time alerts</li>
-            <li>✗ AI insights</li>
-            <li>✗ Wearable support</li>
-          </ul>
-          <button class="btn btn-outline btn-block">Start Free</button>
-        </div>
+  <div class="phone-frame">
+    <div class="sub-screen">
 
-        <!-- Premium Plan -->
-        <div class="plan-card featured">
-          <div class="badge-container">
-            <span class="badge badge-primary">POPULAR</span>
-          </div>
-          <div class="plan-header">
-            <h3>Premium</h3>
-            <div class="plan-price">
-              <span class="price">₹299</span>
-              <span class="period">/month</span>
-            </div>
-          </div>
-          <ul class="plan-features">
-            <li>✓ Real-time stress monitoring</li>
-            <li>✓ Unlimited history</li>
-            <li>✓ Daily & weekly reports</li>
-            <li>✓ Real-time alerts</li>
-            <li>✓ AI insights & tips</li>
-            <li>✓ Wearable support</li>
-          </ul>
-          <button class="btn btn-primary btn-block">Subscribe Now</button>
+      <!-- Status Bar -->
+      <div class="sub-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
         </div>
       </div>
-    </div>
 
-    <div class="screen-footer">
-      <p class="text-center text-muted text-sm">
-        You can change your plan anytime. <a href="help.html">Learn more</a>
-      </p>
+      <!-- Top Bar: Logo + Shield -->
+      <div class="sub-topbar">
+        <img src="../images/logo.png" alt="StressCare" class="sub-logo">
+        <div class="sub-shield-btn">
+          <i class="fa-solid fa-shield"></i>
+        </div>
+      </div>
+
+      <!-- Scrollable area -->
+      <div class="sub-scroll">
+
+        <!-- Page heading -->
+        <div class="sub-heading-row">
+          <button class="back-circle" onclick="history.back()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="sub-heading-text">
+            <h1 class="sub-main-title">Choose Your Plan</h1>
+            <p class="sub-main-sub">Unlock deeper insights and a healthier you.</p>
+          </div>
+        </div>
+
+        <!-- Billing Toggle -->
+        <div class="billing-toggle">
+          <button class="tog-btn tog-active" id="monthlyBtn" onclick="setBilling('monthly')">Monthly billing</button>
+          <button class="tog-btn tog-yearly" id="yearlyBtn" onclick="setBilling('yearly')">Save 20% with yearly</button>
+        </div>
+
+        <!-- Plan Cards Row -->
+        <div class="plans-row">
+
+          <!-- Free Plan -->
+          <div class="plan-card free-card">
+            <div class="plan-name-row">Free Plan</div>
+            <div class="plan-price-row">
+              <span class="price-cur">PKR</span>
+              <span class="price-num" id="freePrice">0</span>
+              <span class="price-per">/ month</span>
+            </div>
+            <div class="plan-leaf-wrap">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <ul class="plan-feats">
+              <li><i class="fa-solid fa-circle-check green-chk"></i>Basic stress monitoring</li>
+              <li><i class="fa-solid fa-circle-check green-chk"></i>Limited history (7 days)</li>
+              <li><i class="fa-solid fa-circle-check green-chk"></i>Standard insights</li>
+              <li><i class="fa-solid fa-circle-check green-chk"></i>Standard support</li>
+            </ul>
+          </div>
+
+          <!-- Premium Plan -->
+          <div class="plan-card prem-card">
+            <div class="best-badge">BEST VALUE</div>
+            <div class="plan-name-row prem-name">Premium Plan <span class="crown-emoji">👑</span></div>
+            <div class="plan-price-row prem-price">
+              <span class="price-cur prem-cur">PKR</span>
+              <span class="price-num prem-num" id="premPrice">599</span>
+              <span class="price-per prem-per">/ month</span>
+            </div>
+            <p class="prem-tag">Everything in Free, plus:</p>
+            <ul class="plan-feats prem-feats">
+              <li><i class="fa-solid fa-circle-check blue-chk"></i>Advanced stress insights</li>
+              <li><i class="fa-solid fa-circle-check blue-chk"></i>Migraine risk insights</li>
+              <li><i class="fa-solid fa-circle-check blue-chk"></i>Sleep analysis &amp; insights</li>
+              <li><i class="fa-solid fa-circle-check blue-chk"></i>Cloud sync &amp; backup</li>
+              <li><i class="fa-solid fa-circle-check blue-chk"></i>Personalized recommendations</li>
+              <li><i class="fa-solid fa-circle-check blue-chk"></i>Priority support</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Compare Plans Table -->
+        <div class="compare-wrap">
+          <div class="compare-title-row">
+            <span class="compare-title">Compare Plans</span>
+            <span class="compare-col-head free-head">Free</span>
+            <span class="compare-col-head prem-head">Premium</span>
+          </div>
+
+          <div class="compare-row">
+            <div class="compare-feat"><i class="fa-solid fa-wave-square ci"></i><span>Stress Monitoring</span></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-check green-chk"></i></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-check blue-chk"></i></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feat"><i class="fa-regular fa-calendar ci"></i><span>History</span></div>
+            <div class="compare-val txt-gray">7 days</div>
+            <div class="compare-val txt-blue fw6">Unlimited</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feat"><i class="fa-solid fa-chart-bar ci"></i><span>Insights &amp; Analytics</span></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-check green-chk"></i></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-check blue-chk"></i></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feat"><i class="fa-solid fa-head-side-virus ci"></i><span>Migraine Risk Insights</span></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-xmark xmark-gray"></i></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-check blue-chk"></i></div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-feat"><i class="fa-solid fa-cloud-arrow-up ci"></i><span>Cloud Sync &amp; Backup</span></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-xmark xmark-gray"></i></div>
+            <div class="compare-val"><i class="fa-solid fa-circle-check blue-chk"></i></div>
+          </div>
+          <div class="compare-row compare-row-last">
+            <div class="compare-feat"><i class="fa-solid fa-headset ci"></i><span>Support</span></div>
+            <div class="compare-val txt-gray">Standard</div>
+            <div class="compare-val txt-blue fw6">Priority</div>
+          </div>
+        </div>
+
+        <!-- Bottom spacer for fixed bar -->
+        <div class="bottom-spacer"></div>
+
+      </div><!-- /sub-scroll -->
+
+      <!-- Fixed Bottom CTA Bar -->
+      <div class="sub-bottom-bar">
+        <div class="secure-row">
+          <div class="secure-icon-wrap">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div class="secure-txt">
+            <span class="secure-main">Secure &amp; private.</span>
+            <span class="secure-hint">Your data is always protected.</span>
+          </div>
+        </div>
+        <div class="cta-col">
+          <button class="btn-choose-prem" onclick="window.location.href='home.html'">
+            Choose Premium <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <p class="cta-note">Cancel anytime. No hidden fees.</p>
+        </div>
+      </div>
+
     </div>
   </div>
+
+  <script>
+    const prices = {
+      monthly: { free: 0, prem: 599 },
+      yearly:  { free: 0, prem: 479 }
+    };
+
+    function setBilling(type) {
+      document.getElementById('freePrice').textContent = prices[type].free;
+      document.getElementById('premPrice').textContent = prices[type].prem;
+      document.getElementById('monthlyBtn').classList.toggle('tog-active', type === 'monthly');
+      document.getElementById('yearlyBtn').classList.toggle('tog-active', type === 'yearly');
+    }
+  </script>
+
 </body>
 </html>
