@@ -3,17 +3,217 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StressCare - Cloud Sync & Model Update</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/cloud-sync.css">
+  <title>StressCare - Cloud Sync</title>
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="../css/settings.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ── Header ──────────────────────────────── */
+    .cs-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px 10px;
+      flex-shrink: 0;
+    }
+    .cs-back-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #e2eaf5;
+      background: #f8faff;
+      color: #1a2b4b;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: all 0.18s;
+    }
+    .cs-back-btn:hover { background: #eff6ff; border-color: #2563eb; color: #2563eb; }
+    .cs-header-title { font-size: 18px; font-weight: 800; color: #1a2b4b; flex: 1; }
+    .cs-header-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: #cffafe; color: #0891b2; font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Scroll ──────────────────────────────── */
+    .cs-scroll {
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      scrollbar-width: none; padding: 0 16px;
+    }
+    .cs-scroll::-webkit-scrollbar { display: none; }
+
+    /* ── Status Hero Card ────────────────────── */
+    .cs-status-hero {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 6px 24px rgba(37,99,235,0.28);
+    }
+    .cs-hero-icon-wrap {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; color: #fff;
+      flex-shrink: 0;
+    }
+    .cs-hero-info { flex: 1; }
+    .cs-hero-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .cs-hero-sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-bottom: 8px; }
+    .cs-hero-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.2);
+      color: #fff; font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 20px;
+    }
+
+    /* ── Section Label ───────────────────────── */
+    .cs-section-label {
+      font-size: 13px; font-weight: 700; color: #2563eb;
+      margin: 16px 2px 8px;
+    }
+
+    /* ── Card ────────────────────────────────── */
+    .cs-card {
+      background: #fff;
+      border-radius: 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+      overflow: hidden;
+    }
+
+    /* ── Info Rows ───────────────────────────── */
+    .cs-info-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-bottom: 1px solid #f3f6fb;
+    }
+    .cs-info-row:last-child { border-bottom: none; }
+    .cs-info-left { display: flex; align-items: center; gap: 10px; }
+    .cs-info-icon {
+      width: 32px; height: 32px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0;
+    }
+    .cs-info-label { font-size: 13px; font-weight: 600; color: #1a2b4b; }
+    .cs-info-value { font-size: 12px; font-weight: 600; color: #9aadc9; }
+    .cs-synced-val { color: #22c55e; }
+
+    /* ── Toggle Row ──────────────────────────── */
+    .cs-toggle-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid #f3f6fb;
+    }
+    .cs-toggle-row:last-child { border-bottom: none; }
+    .cs-toggle-left { display: flex; align-items: center; gap: 10px; }
+    .cs-toggle-label { font-size: 13.5px; font-weight: 600; color: #1a2b4b; }
+    .cs-toggle-sub { font-size: 11px; color: #9aadc9; margin-top: 1px; }
+
+    /* ── Model Row ───────────────────────────── */
+    .cs-model-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-bottom: 1px solid #f3f6fb;
+    }
+    .cs-model-row:last-child { border-bottom: none; }
+    .cs-model-left { display: flex; align-items: center; gap: 12px; }
+    .cs-model-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0;
+    }
+    .cs-mi-teal   { background: #ccfbf1; color: #0d9488; }
+    .cs-mi-purple { background: #ede9fe; color: #7c3aed; }
+    .cs-model-name { font-size: 13.5px; font-weight: 700; color: #1a2b4b; }
+    .cs-model-ver-badge {
+      font-size: 11px; font-weight: 700;
+      background: #f0fdf4; color: #16a34a;
+      padding: 2px 9px; border-radius: 20px;
+      border: 1px solid #bbf7d0;
+      margin-top: 2px;
+      display: inline-block;
+    }
+    .cs-model-right { display: flex; align-items: center; gap: 8px; }
+    .cs-model-check { font-size: 18px; color: #22c55e; }
+
+    /* ── Update Card ─────────────────────────── */
+    .cs-update-card {
+      background: #fff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+    }
+    .cs-update-top {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 14px;
+    }
+    .cs-update-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: #dbeafe; color: #2563eb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .cs-update-info { flex: 1; }
+    .cs-update-title { font-size: 14px; font-weight: 800; color: #1a2b4b; margin-bottom: 3px; }
+    .cs-update-badges { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .cs-ver-pill {
+      font-size: 11px; font-weight: 700;
+      background: #dbeafe; color: #1d4ed8;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .cs-date-pill { font-size: 11px; color: #9aadc9; font-weight: 600; }
+    .cs-feat-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .cs-feat-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12.5px; color: #4b5e7a;
+    }
+    .cs-feat-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: #eff6ff; color: #2563eb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; flex-shrink: 0;
+    }
+
+    /* ── Buttons ─────────────────────────────── */
+    .cs-btn-primary {
+      width: 100%; background: #2563eb; color: #fff;
+      border: none; border-radius: 14px; padding: 14px;
+      font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(37,99,235,0.28);
+      margin-bottom: 12px; transition: all 0.2s;
+    }
+    .cs-btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .cs-btn-primary:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+    .cs-btn-outline {
+      width: 100%; background: none;
+      border: 1.5px solid #2563eb; color: #2563eb;
+      border-radius: 14px; padding: 13px;
+      font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      cursor: pointer; margin-bottom: 12px; transition: all 0.2s;
+    }
+    .cs-btn-outline:hover { background: #eff6ff; }
+  </style>
 </head>
 <body>
 
   <div class="phone-frame">
-    <div class="cs-screen">
+    <div class="st-screen">
 
-      <!-- Status Bar -->
+      <!-- ── Status Bar ─────────────────────────── -->
       <div class="dp-status-bar">
         <span class="status-time">10:30</span>
         <div class="status-icons">
@@ -24,64 +224,115 @@
         </div>
       </div>
 
-      <!-- Top Nav -->
-      <div class="dp-topnav">
-        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
-        <a href="notifications.html" class="dp-bell">
-          <i class="fa-regular fa-bell"></i>
-          <span class="bell-dot"></span>
+      <!-- ── Header ─────────────────────────────── -->
+      <div class="cs-header">
+        <a href="profile.html" class="cs-back-btn">
+          <i class="fa-solid fa-arrow-left"></i>
         </a>
+        <span class="cs-header-title">Cloud Sync</span>
+        <div class="cs-header-icon">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+        </div>
       </div>
 
-      <!-- Scrollable Content -->
+      <!-- ── Scrollable ─────────────────────────── -->
       <div class="cs-scroll">
 
-        <!-- Page Header -->
-        <div class="cs-page-header">
-          <a href="profile.html" class="cs-back-btn">
-            <i class="fa-solid fa-arrow-left"></i>
-          </a>
-          <div class="cs-title-block">
-            <h1 class="cs-page-title">Cloud Sync &amp;<br>Model Update</h1>
-            <p class="cs-page-sub">Keep your data safe and your models up to date<br>for the best insights.</p>
+        <!-- Status Hero -->
+        <div class="cs-status-hero">
+          <div class="cs-hero-icon-wrap">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <div class="cs-hero-info">
+            <div class="cs-hero-title">All Data Synced</div>
+            <div class="cs-hero-sub">Last synced: Today, 10:15 AM</div>
+            <div class="cs-hero-badge">
+              <i class="fa-solid fa-circle-check"></i> Up to Date
+            </div>
           </div>
         </div>
 
-        <!-- Cloud Sync Section -->
-        <div class="cs-section-label">Cloud Sync</div>
-        <div class="cs-card cs-sync-card">
-          <div class="cs-sync-left">
-            <div class="cs-cloud-icon-wrap">
-              <i class="fa-solid fa-cloud-arrow-up cs-cloud-icon"></i>
+        <!-- Sync Details -->
+        <div class="cs-section-label">Sync Details</div>
+        <div class="cs-card">
+          <div class="cs-info-row">
+            <div class="cs-info-left">
+              <div class="cs-info-icon" style="background:#dcfce7; color:#16a34a;">
+                <i class="fa-solid fa-database"></i>
+              </div>
+              <span class="cs-info-label">Backup Status</span>
             </div>
-            <div class="cs-sync-info">
-              <div class="cs-sync-row">
-                <i class="fa-regular fa-clock cs-row-icon"></i>
-                <span>Last synced: Today, 10:15 AM</span>
-              </div>
-              <div class="cs-sync-row">
-                <i class="fa-solid fa-database cs-row-icon"></i>
-                <span>Cloud backup status: <span class="cs-synced-text">Synced</span></span>
-              </div>
-              <div class="cs-sync-row">
-                <i class="fa-solid fa-shield-halved cs-row-icon"></i>
-                <span>Data secure and encrypted</span>
-              </div>
-            </div>
+            <span class="cs-info-value cs-synced-val">Synced ✓</span>
           </div>
-          <div class="cs-check-badge">
-            <i class="fa-solid fa-circle-check"></i>
+          <div class="cs-info-row">
+            <div class="cs-info-left">
+              <div class="cs-info-icon" style="background:#dbeafe; color:#2563eb;">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <span class="cs-info-label">Encryption</span>
+            </div>
+            <span class="cs-info-value">AES-256</span>
+          </div>
+          <div class="cs-info-row">
+            <div class="cs-info-left">
+              <div class="cs-info-icon" style="background:#fef3c7; color:#d97706;">
+                <i class="fa-solid fa-hard-drive"></i>
+              </div>
+              <span class="cs-info-label">Storage Used</span>
+            </div>
+            <span class="cs-info-value">124 MB / 5 GB</span>
+          </div>
+          <div class="cs-info-row">
+            <div class="cs-info-left">
+              <div class="cs-info-icon" style="background:#ede9fe; color:#7c3aed;">
+                <i class="fa-regular fa-clock"></i>
+              </div>
+              <span class="cs-info-label">Next Auto Sync</span>
+            </div>
+            <span class="cs-info-value">In 4 hours</span>
           </div>
         </div>
 
-        <button class="cs-btn-primary" onclick="syncNow()">
-          <i class="fa-solid fa-rotate"></i>
-          Sync Now
+        <!-- Sync Now Button -->
+        <button class="cs-btn-primary" id="syncBtn" onclick="syncNow()">
+          <i class="fa-solid fa-rotate" id="syncIcon"></i> Sync Now
         </button>
 
+        <!-- Sync Settings -->
+        <div class="cs-section-label">Sync Settings</div>
+        <div class="cs-card">
+          <div class="cs-toggle-row">
+            <div class="cs-toggle-left">
+              <div style="min-width:0;">
+                <div class="cs-toggle-label">Auto Sync</div>
+                <div class="cs-toggle-sub">Sync automatically every few hours</div>
+              </div>
+            </div>
+            <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+          </div>
+          <div class="cs-toggle-row">
+            <div class="cs-toggle-left">
+              <div>
+                <div class="cs-toggle-label">Wi-Fi Only</div>
+                <div class="cs-toggle-sub">Only sync when connected to Wi-Fi</div>
+              </div>
+            </div>
+            <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+          </div>
+          <div class="cs-toggle-row">
+            <div class="cs-toggle-left">
+              <div>
+                <div class="cs-toggle-label">Background Sync</div>
+                <div class="cs-toggle-sub">Sync even when app is closed</div>
+              </div>
+            </div>
+            <label class="st-toggle"><input type="checkbox"><span class="st-slider"></span></label>
+          </div>
+        </div>
+
         <!-- AI Model Status -->
-        <div class="cs-section-label cs-section-label-mt">AI Model Status</div>
-        <div class="cs-card cs-models-card">
+        <div class="cs-section-label">AI Model Status</div>
+        <div class="cs-card">
           <div class="cs-model-row">
             <div class="cs-model-left">
               <div class="cs-model-icon cs-mi-teal">
@@ -89,81 +340,66 @@
               </div>
               <div>
                 <div class="cs-model-name">Stress Model</div>
-                <div class="cs-model-sub">Current Version</div>
+                <span class="cs-model-ver-badge">v2.3.0 — Current</span>
               </div>
             </div>
             <div class="cs-model-right">
-              <span class="cs-model-ver">v2.3.0</span>
               <i class="fa-solid fa-circle-check cs-model-check"></i>
             </div>
           </div>
-
-          <div class="cs-model-divider"></div>
-
           <div class="cs-model-row">
             <div class="cs-model-left">
               <div class="cs-model-icon cs-mi-purple">
-                <i class="fa-solid fa-brain"></i>
+                <i class="fa-solid fa-head-side-virus"></i>
               </div>
               <div>
                 <div class="cs-model-name">Migraine Model</div>
-                <div class="cs-model-sub">Current Version</div>
+                <span class="cs-model-ver-badge">v1.8.2 — Current</span>
               </div>
             </div>
             <div class="cs-model-right">
-              <span class="cs-model-ver">v1.8.2</span>
               <i class="fa-solid fa-circle-check cs-model-check"></i>
             </div>
           </div>
         </div>
 
-        <!-- Model Update Available -->
+        <!-- Update Available -->
         <div class="cs-update-card">
-          <div class="cs-update-header">
-            <div class="cs-update-icon-wrap">
+          <div class="cs-update-top">
+            <div class="cs-update-icon">
               <i class="fa-solid fa-arrow-up"></i>
             </div>
             <div class="cs-update-info">
               <div class="cs-update-title">Model Update Available</div>
-              <div class="cs-update-version">v2.4.1</div>
-              <div class="cs-update-date">Released: May 22, 2025</div>
+              <div class="cs-update-badges">
+                <span class="cs-ver-pill">v2.4.1</span>
+                <span class="cs-date-pill">May 22, 2025</span>
+              </div>
             </div>
-            <i class="fa-solid fa-chevron-right cs-update-chev"></i>
           </div>
-
-          <div class="cs-update-features">
-            <div class="cs-feature-row">
-              <i class="fa-solid fa-crosshairs cs-feat-icon"></i>
+          <div class="cs-feat-list">
+            <div class="cs-feat-item">
+              <div class="cs-feat-dot"><i class="fa-solid fa-crosshairs"></i></div>
               <span>Improved stress detection accuracy</span>
             </div>
-            <div class="cs-feature-row">
-              <i class="fa-solid fa-user cs-feat-icon"></i>
+            <div class="cs-feat-item">
+              <div class="cs-feat-dot"><i class="fa-solid fa-user"></i></div>
               <span>Better personalization with your patterns</span>
             </div>
-            <div class="cs-feature-row">
-              <i class="fa-solid fa-moon cs-feat-icon"></i>
+            <div class="cs-feat-item">
+              <div class="cs-feat-dot"><i class="fa-solid fa-moon"></i></div>
               <span>Enhanced sleep &amp; recovery insights</span>
             </div>
           </div>
-
-          <button class="cs-btn-primary cs-btn-download" onclick="downloadUpdate()">
-            <i class="fa-solid fa-download"></i>
-            Download Update
+          <button class="cs-btn-outline" id="dlBtn" onclick="downloadUpdate()">
+            <i class="fa-solid fa-download" id="dlIcon"></i> Download Update
           </button>
         </div>
 
-        <!-- Auto-update Row -->
-        <div class="cs-card cs-autoupdate-row" onclick="toggleAutoUpdate()">
-          <div class="cs-autoupdate-left">
-            <i class="fa-solid fa-gear cs-auto-icon"></i>
-            <span>Auto-update: <span class="cs-auto-on" id="autoUpdateStatus">On</span></span>
-          </div>
-          <i class="fa-solid fa-chevron-right cs-auto-chev"></i>
-        </div>
-
-        <div style="height:24px;"></div>
+        <div style="height:80px;"></div>
       </div>
 
+      <!-- ── Bottom Nav ──────────────────────────── -->
       <div class="dp-bottom-nav">
         <a href="home.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
         <a href="monitoring.html" class="nav-item"><i class="fa-solid fa-heart-pulse"></i><span>Monitoring</span></a>
@@ -171,37 +407,38 @@
         <a href="interventions.html" class="nav-item"><i class="fa-solid fa-spa"></i><span>Interventions</span></a>
         <a href="profile.html" class="nav-item nav-active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
       </div>
-</div>
+
+    </div>
   </div>
 
   <script>
     function syncNow() {
-      const btn = document.querySelector('.cs-btn-primary');
-      const icon = btn.querySelector('i');
+      const btn = document.getElementById('syncBtn');
+      const icon = document.getElementById('syncIcon');
       icon.classList.add('fa-spin');
       btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> Syncing...';
       setTimeout(() => {
-        icon.classList.remove('fa-spin');
         btn.disabled = false;
-        alert('Data synced successfully!');
+        btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Synced Successfully!';
+        btn.style.background = '#16a34a';
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sync Now';
+          btn.style.background = '';
+        }, 2500);
       }, 2000);
     }
 
     function downloadUpdate() {
-      const btn = document.querySelector('.cs-btn-download');
-      const icon = btn.querySelector('i');
+      const btn = document.getElementById('dlBtn');
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Downloading...';
       btn.disabled = true;
       setTimeout(() => {
         btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Update Installed!';
-        btn.style.background = '#2ECC71';
+        btn.style.background = '#dcfce7';
+        btn.style.color = '#16a34a';
+        btn.style.borderColor = '#86efac';
       }, 3000);
-    }
-
-    function toggleAutoUpdate() {
-      const status = document.getElementById('autoUpdateStatus');
-      status.textContent = status.textContent === 'On' ? 'Off' : 'On';
-      status.style.color = status.textContent === 'On' ? '#2563EB' : '#9CA3AF';
     }
   </script>
 
