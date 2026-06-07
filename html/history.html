@@ -40,10 +40,16 @@
         <!-- Title Row -->
         <div class="hist-title-row">
           <h1 class="hist-title">History</h1>
-          <button class="hist-filter-btn" id="filterBtn" onclick="openCalendar()">
-            <i class="fa-regular fa-calendar"></i>
-            <span id="filterLabel">Filter</span>
-          </button>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <a href="insights.html" class="hist-filter-btn" style="text-decoration:none;color:#2563eb;background:#eff6ff;border-color:#dbeafe;">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Insights</span>
+            </a>
+            <button class="hist-filter-btn" id="filterBtn" onclick="openCalendar()">
+              <i class="fa-regular fa-calendar"></i>
+              <span id="filterLabel">Filter</span>
+            </button>
+          </div>
         </div>
 
         <!-- Active filter chip -->
