@@ -1,0 +1,182 @@
+/* ── Forgot Password / Reset Password Screens ────────── */
+
+.fp-screen {
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(170deg, #deeeff 0%, #ecf5ff 40%, #f5faff 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0 24px;
+}
+
+/* Override body padding from auth.css for this layout */
+.fp-screen .status-bar {
+  padding: 14px 0 0;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+/* Logo row */
+.fp-logo {
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.fp-logo img {
+  height: 36px;
+  object-fit: contain;
+}
+
+/* ── Title + Illustration ─────────────────────────── */
+.fp-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  flex-shrink: 0;
+  min-height: 130px;
+}
+
+.fp-title-block {
+  flex: 1;
+  padding-top: 4px;
+}
+
+.fp-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a2b4b;
+  line-height: 1.15;
+  margin-bottom: 10px;
+  letter-spacing: -0.4px;
+}
+
+.fp-subtitle {
+  font-size: 13px;
+  color: #7a8cad;
+  line-height: 1.55;
+  max-width: 185px;
+}
+
+/* Circular illustration bubble */
+.fp-illus-wrap {
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.fp-illus-bubble {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dbeafe 0%, #c7d9f8 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.fp-illus {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* ── White Card ───────────────────────────────────── */
+.fp-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 22px 20px 18px;
+  box-shadow: 0 8px 40px rgba(37, 99, 235, 0.09), 0 2px 12px rgba(0,0,0,0.05);
+  flex-shrink: 0;
+}
+
+.fp-card-tall {
+  padding: 20px 20px 16px;
+}
+
+/* Field label (used in create new password) */
+.fp-field-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1a2b4b;
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+
+/* Override input-group margin inside fp-card */
+.fp-card .input-group {
+  margin-bottom: 14px;
+}
+
+/* Back to Login link */
+.fp-back-link {
+  text-align: center;
+  padding-top: 4px;
+}
+
+.fp-back-link a {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.fp-back-link a:hover {
+  text-decoration: underline;
+}
+
+/* btn inside fp-card */
+.fp-card .btn-primary-auth {
+  margin-bottom: 14px;
+}
+
+/* ── Hint Row ─────────────────────────────────────── */
+.fp-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.hint-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+.hint-teal {
+  background: #e6faf5;
+  color: #0ea98b;
+  border: 1.5px solid #b6f0e1;
+}
+
+.hint-green {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1.5px solid #bbf7d0;
+}
+
+.hint-text {
+  font-size: 13px;
+  color: #7a8cad;
+  line-height: 1.5;
+}
+
+/* ── Home Bar ─────────────────────────────────────── */
+.home-bar {
+  width: 120px;
+  height: 4px;
+  background: #c8d9ee;
+  border-radius: 4px;
+  margin: auto auto 16px;
+  flex-shrink: 0;
+}
