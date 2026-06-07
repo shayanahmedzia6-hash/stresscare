@@ -3,135 +3,224 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StressCare - Cloud Sync</title>
+  <title>StressCare - Cloud Sync & Model Update</title>
   <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../css/cloud-sync.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="profile.html" class="back-btn">←</a>
-      <h1>Cloud Sync & Backup</h1>
-    </div>
 
-    <div class="screen-main">
-      <!-- Sync Status -->
-      <div class="sync-card">
-        <h3>Last Backup</h3>
-        <div class="sync-status">
-          <div class="status-icon">✓</div>
-          <div class="status-info">
-            <p class="status-title">Successfully backed up</p>
-            <p class="status-time">Today at 2:30 PM</p>
+  <div class="phone-frame">
+    <div class="cs-screen">
+
+      <!-- Status Bar -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- Top Nav -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <a href="notifications.html" class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </a>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="cs-scroll">
+
+        <!-- Page Header -->
+        <div class="cs-page-header">
+          <a href="profile.html" class="cs-back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <div class="cs-title-block">
+            <h1 class="cs-page-title">Cloud Sync &amp;<br>Model Update</h1>
+            <p class="cs-page-sub">Keep your data safe and your models up to date<br>for the best insights.</p>
           </div>
         </div>
-      </div>
 
-      <!-- Sync Options -->
-      <h3 class="section-title">Automatic Sync</h3>
-      <div class="sync-options">
-        <div class="sync-toggle">
-          <label class="toggle-label">
-            <input type="checkbox" checked>
-            <div class="toggle-info">
-              <span class="label-text">Enable Auto Sync</span>
-              <span class="label-desc">Sync every 6 hours</span>
+        <!-- Cloud Sync Section -->
+        <div class="cs-section-label">Cloud Sync</div>
+        <div class="cs-card cs-sync-card">
+          <div class="cs-sync-left">
+            <div class="cs-cloud-icon-wrap">
+              <i class="fa-solid fa-cloud-arrow-up cs-cloud-icon"></i>
             </div>
-          </label>
-        </div>
-
-        <div class="sync-toggle">
-          <label class="toggle-label">
-            <input type="checkbox" checked>
-            <div class="toggle-info">
-              <span class="label-text">WiFi Only</span>
-              <span class="label-desc">Only sync on WiFi connection</span>
+            <div class="cs-sync-info">
+              <div class="cs-sync-row">
+                <i class="fa-regular fa-clock cs-row-icon"></i>
+                <span>Last synced: Today, 10:15 AM</span>
+              </div>
+              <div class="cs-sync-row">
+                <i class="fa-solid fa-database cs-row-icon"></i>
+                <span>Cloud backup status: <span class="cs-synced-text">Synced</span></span>
+              </div>
+              <div class="cs-sync-row">
+                <i class="fa-solid fa-shield-halved cs-row-icon"></i>
+                <span>Data secure and encrypted</span>
+              </div>
             </div>
-          </label>
-        </div>
-      </div>
-
-      <!-- Model Update -->
-      <h3 class="section-title">AI Model Update</h3>
-      <div class="update-card">
-        <div class="update-header">
-          <div class="update-info">
-            <h4>StressCare Model v2.4</h4>
-            <p>Latest AI model for accurate stress detection</p>
           </div>
-          <span class="update-status">Installed</span>
+          <div class="cs-check-badge">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
         </div>
 
-        <div class="alert alert-info">
-          <strong>New Version Available:</strong> Version 2.5 is ready to download. It includes improved accuracy and faster detection.
+        <button class="cs-btn-primary" onclick="syncNow()">
+          <i class="fa-solid fa-rotate"></i>
+          Sync Now
+        </button>
+
+        <!-- AI Model Status -->
+        <div class="cs-section-label cs-section-label-mt">AI Model Status</div>
+        <div class="cs-card cs-models-card">
+          <div class="cs-model-row">
+            <div class="cs-model-left">
+              <div class="cs-model-icon cs-mi-teal">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <div>
+                <div class="cs-model-name">Stress Model</div>
+                <div class="cs-model-sub">Current Version</div>
+              </div>
+            </div>
+            <div class="cs-model-right">
+              <span class="cs-model-ver">v2.3.0</span>
+              <i class="fa-solid fa-circle-check cs-model-check"></i>
+            </div>
+          </div>
+
+          <div class="cs-model-divider"></div>
+
+          <div class="cs-model-row">
+            <div class="cs-model-left">
+              <div class="cs-model-icon cs-mi-purple">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <div>
+                <div class="cs-model-name">Migraine Model</div>
+                <div class="cs-model-sub">Current Version</div>
+              </div>
+            </div>
+            <div class="cs-model-right">
+              <span class="cs-model-ver">v1.8.2</span>
+              <i class="fa-solid fa-circle-check cs-model-check"></i>
+            </div>
+          </div>
         </div>
 
-        <button class="btn btn-primary btn-block">Download Update</button>
+        <!-- Model Update Available -->
+        <div class="cs-update-card">
+          <div class="cs-update-header">
+            <div class="cs-update-icon-wrap">
+              <i class="fa-solid fa-arrow-up"></i>
+            </div>
+            <div class="cs-update-info">
+              <div class="cs-update-title">Model Update Available</div>
+              <div class="cs-update-version">v2.4.1</div>
+              <div class="cs-update-date">Released: May 22, 2025</div>
+            </div>
+            <i class="fa-solid fa-chevron-right cs-update-chev"></i>
+          </div>
+
+          <div class="cs-update-features">
+            <div class="cs-feature-row">
+              <i class="fa-solid fa-crosshairs cs-feat-icon"></i>
+              <span>Improved stress detection accuracy</span>
+            </div>
+            <div class="cs-feature-row">
+              <i class="fa-solid fa-user cs-feat-icon"></i>
+              <span>Better personalization with your patterns</span>
+            </div>
+            <div class="cs-feature-row">
+              <i class="fa-solid fa-moon cs-feat-icon"></i>
+              <span>Enhanced sleep &amp; recovery insights</span>
+            </div>
+          </div>
+
+          <button class="cs-btn-primary cs-btn-download" onclick="downloadUpdate()">
+            <i class="fa-solid fa-download"></i>
+            Download Update
+          </button>
+        </div>
+
+        <!-- Auto-update Row -->
+        <div class="cs-card cs-autoupdate-row" onclick="toggleAutoUpdate()">
+          <div class="cs-autoupdate-left">
+            <i class="fa-solid fa-gear cs-auto-icon"></i>
+            <span>Auto-update: <span class="cs-auto-on" id="autoUpdateStatus">On</span></span>
+          </div>
+          <i class="fa-solid fa-chevron-right cs-auto-chev"></i>
+        </div>
+
+        <div style="height:24px;"></div>
       </div>
 
-      <!-- Data Statistics -->
-      <h3 class="section-title">Data Storage</h3>
-      <div class="stats-card">
-        <div class="stat-row">
-          <span>Local Storage Used</span>
-          <strong>245 MB</strong>
-        </div>
-        <div class="stat-row">
-          <span>Cloud Storage Used</span>
-          <strong>180 MB</strong>
-        </div>
-        <div class="stat-row">
-          <span>Cloud Storage Total</span>
-          <strong>5 GB</strong>
-        </div>
+      <!-- Bottom Navigation -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item nav-active">
+          <i class="fa-solid fa-user"></i>
+          <span>Profile</span>
+        </a>
       </div>
 
-      <!-- Manual Actions -->
-      <h3 class="section-title">Manual Sync</h3>
-      <div class="action-buttons">
-        <button class="btn btn-outline btn-block" onclick="syncNow()">Sync Now</button>
-        <button class="btn btn-outline btn-block" onclick="backupNow()">Backup Now</button>
-        <button class="btn btn-secondary btn-block" onclick="clearData()">Clear Local Data</button>
-      </div>
     </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
 
   <script>
     function syncNow() {
-      alert('Syncing data...');
+      const btn = document.querySelector('.cs-btn-primary');
+      const icon = btn.querySelector('i');
+      icon.classList.add('fa-spin');
+      btn.disabled = true;
+      setTimeout(() => {
+        icon.classList.remove('fa-spin');
+        btn.disabled = false;
+        alert('Data synced successfully!');
+      }, 2000);
     }
-    function backupNow() {
-      alert('Creating backup...');
+
+    function downloadUpdate() {
+      const btn = document.querySelector('.cs-btn-download');
+      const icon = btn.querySelector('i');
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Downloading...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Update Installed!';
+        btn.style.background = '#2ECC71';
+      }, 3000);
     }
-    function clearData() {
-      if (confirm('Are you sure? This will clear local data but keep cloud backup.')) {
-        alert('Local data cleared.');
-      }
+
+    function toggleAutoUpdate() {
+      const status = document.getElementById('autoUpdateStatus');
+      status.textContent = status.textContent === 'On' ? 'Off' : 'On';
+      status.style.color = status.textContent === 'On' ? '#2563EB' : '#9CA3AF';
     }
   </script>
+
 </body>
 </html>
