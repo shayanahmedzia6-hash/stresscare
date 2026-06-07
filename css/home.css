@@ -1,0 +1,316 @@
+/* ── Home Dashboard ───────────────────────────────────── */
+
+.home-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #deeeff 0%, #f0f6ff 18%, #f5f8ff 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Scrollable ─────────────────────────────────────── */
+.home-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 16px;
+}
+.home-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Wearable Card ────────────────────────────────────── */
+.wearable-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+}
+
+.wearable-img {
+  width: 48px; height: 48px;
+  background: #f0f4fa;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.wearable-info { flex: 1; min-width: 0; }
+
+.wearable-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1a2b4b;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.online-dot {
+  width: 8px; height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.wearable-model { font-size: 11.5px; font-weight: 600; color: #3a5a8a; margin-top: 1px; }
+.wearable-id    { font-size: 10.5px; color: #9aadc9; margin-top: 1px; }
+
+.wearable-stats { display: flex; gap: 14px; flex-shrink: 0; }
+
+.w-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.w-stat i { font-size: 15px; }
+.wstat-green { color: #22c55e; }
+.wstat-blue  { color: #2563eb; }
+.wstat-val   { font-size: 10.5px; font-weight: 700; color: #1a2b4b; }
+.wstat-lbl   { font-size: 9.5px; color: #9aadc9; }
+
+/* ── Date/Time Row ────────────────────────────────────── */
+.datetime-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.dt-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #5a6882;
+  font-weight: 500;
+}
+
+.dt-icon { color: #9aadc9; font-size: 12px; }
+
+/* ── Stress Level Card ────────────────────────────────── */
+.stress-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, #e8f3ff 0%, #dff0ff 100%);
+  border-radius: 20px;
+  padding: 16px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.09);
+}
+
+/* SVG gauge */
+.stress-gauge-wrap {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  flex-shrink: 0;
+}
+
+.gauge-svg {
+  width: 130px; height: 130px;
+  transform: rotate(-90deg);
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: #dce8f8;
+  stroke-width: 12;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke: url(#gaugeGrad);
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+.gauge-pct {
+  font-size: 30px;
+  font-weight: 800;
+  color: #1a2b4b;
+  line-height: 1;
+}
+
+.gauge-pct-sym { font-size: 16px; vertical-align: super; }
+
+.gauge-lbl {
+  font-size: 11px;
+  color: #7a8cad;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* Stress info (right side) */
+.stress-info { flex: 1; min-width: 0; }
+
+.stress-title-row {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 6px;
+}
+
+.stress-wave-icon { color: #2563eb; font-size: 14px; }
+
+.stress-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a2b4b;
+}
+
+.stress-desc {
+  font-size: 11.5px;
+  color: #5a6882;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.predicted-from { font-size: 10.5px; color: #9aadc9; }
+.predicted-vals { font-size: 11.5px; font-weight: 700; color: #2563eb; }
+
+/* ── 4 Metric Cards ───────────────────────────────────── */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.metric-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px 8px 8px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 3px;
+}
+
+.metric-icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.icon-red-bg    { background: #fee2e2; color: #ef4444; }
+.icon-teal-bg   { background: #ccfbf1; color: #0d9488; }
+.icon-purple-bg { background: #ede9fe; color: #7c3aed; }
+.icon-blue-bg   { background: #dbeafe; color: #2563eb; }
+
+.metric-name  { font-size: 10px; color: #7a8cad; font-weight: 500; line-height: 1.2; }
+.metric-value { font-size: 13px; font-weight: 800; color: #1a2b4b; line-height: 1.1; }
+.metric-unit  { font-size: 9px; font-weight: 500; color: #9aadc9; }
+
+.metric-status { font-size: 9.5px; font-weight: 600; }
+.status-red    { color: #ef4444; }
+.status-green  { color: #16a34a; }
+.status-purple { color: #7c3aed; }
+
+.metric-wave {
+  width: 100%;
+  height: 20px;
+  margin-top: 4px;
+}
+
+/* ── Migraine Risk Card ───────────────────────────────── */
+.migraine-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #e6fdf5 0%, #d1fae5 100%);
+  border-radius: 18px;
+  padding: 14px 14px;
+  margin-bottom: 14px;
+  text-decoration: none;
+  box-shadow: 0 2px 12px rgba(16,185,129,0.1);
+  border: 1px solid #a7f3d0;
+}
+
+.migraine-icon {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #d1fae5;
+  border: 2px solid #6ee7b7;
+  display: flex; align-items: center; justify-content: center;
+  color: #059669;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.migraine-info { flex: 1; }
+
+.migraine-label { font-size: 11px; color: #047857; font-weight: 600; }
+.migraine-status { font-size: 16px; font-weight: 800; color: #047857; line-height: 1.1; }
+.migraine-sub { font-size: 10.5px; color: #6ee7b7; margin-top: 1px; color: #059669; }
+
+.migraine-badge {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #059669;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.migraine-arrow { color: #9aadc9; font-size: 12px; flex-shrink: 0; }
+
+/* ── Quick Actions ────────────────────────────────────── */
+.qa-section { margin-bottom: 8px; }
+
+.qa-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a2b4b;
+  margin-bottom: 10px;
+}
+
+.qa-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.qa-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px 6px;
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+  transition: all 0.2s;
+}
+.qa-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(37,99,235,0.14); }
+
+.qa-icon {
+  width: 42px; height: 42px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+
+.qa-blue   { background: #dbeafe; color: #2563eb; }
+.qa-teal   { background: #ccfbf1; color: #0d9488; }
+.qa-indigo { background: #e0e7ff; color: #4338ca; }
+.qa-yellow { background: #fef9c3; color: #ca8a04; }
+
+.qa-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #5a6882;
+  text-align: center;
+  line-height: 1.4;
+}
