@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Privacy & Security</title>
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="../css/settings.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .prv-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px 10px;
+      flex-shrink: 0;
+    }
+    .prv-back-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #e2eaf5;
+      background: #f8faff;
+      color: #1a2b4b;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: all 0.18s;
+    }
+    .prv-back-btn:hover { background: #eff6ff; border-color: #2563eb; color: #2563eb; }
+    .prv-header-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a2b4b;
+      flex: 1;
+    }
+    .prv-header-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: #dcfce7;
+      display: flex; align-items: center; justify-content: center;
+      color: #16a34a;
+      font-size: 16px;
+    }
+    .prv-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 16px;
+    }
+    .prv-scroll::-webkit-scrollbar { display: none; }
+    .prv-section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2563eb;
+      margin: 16px 2px 8px;
+    }
+    .prv-card {
+      background: #fff;
+      border-radius: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+      overflow: hidden;
+    }
+    .prv-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid #f3f6fb;
+    }
+    .prv-row:last-child { border-bottom: none; }
+    .prv-row-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #1a2b4b;
+    }
+    .prv-row-sub {
+      font-size: 11px;
+      color: #9aadc9;
+      margin-top: 2px;
+    }
+    .prv-row-left { flex: 1; min-width: 0; }
+    .prv-row-link {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .prv-row-link:active { background: #f8faff; }
+    .prv-chev { color: #c5d3e8; font-size: 11px; }
+    .prv-danger-btn {
+      width: 100%;
+      background: none;
+      border: 1.5px solid #fee2e2;
+      color: #ef4444;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      margin-bottom: 16px;
+    }
+    .prv-danger-btn:hover { background: #fee2e2; }
+    .prv-save-btn {
+      width: 100%;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.28);
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    .prv-save-btn:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <div class="st-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Back Header ────────────────────────── -->
+      <div class="prv-header">
+        <a href="profile.html" class="prv-back-btn">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <span class="prv-header-title">Privacy &amp; Security</span>
+        <div class="prv-header-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="prv-scroll">
+
+        <!-- Security -->
+        <div class="prv-section-label">Security</div>
+        <div class="prv-card">
+          <div class="prv-row">
+            <div class="prv-row-left">
+              <div class="prv-row-label">Biometric Lock</div>
+              <div class="prv-row-sub">Use fingerprint or Face ID to unlock</div>
+            </div>
+            <label class="st-toggle">
+              <input type="checkbox" checked>
+              <span class="st-slider"></span>
+            </label>
+          </div>
+          <div class="prv-row">
+            <div class="prv-row-left">
+              <div class="prv-row-label">Two-Factor Authentication</div>
+              <div class="prv-row-sub">Add an extra layer of security</div>
+            </div>
+            <label class="st-toggle">
+              <input type="checkbox">
+              <span class="st-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Data & Privacy -->
+        <div class="prv-section-label">Data &amp; Privacy</div>
+        <div class="prv-card">
+          <div class="prv-row">
+            <div class="prv-row-left">
+              <div class="prv-row-label">Share Anonymous Data</div>
+              <div class="prv-row-sub">Help improve the app with anonymous usage data</div>
+            </div>
+            <label class="st-toggle">
+              <input type="checkbox">
+              <span class="st-slider"></span>
+            </label>
+          </div>
+          <div class="prv-row">
+            <div class="prv-row-left">
+              <div class="prv-row-label">Research Participation</div>
+              <div class="prv-row-sub">Contribute anonymized data to stress research</div>
+            </div>
+            <label class="st-toggle">
+              <input type="checkbox">
+              <span class="st-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Legal -->
+        <div class="prv-section-label">Legal</div>
+        <div class="prv-card">
+          <div class="prv-row prv-row-link" onclick="alert('Opening Privacy Policy...')">
+            <div class="prv-row-left">
+              <div class="prv-row-label">View Privacy Policy</div>
+            </div>
+            <i class="fa-solid fa-chevron-right prv-chev"></i>
+          </div>
+          <div class="prv-row prv-row-link" onclick="alert('Opening Terms of Service...')">
+            <div class="prv-row-left">
+              <div class="prv-row-label">Terms of Service</div>
+            </div>
+            <i class="fa-solid fa-chevron-right prv-chev"></i>
+          </div>
+        </div>
+
+        <!-- Save -->
+        <button class="prv-save-btn">Save Changes</button>
+
+        <!-- Danger Zone -->
+        <div class="prv-section-label">Danger Zone</div>
+        <button class="prv-danger-btn" onclick="alert('Data deletion requested.')">
+          <i class="fa-solid fa-trash-can" style="margin-right:8px;"></i>Delete My Data
+        </button>
+
+        <div style="height:80px;"></div>
+      </div>
+
+      <!-- ── Bottom Nav ──────────────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="monitoring.html" class="nav-item"><i class="fa-solid fa-heart-pulse"></i><span>Monitoring</span></a>
+        <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></a>
+        <a href="interventions.html" class="nav-item"><i class="fa-solid fa-spa"></i><span>Interventions</span></a>
+        <a href="profile.html" class="nav-item nav-active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
