@@ -4,99 +4,415 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Device Management</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/device-management.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="profile.html" class="back-btn">←</a>
-      <h1>Device Management</h1>
+
+  <div class="phone-frame">
+    <div class="dm-screen">
+
+      <!-- Status Bar -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- Top Nav -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <a href="notifications.html" class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </a>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="dm-scroll">
+
+        <!-- Page Header -->
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 0 4px;">
+          <a href="profile.html" style="width:34px;height:34px;border-radius:50%;background:#fff;border:1.5px solid #d0dff0;display:flex;align-items:center;justify-content:center;color:#1a2b4b;font-size:13px;text-decoration:none;flex-shrink:0;">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <div>
+            <div class="dm-title" style="margin:0 0 2px;">Device Management</div>
+            <div class="dm-subtitle" style="margin:0;">Manage your connected wearables</div>
+          </div>
+        </div>
+
+        <!-- Connected Device Card -->
+        <div class="dm-section-label">Connected Device</div>
+        <div class="dm-device-card">
+          <!-- Band Art -->
+          <div class="dm-band-wrap">
+            <div class="dm-band-art">
+              <div class="dm-band-strap dm-strap-top"></div>
+              <div class="dm-band-body">
+                <div class="dm-band-screen">
+                  <div class="dm-band-number">85</div>
+                  <div class="dm-band-label">BPM</div>
+                </div>
+              </div>
+              <div class="dm-band-strap dm-strap-bot"></div>
+              <div class="dm-band-logo"><i class="fa-solid fa-f"></i></div>
+            </div>
+          </div>
+
+          <!-- Device Info -->
+          <div class="dm-device-details">
+            <div class="dm-device-name-row">
+              <span class="dm-device-name">Fitbit Charge 5</span>
+              <span class="dm-connected-badge">
+                <span class="dm-conn-dot"></span> Connected
+              </span>
+            </div>
+
+            <div class="dm-info-row">
+              <div class="dm-info-icon dm-ic-green"><i class="fa-solid fa-battery-three-quarters"></i></div>
+              <span class="dm-info-label">Battery</span>
+              <span class="dm-info-value">85%</span>
+            </div>
+            <div class="dm-info-row">
+              <div class="dm-info-icon dm-ic-blue"><i class="fa-solid fa-rotate"></i></div>
+              <span class="dm-info-label">Last Sync</span>
+              <span class="dm-info-value dm-sync-time">2 min ago</span>
+            </div>
+            <div class="dm-info-row">
+              <div class="dm-info-icon dm-ic-gray"><i class="fa-solid fa-fingerprint"></i></div>
+              <span class="dm-info-label">Device ID</span>
+              <span class="dm-info-value dm-id">FC5-A3F9</span>
+            </div>
+            <div class="dm-info-row dm-info-last">
+              <div class="dm-info-icon dm-ic-blue"><i class="fa-brands fa-bluetooth-b"></i></div>
+              <span class="dm-info-label">Signal</span>
+              <span class="dm-info-value" style="color:#22c55e;">Strong</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dm-section-label">Device Actions</div>
+        <div class="dm-actions-card">
+          <div class="dm-action-row" onclick="openSheet('syncSheet')">
+            <div class="dm-action-icon dm-ai-blue"><i class="fa-solid fa-rotate"></i></div>
+            <div class="dm-action-info">
+              <div class="dm-action-title">Sync Now</div>
+              <div class="dm-action-sub">Last synced 2 minutes ago</div>
+            </div>
+            <i class="fa-solid fa-chevron-right dm-action-chev"></i>
+          </div>
+
+          <div class="dm-action-row" onclick="openSheet('calibSheet')">
+            <div class="dm-action-icon dm-ai-purple"><i class="fa-solid fa-sliders"></i></div>
+            <div class="dm-action-info">
+              <div class="dm-action-title">Calibrate Sensors</div>
+              <div class="dm-action-sub">Improve accuracy of readings</div>
+            </div>
+            <i class="fa-solid fa-chevron-right dm-action-chev"></i>
+          </div>
+
+          <div class="dm-action-row" onclick="openSheet('renameSheet')">
+            <div class="dm-action-icon dm-ai-teal"><i class="fa-solid fa-pen"></i></div>
+            <div class="dm-action-info">
+              <div class="dm-action-title">Rename Device</div>
+              <div class="dm-action-sub">Fitbit Charge 5</div>
+            </div>
+            <i class="fa-solid fa-chevron-right dm-action-chev"></i>
+          </div>
+
+          <div class="dm-action-row" onclick="openSheet('infoSheet')">
+            <div class="dm-action-icon dm-ai-indigo"><i class="fa-solid fa-circle-info"></i></div>
+            <div class="dm-action-info">
+              <div class="dm-action-title">Device Info</div>
+              <div class="dm-action-sub">Firmware · Serial · Model</div>
+            </div>
+            <i class="fa-solid fa-chevron-right dm-action-chev"></i>
+          </div>
+
+          <div class="dm-action-row" onclick="openSheet('pairSheet')">
+            <div class="dm-action-icon dm-ai-green"><i class="fa-solid fa-plus"></i></div>
+            <div class="dm-action-info">
+              <div class="dm-action-title">Pair New Device</div>
+              <div class="dm-action-sub">Add another wearable</div>
+            </div>
+            <i class="fa-solid fa-chevron-right dm-action-chev"></i>
+          </div>
+
+          <div class="dm-action-row dm-action-last" onclick="openSheet('disconnectSheet')">
+            <div class="dm-action-icon dm-ai-red"><i class="fa-solid fa-link-slash"></i></div>
+            <div class="dm-action-info">
+              <div class="dm-action-title dm-red-text">Disconnect Device</div>
+              <div class="dm-action-sub">Remove Fitbit Charge 5</div>
+            </div>
+            <i class="fa-solid fa-chevron-right dm-action-chev"></i>
+          </div>
+        </div>
+
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- Bottom Nav -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="monitoring.html" class="nav-item"><i class="fa-solid fa-heart-pulse"></i><span>Monitoring</span></a>
+        <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></a>
+        <a href="interventions.html" class="nav-item"><i class="fa-solid fa-spa"></i><span>Interventions</span></a>
+        <a href="profile.html" class="nav-item nav-active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      </div>
+
+      <!-- ── Overlay backdrop ── -->
+      <div class="dm-overlay" id="dmOverlay" onclick="closeSheet()"></div>
+
+      <!-- ── Sync Sheet ── -->
+      <div class="dm-sheet" id="syncSheet">
+        <div class="dm-drag-handle"></div>
+        <div class="dm-sheet-header">
+          <div class="dm-sheet-icon dm-ai-blue"><i class="fa-solid fa-rotate"></i></div>
+          <div class="dm-sheet-title">Sync Device</div>
+          <button class="dm-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dm-sheet-divider"></div>
+        <div class="dm-sheet-body">
+          <div id="syncContent">
+            <p class="dm-sheet-desc">Syncing will transfer all latest health data from your Fitbit Charge 5 to StressCare.</p>
+            <button class="dm-save-btn" id="syncBtn" onclick="doSync()">
+              <i class="fa-solid fa-rotate" id="syncIcon"></i> Start Sync
+            </button>
+            <button class="dm-cancel-btn" onclick="closeSheet()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Calibrate Sheet ── -->
+      <div class="dm-sheet" id="calibSheet">
+        <div class="dm-drag-handle"></div>
+        <div class="dm-sheet-header">
+          <div class="dm-sheet-icon dm-ai-purple"><i class="fa-solid fa-sliders"></i></div>
+          <div class="dm-sheet-title">Calibrate Sensors</div>
+          <button class="dm-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dm-sheet-divider"></div>
+        <div class="dm-sheet-body">
+          <div class="dm-calib-status">
+            <div class="dm-calib-row">
+              <i class="fa-solid fa-heart" style="color:#ef4444;width:18px;text-align:center;"></i>
+              <span>Heart Rate</span>
+              <strong style="color:#22c55e;">✓ Calibrated</strong>
+            </div>
+            <div class="dm-calib-row">
+              <i class="fa-solid fa-person-walking" style="color:#2563eb;width:18px;text-align:center;"></i>
+              <span>Step Counter</span>
+              <strong style="color:#22c55e;">✓ Calibrated</strong>
+            </div>
+            <div class="dm-calib-row">
+              <i class="fa-solid fa-moon" style="color:#7c3aed;width:18px;text-align:center;"></i>
+              <span>Sleep Tracker</span>
+              <strong style="color:#f59e0b;">⚠ Needs Update</strong>
+            </div>
+            <div class="dm-calib-row">
+              <i class="fa-solid fa-brain" style="color:#0d9488;width:18px;text-align:center;"></i>
+              <span>Stress Sensor</span>
+              <strong style="color:#22c55e;">✓ Calibrated</strong>
+            </div>
+          </div>
+          <div class="dm-calib-hint">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Sleep tracker calibration will take about 3 minutes. Wear your device on your wrist during calibration.
+          </div>
+          <button class="dm-save-btn" onclick="doCalibrate()">
+            <i class="fa-solid fa-crosshairs"></i> Calibrate Sleep Tracker
+          </button>
+          <button class="dm-cancel-btn" onclick="closeSheet()">Close</button>
+        </div>
+      </div>
+
+      <!-- ── Rename Sheet ── -->
+      <div class="dm-sheet" id="renameSheet">
+        <div class="dm-drag-handle"></div>
+        <div class="dm-sheet-header">
+          <div class="dm-sheet-icon dm-ai-teal"><i class="fa-solid fa-pen"></i></div>
+          <div class="dm-sheet-title">Rename Device</div>
+          <button class="dm-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dm-sheet-divider"></div>
+        <div class="dm-sheet-body">
+          <div class="dm-form-group">
+            <label class="dm-form-label">Device Name</label>
+            <input class="dm-form-input" type="text" id="deviceNameInput" value="Fitbit Charge 5" maxlength="30">
+          </div>
+          <button class="dm-save-btn" onclick="doRename()">
+            <i class="fa-solid fa-check"></i> Save Name
+          </button>
+          <button class="dm-cancel-btn" onclick="closeSheet()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- ── Device Info Sheet ── -->
+      <div class="dm-sheet" id="infoSheet">
+        <div class="dm-drag-handle"></div>
+        <div class="dm-sheet-header">
+          <div class="dm-sheet-icon dm-ai-indigo"><i class="fa-solid fa-circle-info"></i></div>
+          <div class="dm-sheet-title">Device Info</div>
+          <button class="dm-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dm-sheet-divider"></div>
+        <div class="dm-sheet-body">
+          <div class="dm-info-table">
+            <div class="dm-it-row"><span>Model</span><strong>Fitbit Charge 5</strong></div>
+            <div class="dm-it-row"><span>Serial Number</span><strong>FC5-A3F9-2024</strong></div>
+            <div class="dm-it-row"><span>Firmware</span><strong>v2.14.1</strong></div>
+            <div class="dm-it-row"><span>Bluetooth</span><strong>BT 5.0 LE</strong></div>
+            <div class="dm-it-row"><span>Paired Since</span><strong>June 3, 2024</strong></div>
+            <div class="dm-it-row"><span>Total Syncs</span><strong>412 times</strong></div>
+            <div class="dm-it-row dm-it-last"><span>Data Collected</span><strong>12.4 MB</strong></div>
+          </div>
+          <button class="dm-cancel-btn" style="margin-top:16px;" onclick="closeSheet()">Close</button>
+        </div>
+      </div>
+
+      <!-- ── Pair New Device Sheet ── -->
+      <div class="dm-sheet" id="pairSheet">
+        <div class="dm-drag-handle"></div>
+        <div class="dm-sheet-header">
+          <div class="dm-sheet-icon dm-ai-green"><i class="fa-solid fa-plus"></i></div>
+          <div class="dm-sheet-title">Pair New Device</div>
+          <button class="dm-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dm-sheet-divider"></div>
+        <div class="dm-sheet-body">
+          <div class="dm-bt-scan-anim">
+            <div class="dm-bt-ring dm-ring1"></div>
+            <div class="dm-bt-ring dm-ring2"></div>
+            <div class="dm-bt-ring dm-ring3"></div>
+            <div class="dm-bt-center"><i class="fa-brands fa-bluetooth-b"></i></div>
+          </div>
+          <div class="dm-scan-status">Scanning for nearby devices…</div>
+          <div class="dm-found-devices">
+            <div class="dm-found-row" onclick="pairDevice(this, 'Apple Watch S9')">
+              <div class="dm-action-icon dm-ai-gray" style="flex-shrink:0;"><i class="fa-brands fa-apple"></i></div>
+              <div class="dm-found-info">
+                <div class="dm-found-name">Apple Watch Series 9</div>
+                <div class="dm-found-id">AA:BB:CC:11:22:33</div>
+              </div>
+              <button class="dm-pair-mini">Pair</button>
+            </div>
+            <div class="dm-found-row" onclick="pairDevice(this, 'Galaxy Watch 6')">
+              <div class="dm-action-icon dm-ai-gray" style="flex-shrink:0;"><i class="fa-brands fa-android"></i></div>
+              <div class="dm-found-info">
+                <div class="dm-found-name">Galaxy Watch 6</div>
+                <div class="dm-found-id">DD:EE:FF:44:55:66</div>
+              </div>
+              <button class="dm-pair-mini">Pair</button>
+            </div>
+            <div class="dm-found-row" onclick="pairDevice(this, 'Garmin Vívosmart 5')">
+              <div class="dm-action-icon dm-ai-gray" style="flex-shrink:0;"><i class="fa-solid fa-watch"></i></div>
+              <div class="dm-found-info">
+                <div class="dm-found-name">Garmin Vívosmart 5</div>
+                <div class="dm-found-id">77:88:99:AA:BB:CC</div>
+              </div>
+              <button class="dm-pair-mini">Pair</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Disconnect Sheet ── -->
+      <div class="dm-sheet" id="disconnectSheet">
+        <div class="dm-drag-handle"></div>
+        <div class="dm-sheet-header">
+          <div class="dm-sheet-icon dm-ai-red"><i class="fa-solid fa-link-slash"></i></div>
+          <div class="dm-sheet-title">Disconnect Device</div>
+          <button class="dm-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="dm-sheet-divider"></div>
+        <div class="dm-sheet-body">
+          <div class="dm-warn-block">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size:36px;color:#f59e0b;"></i>
+            <div class="dm-warn-title">Disconnect Fitbit Charge 5?</div>
+            <p class="dm-warn-desc">This will stop syncing health data. Your existing data will be preserved. You can reconnect anytime.</p>
+          </div>
+          <button class="dm-danger-btn" onclick="doDisconnect()">
+            <i class="fa-solid fa-link-slash"></i> Yes, Disconnect
+          </button>
+          <button class="dm-cancel-btn" onclick="closeSheet()">Keep Connected</button>
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <div class="dm-toast" id="dmToast"><i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Done!</span></div>
+
     </div>
-
-    <div class="screen-main">
-      <!-- Connected Devices -->
-      <h3 class="section-title">Connected Devices</h3>
-      <div class="device-list">
-        <div class="device-card connected">
-          <div class="device-header">
-            <div class="device-name">Fitbit Charge 5</div>
-            <span class="device-status-badge">Connected</span>
-          </div>
-          <div class="device-details">
-            <p>Battery: <strong>85%</strong></p>
-            <p>Last Sync: <strong>2 minutes ago</strong></p>
-            <p>Status: <strong>Syncing data...</strong></p>
-          </div>
-          <div class="device-actions">
-            <button class="btn btn-sm btn-outline">Settings</button>
-            <button class="btn btn-sm btn-secondary">Disconnect</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Available Devices -->
-      <h3 class="section-title">Available Devices</h3>
-      <p class="subtitle">Add more wearables to track your data from multiple sources.</p>
-      <div class="device-list">
-        <div class="device-card available">
-          <div class="device-name">Apple Watch Series 8</div>
-          <button class="btn btn-primary btn-sm">Pair Device</button>
-        </div>
-
-        <div class="device-card available">
-          <div class="device-name">Garmin Vívosmart 5</div>
-          <button class="btn btn-primary btn-sm">Pair Device</button>
-        </div>
-
-        <div class="device-card available">
-          <div class="device-name">Samsung Galaxy Watch</div>
-          <button class="btn btn-primary btn-sm">Pair Device</button>
-        </div>
-
-        <div class="device-card available">
-          <div class="device-name">Withings ScanWatch</div>
-          <button class="btn btn-primary btn-sm">Pair Device</button>
-        </div>
-      </div>
-
-      <!-- Recently Paired -->
-      <h3 class="section-title">Pairing History</h3>
-      <div class="history-list">
-        <div class="history-item">
-          <span>Fitbit Charge 5</span>
-          <span class="time">Paired on June 3, 2024</span>
-        </div>
-        <div class="history-item">
-          <span>Phone Sensors</span>
-          <span class="time">Paired on June 1, 2024</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
+
+<script>
+function openSheet(id) {
+  document.getElementById('dmOverlay').classList.add('dm-show');
+  document.getElementById(id).classList.add('dm-open');
+}
+function closeSheet() {
+  document.getElementById('dmOverlay').classList.remove('dm-show');
+  document.querySelectorAll('.dm-sheet').forEach(s => s.classList.remove('dm-open'));
+}
+function showToast(msg) {
+  const t = document.getElementById('dmToast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('dm-toast-show');
+  setTimeout(() => t.classList.remove('dm-toast-show'), 2800);
+}
+
+function doSync() {
+  const btn = document.getElementById('syncBtn');
+  const icon = document.getElementById('syncIcon');
+  btn.disabled = true;
+  icon.classList.add('dm-spinning');
+  btn.innerHTML = '<i class="fa-solid fa-rotate dm-spinning" id="syncIcon"></i> Syncing…';
+  setTimeout(() => {
+    closeSheet();
+    showToast('Device synced successfully!');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-rotate" id="syncIcon"></i> Start Sync';
+  }, 2500);
+}
+
+function doCalibrate() {
+  closeSheet();
+  showToast('Sleep tracker calibration started!');
+}
+
+function doRename() {
+  const val = document.getElementById('deviceNameInput').value.trim();
+  if (!val) return;
+  document.querySelector('.dm-device-name').textContent = val;
+  document.querySelector('[onclick="openSheet(\'renameSheet\')"] .dm-action-sub').textContent = val;
+  closeSheet();
+  showToast('Device renamed to "' + val + '"');
+}
+
+function pairDevice(row, name) {
+  const btn = row.querySelector('.dm-pair-mini');
+  btn.textContent = 'Pairing…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ Paired';
+    btn.style.background = '#22c55e';
+    showToast(name + ' paired!');
+    setTimeout(closeSheet, 1200);
+  }, 2000);
+}
+
+function doDisconnect() {
+  closeSheet();
+  setTimeout(() => showToast('Fitbit Charge 5 disconnected'), 400);
+}
+</script>
+
 </body>
 </html>
