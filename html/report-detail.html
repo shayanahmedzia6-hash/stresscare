@@ -246,10 +246,38 @@
           </div>
 
           <!-- Export -->
-          <button class="rd-export-btn">
+          <button class="rd-export-btn" onclick="exportReport()">
             <i class="fa-solid fa-download"></i>
             Export Report
           </button>
+
+          <!-- Export Modal -->
+          <div id="exportModal" class="rd-modal-overlay" style="display:none;">
+            <div class="rd-modal">
+              <div class="rd-modal-icon">
+                <i class="fa-solid fa-file-pdf"></i>
+              </div>
+              <div class="rd-modal-title">Export Report</div>
+              <div class="rd-modal-sub">May 22, 2025 — StressCare Report</div>
+              <div class="rd-modal-options">
+                <button class="rd-modal-opt" onclick="doPrint()">
+                  <i class="fa-solid fa-print"></i>
+                  <div>
+                    <div class="rd-modal-opt-title">Save as PDF</div>
+                    <div class="rd-modal-opt-sub">Print or save to device</div>
+                  </div>
+                </button>
+                <button class="rd-modal-opt" onclick="shareReport()">
+                  <i class="fa-solid fa-share-nodes"></i>
+                  <div>
+                    <div class="rd-modal-opt-title">Share Report</div>
+                    <div class="rd-modal-opt-sub">Send via app or link</div>
+                  </div>
+                </button>
+              </div>
+              <button class="rd-modal-cancel" onclick="closeExport()">Cancel</button>
+            </div>
+          </div>
 
           <div style="height:80px;"></div>
         </div>
@@ -429,6 +457,49 @@
       btn.classList.add('rd-tab-active');
       document.getElementById('tab-' + tabId).classList.remove('rd-hidden');
     }
+
+    function exportReport() {
+      document.getElementById('exportModal').style.display = 'flex';
+    }
+
+    function closeExport() {
+      document.getElementById('exportModal').style.display = 'none';
+    }
+
+    function doPrint() {
+      closeExport();
+      setTimeout(() => window.print(), 200);
+    }
+
+    function shareReport() {
+      closeExport();
+      if (navigator.share) {
+        navigator.share({
+          title: 'StressCare Report — May 22, 2025',
+          text: 'My stress report: 58% Moderate stress, Heart Rate 78 bpm, Migraine Risk Low (12%)',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast('Link copied to clipboard!');
+        }).catch(() => {
+          showToast('Share not supported on this device.');
+        });
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.className = 'rd-toast';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.classList.add('rd-toast-show'), 10);
+      setTimeout(() => { t.classList.remove('rd-toast-show'); setTimeout(() => t.remove(), 300); }, 2500);
+    }
+
+    document.getElementById('exportModal').addEventListener('click', function(e) {
+      if (e.target === this) closeExport();
+    });
   </script>
 
 </body>
