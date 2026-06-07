@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - About</title>
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="../css/settings.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .ab-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px 10px;
+      flex-shrink: 0;
+    }
+    .ab-back-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #e2eaf5;
+      background: #f8faff;
+      color: #1a2b4b;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: all 0.18s;
+    }
+    .ab-back-btn:hover { background: #eff6ff; border-color: #2563eb; color: #2563eb; }
+    .ab-header-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a2b4b;
+      flex: 1;
+    }
+    .ab-header-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: #dbeafe;
+      display: flex; align-items: center; justify-content: center;
+      color: #2563eb;
+      font-size: 16px;
+    }
+    .ab-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      padding: 0 16px;
+    }
+    .ab-scroll::-webkit-scrollbar { display: none; }
+
+    /* App Logo Block */
+    .ab-logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0 24px;
+    }
+    .ab-app-icon {
+      width: 80px; height: 80px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 2px solid #dbeafe;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 20px rgba(37,99,235,0.15);
+    }
+    .ab-app-name {
+      font-size: 22px;
+      font-weight: 900;
+      color: #1a2b4b;
+      letter-spacing: -0.5px;
+    }
+    .ab-app-tagline {
+      font-size: 12px;
+      color: #9aadc9;
+      margin-top: 3px;
+    }
+    .ab-version-badge {
+      margin-top: 10px;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1.5px solid #dbeafe;
+    }
+
+    /* Section label */
+    .ab-section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2563eb;
+      margin: 0 2px 8px;
+    }
+
+    /* Info Card */
+    .ab-card {
+      background: #fff;
+      border-radius: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+      overflow: hidden;
+    }
+    .ab-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 16px;
+      border-bottom: 1px solid #f3f6fb;
+    }
+    .ab-row:last-child { border-bottom: none; }
+    .ab-row-label { font-size: 13px; font-weight: 600; color: #1a2b4b; }
+    .ab-row-value { font-size: 13px; font-weight: 700; color: #2563eb; }
+    .ab-row-value-plain { font-size: 13px; font-weight: 600; color: #9aadc9; }
+
+    /* Feature list */
+    .ab-feature-card {
+      background: #fff;
+      border-radius: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+      padding: 16px;
+    }
+    .ab-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .ab-feature:last-child { margin-bottom: 0; }
+    .ab-feature-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .ab-feature-text { flex: 1; }
+    .ab-feature-title { font-size: 13px; font-weight: 700; color: #1a2b4b; margin-bottom: 2px; }
+    .ab-feature-sub { font-size: 11px; color: #9aadc9; line-height: 1.4; }
+
+    /* Link row */
+    .ab-link-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-bottom: 1px solid #f3f6fb;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .ab-link-row:last-child { border-bottom: none; }
+    .ab-link-row:active { background: #f8faff; }
+    .ab-link-label { font-size: 13px; font-weight: 600; color: #1a2b4b; }
+    .ab-chev { color: #c5d3e8; font-size: 11px; }
+
+    /* Description */
+    .ab-desc {
+      font-size: 13px;
+      color: #7a8cad;
+      line-height: 1.7;
+      background: #fff;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <div class="st-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Back Header ────────────────────────── -->
+      <div class="ab-header">
+        <a href="profile.html" class="ab-back-btn">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <span class="ab-header-title">About StressCare</span>
+        <div class="ab-header-icon">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="ab-scroll">
+
+        <!-- App Logo -->
+        <div class="ab-logo-block">
+          <div class="ab-app-icon">
+            <i class="fa-solid fa-brain" style="font-size:34px; color:#2563eb;"></i>
+          </div>
+          <div class="ab-app-name">StressCare</div>
+          <div class="ab-app-tagline">AI Stress &amp; Migraine Monitor</div>
+          <div class="ab-version-badge">Version 1.3.0</div>
+        </div>
+
+        <!-- Description -->
+        <div class="ab-desc">
+          StressCare uses advanced biometric AI to monitor, predict, and help manage your stress and migraine risk in real time — keeping you informed and in control of your wellbeing.
+        </div>
+
+        <!-- App Details -->
+        <div class="ab-section-label">App Details</div>
+        <div class="ab-card">
+          <div class="ab-row">
+            <span class="ab-row-label">Version</span>
+            <span class="ab-row-value">1.3.0</span>
+          </div>
+          <div class="ab-row">
+            <span class="ab-row-label">Build Number</span>
+            <span class="ab-row-value-plain">20250607</span>
+          </div>
+          <div class="ab-row">
+            <span class="ab-row-label">Platform</span>
+            <span class="ab-row-value-plain">Web App</span>
+          </div>
+          <div class="ab-row">
+            <span class="ab-row-label">Developer</span>
+            <span class="ab-row-value-plain">StressCare Inc.</span>
+          </div>
+          <div class="ab-row">
+            <span class="ab-row-label">Released</span>
+            <span class="ab-row-value-plain">May 12, 2025</span>
+          </div>
+          <div class="ab-row">
+            <span class="ab-row-label">Last Updated</span>
+            <span class="ab-row-value-plain">June 7, 2026</span>
+          </div>
+        </div>
+
+        <!-- Key Features -->
+        <div class="ab-section-label">Key Features</div>
+        <div class="ab-feature-card">
+          <div class="ab-feature">
+            <div class="ab-feature-icon" style="background:#dbeafe; color:#2563eb;">
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <div class="ab-feature-text">
+              <div class="ab-feature-title">Real-Time Monitoring</div>
+              <div class="ab-feature-sub">Continuous biometric tracking for stress and migraine early warning</div>
+            </div>
+          </div>
+          <div class="ab-feature">
+            <div class="ab-feature-icon" style="background:#ede9fe; color:#7c3aed;">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <div class="ab-feature-text">
+              <div class="ab-feature-title">AI-Powered Insights</div>
+              <div class="ab-feature-sub">Machine learning models that learn and adapt to your patterns</div>
+            </div>
+          </div>
+          <div class="ab-feature">
+            <div class="ab-feature-icon" style="background:#dcfce7; color:#16a34a;">
+              <i class="fa-solid fa-spa"></i>
+            </div>
+            <div class="ab-feature-text">
+              <div class="ab-feature-title">Smart Interventions</div>
+              <div class="ab-feature-sub">Personalized breathing, mindfulness, and relaxation exercises</div>
+            </div>
+          </div>
+          <div class="ab-feature">
+            <div class="ab-feature-icon" style="background:#fef3c7; color:#d97706;">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <div class="ab-feature-text">
+              <div class="ab-feature-title">Cloud Sync</div>
+              <div class="ab-feature-sub">Secure backup and sync across all your devices</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legal & Info -->
+        <div class="ab-section-label">Legal</div>
+        <div class="ab-card">
+          <div class="ab-link-row" onclick="alert('Opening Privacy Policy...')">
+            <span class="ab-link-label">Privacy Policy</span>
+            <i class="fa-solid fa-chevron-right ab-chev"></i>
+          </div>
+          <div class="ab-link-row" onclick="alert('Opening Terms of Service...')">
+            <span class="ab-link-label">Terms of Service</span>
+            <i class="fa-solid fa-chevron-right ab-chev"></i>
+          </div>
+          <div class="ab-link-row" onclick="alert('Opening Licenses...')">
+            <span class="ab-link-label">Open Source Licenses</span>
+            <i class="fa-solid fa-chevron-right ab-chev"></i>
+          </div>
+        </div>
+
+        <!-- Check for Updates -->
+        <button class="st-action-btn" onclick="alert('You are on the latest version!')">
+          <i class="fa-solid fa-rotate"></i> Check for Updates
+        </button>
+
+        <div style="height:90px;"></div>
+      </div>
+
+      <!-- ── Bottom Nav ──────────────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="monitoring.html" class="nav-item"><i class="fa-solid fa-heart-pulse"></i><span>Monitoring</span></a>
+        <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></a>
+        <a href="interventions.html" class="nav-item"><i class="fa-solid fa-spa"></i><span>Interventions</span></a>
+        <a href="profile.html" class="nav-item nav-active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

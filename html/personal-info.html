@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StressCare - Personal Information</title>
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="../css/settings.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .pi-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px 10px;
+      flex-shrink: 0;
+    }
+    .pi-back-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #e2eaf5;
+      background: #f8faff;
+      color: #1a2b4b;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: all 0.18s;
+    }
+    .pi-back-btn:hover { background: #eff6ff; border-color: #2563eb; color: #2563eb; }
+    .pi-header-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a2b4b;
+      flex: 1;
+    }
+    .pi-header-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: #dbeafe;
+      display: flex; align-items: center; justify-content: center;
+      color: #2563eb;
+      font-size: 16px;
+    }
+    .pi-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      padding: 0 16px;
+    }
+    .pi-scroll::-webkit-scrollbar { display: none; }
+
+    /* Avatar */
+    .pi-avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0 20px;
+    }
+    .pi-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #dbeafe, #eff6ff);
+      border: 3px solid #2563eb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      color: #2563eb;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .pi-avatar-edit {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #fff;
+      font-size: 11px;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
+    .pi-avatar-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1a2b4b;
+    }
+    .pi-avatar-email {
+      font-size: 12px;
+      color: #9aadc9;
+      margin-top: 2px;
+    }
+
+    /* Form */
+    .pi-section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2563eb;
+      margin: 0 2px 8px;
+    }
+    .pi-card {
+      background: #fff;
+      border-radius: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+      overflow: hidden;
+    }
+    .pi-field {
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f3f6fb;
+    }
+    .pi-field:last-child { border-bottom: none; }
+    .pi-field label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9aadc9;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .pi-field input, .pi-field select {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a2b4b;
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+    }
+    .pi-field select { cursor: pointer; }
+
+    .pi-save-btn {
+      width: 100%;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.28);
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+    .pi-save-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <div class="st-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Back Header ────────────────────────── -->
+      <div class="pi-header">
+        <a href="profile.html" class="pi-back-btn">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <span class="pi-header-title">Personal Information</span>
+        <div class="pi-header-icon">
+          <i class="fa-regular fa-user"></i>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="pi-scroll">
+
+        <!-- Avatar -->
+        <div class="pi-avatar-section">
+          <div class="pi-avatar">
+            <i class="fa-solid fa-user"></i>
+            <div class="pi-avatar-edit"><i class="fa-solid fa-pen"></i></div>
+          </div>
+          <div class="pi-avatar-name">Minhal Mukhtar</div>
+          <div class="pi-avatar-email">minhal.mukhtar@example.com</div>
+        </div>
+
+        <!-- Basic Info -->
+        <div class="pi-section-label">Basic Info</div>
+        <div class="pi-card">
+          <div class="pi-field">
+            <label>First Name</label>
+            <input type="text" value="Minhal" placeholder="Enter first name">
+          </div>
+          <div class="pi-field">
+            <label>Last Name</label>
+            <input type="text" value="Mukhtar" placeholder="Enter last name">
+          </div>
+          <div class="pi-field">
+            <label>Date of Birth</label>
+            <input type="date" value="1995-03-15">
+          </div>
+          <div class="pi-field">
+            <label>Gender</label>
+            <select>
+              <option>Female</option>
+              <option>Male</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="pi-section-label">Contact</div>
+        <div class="pi-card">
+          <div class="pi-field">
+            <label>Email Address</label>
+            <input type="email" value="minhal.mukhtar@example.com" placeholder="Enter email">
+          </div>
+          <div class="pi-field">
+            <label>Phone Number</label>
+            <input type="tel" value="+92 300 1234567" placeholder="Enter phone number">
+          </div>
+        </div>
+
+        <!-- Health Profile -->
+        <div class="pi-section-label">Health Profile</div>
+        <div class="pi-card">
+          <div class="pi-field">
+            <label>Height (cm)</label>
+            <input type="number" value="165" placeholder="Enter height">
+          </div>
+          <div class="pi-field">
+            <label>Weight (kg)</label>
+            <input type="number" value="58" placeholder="Enter weight">
+          </div>
+          <div class="pi-field">
+            <label>Blood Type</label>
+            <select>
+              <option>B+</option>
+              <option>A+</option>
+              <option>A-</option>
+              <option>B-</option>
+              <option>AB+</option>
+              <option>AB-</option>
+              <option>O+</option>
+              <option>O-</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="pi-save-btn" onclick="alert('Changes saved successfully!')">
+          <i class="fa-solid fa-check" style="margin-right:8px;"></i>Save Changes
+        </button>
+
+        <div style="height:80px;"></div>
+      </div>
+
+      <!-- ── Bottom Nav ──────────────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="monitoring.html" class="nav-item"><i class="fa-solid fa-heart-pulse"></i><span>Monitoring</span></a>
+        <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></a>
+        <a href="interventions.html" class="nav-item"><i class="fa-solid fa-spa"></i><span>Interventions</span></a>
+        <a href="profile.html" class="nav-item nav-active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
