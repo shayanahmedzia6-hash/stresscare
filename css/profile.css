@@ -109,6 +109,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.18s;
+  text-decoration: none;
 }
 
 .pf-edit-btn:hover { background: #eff6ff; }
