@@ -4,147 +4,297 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Insights</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/insights.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="home.html" class="back-btn">←</a>
-      <h1>Insights</h1>
-    </div>
 
-    <div class="screen-main">
-      <!-- Weekly Summary -->
-      <div class="insight-card featured">
-        <h3>Weekly Summary</h3>
-        <div class="summary-stats">
-          <div class="stat">
-            <span class="label">Average Stress</span>
-            <span class="value">62</span>
-          </div>
-          <div class="stat">
-            <span class="label">Improvement</span>
-            <span class="value">↓ 8%</span>
-          </div>
-          <div class="stat">
-            <span class="label">Best Day</span>
-            <span class="value">Mon</span>
-          </div>
+  <div class="phone-frame">
+    <div class="ins-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
         </div>
       </div>
 
-      <!-- Stress Patterns -->
-      <h3 class="section-title">Stress Patterns</h3>
-      <div class="insight-card">
-        <h4>Daily Pattern</h4>
-        <div class="pattern-chart">
-          <div class="time-slot">
-            <span class="time">6 AM</span>
-            <div class="bar" style="height: 30%;"></div>
-          </div>
-          <div class="time-slot">
-            <span class="time">10 AM</span>
-            <div class="bar" style="height: 80%;"></div>
-          </div>
-          <div class="time-slot">
-            <span class="time">2 PM</span>
-            <div class="bar" style="height: 70%;"></div>
-          </div>
-          <div class="time-slot">
-            <span class="time">6 PM</span>
-            <div class="bar" style="height: 40%;"></div>
-          </div>
-          <div class="time-slot">
-            <span class="time">10 PM</span>
-            <div class="bar" style="height: 25%;"></div>
-          </div>
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
         </div>
       </div>
 
-      <!-- Triggers & Impact -->
-      <h3 class="section-title">Top Stress Triggers</h3>
-      <div class="insight-card">
-        <div class="trigger-item">
-          <span class="trigger-emoji">📧</span>
-          <div class="trigger-info">
-            <div class="trigger-name">Email Checking</div>
-            <div class="trigger-impact">+25% stress increase</div>
-          </div>
-        </div>
-        <div class="trigger-item">
-          <span class="trigger-emoji">💼</span>
-          <div class="trigger-info">
-            <div class="trigger-name">Work Calls</div>
-            <div class="trigger-impact">+18% stress increase</div>
-          </div>
-        </div>
-        <div class="trigger-item">
-          <span class="trigger-emoji">🚗</span>
-          <div class="trigger-info">
-            <div class="trigger-name">Traffic</div>
-            <div class="trigger-impact">+15% stress increase</div>
-          </div>
-        </div>
-      </div>
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="ins-scroll">
 
-      <!-- Recommendations -->
-      <h3 class="section-title">Personalized Tips</h3>
-      <div class="tips-container">
-        <div class="tip-card">
-          <span class="tip-icon">✓</span>
-          <p>Try taking a 5-minute walk after email checks to reset your stress levels.</p>
-        </div>
-        <div class="tip-card">
-          <span class="tip-icon">✓</span>
-          <p>Schedule breathing exercises before your afternoon calls for better focus.</p>
-        </div>
-      </div>
+        <!-- Title -->
+        <h1 class="ins-title">Insights</h1>
 
-      <!-- Sleep & Migraine Insights -->
-      <div class="quick-links">
-        <a href="sleep-analysis.html" class="quick-link-card">
-          <span class="card-icon">😴</span>
-          <div class="card-info">
-            <div class="card-title">Sleep Analysis</div>
-            <div class="card-desc">View your sleep patterns</div>
+        <!-- Top 2-col cards: Sleep Quality + Migraine Risk -->
+        <div class="ins-top-row">
+
+          <!-- Sleep Quality Card -->
+          <div class="ins-card ins-sleep-card">
+            <div class="ins-card-header">
+              <div class="ins-sleep-icon">
+                <i class="fa-solid fa-moon"></i>
+                <i class="fa-solid fa-star ins-star-sm"></i>
+              </div>
+              <span class="ins-card-title">Sleep Quality</span>
+            </div>
+            <div class="ins-sleep-dur-label">Sleep Duration</div>
+            <div class="ins-sleep-dur">7h <span>24m</span></div>
+            <div class="ins-sleep-score-label">Quality Score</div>
+            <!-- Mini circular gauge -->
+            <div class="ins-sleep-gauge-wrap">
+              <svg class="ins-sleep-gauge" viewBox="0 0 80 80">
+                <defs>
+                  <linearGradient id="sleepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%"   stop-color="#3b82f6"/>
+                    <stop offset="100%" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="#e8f0fb" stroke-width="7"/>
+                <circle cx="40" cy="40" r="32" fill="none" stroke="url(#sleepGrad)" stroke-width="7"
+                  stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="50"
+                  transform="rotate(-90 40 40)" id="sleepArc"/>
+              </svg>
+              <div class="ins-sleep-gauge-center">
+                <div class="ins-sleep-score">76</div>
+                <div class="ins-sleep-unit">/100</div>
+              </div>
+            </div>
+            <div class="ins-sleep-good">Good</div>
           </div>
-          <span class="arrow">→</span>
+
+          <!-- Migraine Risk Card -->
+          <div class="ins-card ins-migraine-card">
+            <div class="ins-card-header">
+              <div class="ins-migraine-icon">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <span class="ins-card-title">Migraine Risk</span>
+            </div>
+            <div class="ins-risk-level-label">Current Risk Level</div>
+            <div class="ins-risk-level-val">Medium Risk</div>
+            <!-- Gradient slider bar -->
+            <div class="ins-risk-slider-wrap">
+              <div class="ins-risk-slider-bar">
+                <div class="ins-risk-thumb" style="left:55%;"></div>
+              </div>
+            </div>
+            <div class="ins-risk-score-label">Risk Score</div>
+            <div class="ins-risk-score-val">58 <span>/100</span></div>
+          </div>
+
+        </div>
+
+        <!-- Stress & Sleep Trend Chart -->
+        <div class="ins-card ins-chart-card">
+          <div class="ins-chart-header">
+            <div>
+              <div class="ins-chart-title">Stress &amp; Sleep Trend</div>
+              <div class="ins-chart-sub">Last 7 Days</div>
+            </div>
+            <div class="ins-chart-legend">
+              <span class="ins-legend-dot" style="background:#2563eb;"></span><span class="ins-legend-label">Stress Level</span>
+              <span class="ins-legend-dot" style="background:#22c55e;margin-left:8px;"></span><span class="ins-legend-label">Sleep Quality</span>
+            </div>
+          </div>
+
+          <div class="ins-chart-wrap">
+            <svg viewBox="0 0 300 130" preserveAspectRatio="none" style="width:100%;height:130px;">
+              <!-- Y-axis labels left -->
+              <text x="0" y="12"  font-size="8" fill="#b0bcd4">100</text>
+              <text x="0" y="40"  font-size="8" fill="#b0bcd4">75</text>
+              <text x="0" y="68"  font-size="8" fill="#b0bcd4">50</text>
+              <text x="0" y="96"  font-size="8" fill="#b0bcd4">25</text>
+              <text x="0" y="120" font-size="8" fill="#b0bcd4">0</text>
+              <!-- Y-axis labels right -->
+              <text x="290" y="12"  font-size="8" fill="#b0bcd4" text-anchor="end">100</text>
+              <text x="290" y="40"  font-size="8" fill="#b0bcd4" text-anchor="end">75</text>
+              <text x="290" y="68"  font-size="8" fill="#b0bcd4" text-anchor="end">50</text>
+              <text x="290" y="96"  font-size="8" fill="#b0bcd4" text-anchor="end">25</text>
+              <text x="290" y="120" font-size="8" fill="#b0bcd4" text-anchor="end">0</text>
+              <!-- Grid lines -->
+              <line x1="18" y1="8"   x2="282" y2="8"   stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="18" y1="36"  x2="282" y2="36"  stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="18" y1="64"  x2="282" y2="64"  stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="18" y1="92"  x2="282" y2="92"  stroke="#f0f4fa" stroke-width="1"/>
+              <line x1="18" y1="116" x2="282" y2="116" stroke="#f0f4fa" stroke-width="1"/>
+
+              <!-- Stress Line (blue) — values: 80,75,88,82,65,40,50 -->
+              <!-- y = 116 - (val/100)*108 -->
+              <!-- 80→29.6, 75→35, 88→21, 82→27.4, 65→46.8, 40→72.8, 50→62 -->
+              <polyline points="22,30 64,35 106,21 148,27 190,47 232,73 274,62"
+                fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Stress dots -->
+              <circle cx="22"  cy="30" r="4" fill="#2563eb"/>
+              <circle cx="64"  cy="35" r="4" fill="#2563eb"/>
+              <circle cx="106" cy="21" r="4" fill="#2563eb"/>
+              <circle cx="148" cy="27" r="4" fill="#2563eb"/>
+              <circle cx="190" cy="47" r="4" fill="#2563eb"/>
+              <circle cx="232" cy="73" r="4" fill="#2563eb"/>
+              <circle cx="274" cy="62" r="4" fill="#2563eb"/>
+
+              <!-- Sleep Quality Line (green) — values: 55,60,55,62,55,78,75 -->
+              <!-- 55→56.6, 60→51.2, 55→56.6, 62→49, 55→56.6, 78→32, 75→35 -->
+              <polyline points="22,57 64,51 106,57 148,49 190,57 232,32 274,35"
+                fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Sleep dots -->
+              <circle cx="22"  cy="57" r="4" fill="#22c55e"/>
+              <circle cx="64"  cy="51" r="4" fill="#22c55e"/>
+              <circle cx="106" cy="57" r="4" fill="#22c55e"/>
+              <circle cx="148" cy="49" r="4" fill="#22c55e"/>
+              <circle cx="190" cy="57" r="4" fill="#22c55e"/>
+              <circle cx="232" cy="32" r="4" fill="#22c55e"/>
+              <circle cx="274" cy="35" r="4" fill="#22c55e"/>
+
+              <!-- X-axis labels -->
+              <text x="22"  y="128" font-size="7" fill="#9aadc9" text-anchor="middle">May 16</text>
+              <text x="64"  y="128" font-size="7" fill="#9aadc9" text-anchor="middle">May 17</text>
+              <text x="106" y="128" font-size="7" fill="#9aadc9" text-anchor="middle">May 18</text>
+              <text x="148" y="128" font-size="7" fill="#9aadc9" text-anchor="middle">May 19</text>
+              <text x="190" y="128" font-size="7" fill="#9aadc9" text-anchor="middle">May 20</text>
+              <text x="232" y="128" font-size="7" fill="#9aadc9" text-anchor="middle">May 21</text>
+              <text x="274" y="128" font-size="7" fill="#9aadc9" text-anchor="middle">May 22</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Risk Factors + Recommendations (2 col) -->
+        <div class="ins-bottom-row">
+
+          <!-- Risk Factors Detected -->
+          <div class="ins-card ins-risk-card">
+            <div class="ins-section-title">
+              <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;font-size:12px;"></i>
+              Risk Factors Detected
+            </div>
+            <div class="ins-risk-list">
+
+              <div class="ins-risk-item">
+                <div class="ins-risk-icon" style="background:#fee2e2;">
+                  <i class="fa-solid fa-heart" style="color:#ef4444;"></i>
+                </div>
+                <div class="ins-risk-info">
+                  <div class="ins-risk-name">HRV Drop</div>
+                  <div class="ins-risk-sub">-18% vs. baseline</div>
+                </div>
+                <span class="ins-badge ins-badge-red">High</span>
+              </div>
+
+              <div class="ins-risk-item">
+                <div class="ins-risk-icon" style="background:#e0e7ff;">
+                  <i class="fa-solid fa-moon" style="color:#6366f1;"></i>
+                </div>
+                <div class="ins-risk-info">
+                  <div class="ins-risk-name">Poor Sleep Quality</div>
+                  <div class="ins-risk-sub">76 score last night</div>
+                </div>
+                <span class="ins-badge ins-badge-yellow">Medium</span>
+              </div>
+
+              <div class="ins-risk-item">
+                <div class="ins-risk-icon" style="background:#ccfbf1;">
+                  <i class="fa-solid fa-droplet" style="color:#0d9488;"></i>
+                </div>
+                <div class="ins-risk-info">
+                  <div class="ins-risk-name">GSR Spikes</div>
+                  <div class="ins-risk-sub">Detected in evening</div>
+                </div>
+                <span class="ins-badge ins-badge-yellow">Medium</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="ins-card ins-rec-card">
+            <div class="ins-section-title">
+              <i class="fa-solid fa-bolt" style="color:#2563eb;font-size:12px;"></i>
+              Recommendations
+            </div>
+            <div class="ins-rec-list">
+
+              <div class="ins-rec-item">
+                <div class="ins-rec-icon" style="background:#dbeafe;">
+                  <i class="fa-solid fa-bed" style="color:#2563eb;font-size:11px;"></i>
+                </div>
+                <div class="ins-rec-text">Aim for 7–9 hours of quality sleep</div>
+              </div>
+
+              <div class="ins-rec-item">
+                <div class="ins-rec-icon" style="background:#d1fae5;">
+                  <i class="fa-solid fa-wind" style="color:#059669;font-size:11px;"></i>
+                </div>
+                <div class="ins-rec-text">Practice deep breathing for 5–10 minutes</div>
+              </div>
+
+              <div class="ins-rec-item">
+                <div class="ins-rec-icon" style="background:#e0f2fe;">
+                  <i class="fa-solid fa-droplet" style="color:#0284c7;font-size:11px;"></i>
+                </div>
+                <div class="ins-rec-text">Stay hydrated and avoid late caffeine</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Set Warning Alerts -->
+        <a href="#" class="ins-alert-card">
+          <div class="ins-alert-icon-wrap">
+            <i class="fa-solid fa-bell"></i>
+          </div>
+          <div class="ins-alert-info">
+            <div class="ins-alert-title">Set Warning Alerts</div>
+            <div class="ins-alert-sub">Get notified when your risk is high</div>
+          </div>
+          <i class="fa-solid fa-chevron-right ins-alert-arrow"></i>
         </a>
-        <a href="migraine-risk.html" class="quick-link-card">
-          <span class="card-icon">🤕</span>
-          <div class="card-info">
-            <div class="card-title">Migraine Risk</div>
-            <div class="card-desc">Check your risk factors</div>
-          </div>
-          <span class="arrow">→</span>
+
+        <div style="height:80px;"></div>
+
+      </div><!-- /ins-scroll -->
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item nav-active">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
         </a>
       </div>
-    </div>
 
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item active">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
+    </div>
   </div>
+
 </body>
 </html>
