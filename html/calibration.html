@@ -4,57 +4,246 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Calibration</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/device-setup.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
+  <link rel="stylesheet" href="../css/calibration.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen">
-    <div class="screen-header">
-      <a href="device-pairing.html" class="back-btn">←</a>
-      <h1>Calibration</h1>
-    </div>
 
-    <div class="screen-main">
-      <div class="setup-container">
-        <div class="alert alert-info">
-          <strong>Info:</strong> We'll record your baseline vitals to calibrate stress detection. This takes about 5 minutes.
+  <div class="phone-frame">
+    <div class="cal-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <div class="dp-logo-name">
+          <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        </div>
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="cal-scroll">
+
+        <!-- Title -->
+        <h1 class="cal-title">Calibration</h1>
+        <p class="cal-sub">Set Your Baseline</p>
+
+        <!-- Circular Timer -->
+        <div class="timer-wrap">
+          <div class="timer-ring-container">
+            <svg class="timer-svg" viewBox="0 0 120 120">
+              <!-- Background circle -->
+              <circle class="timer-bg-circle" cx="60" cy="60" r="52"/>
+              <!-- Progress arc -->
+              <circle class="timer-progress-circle" id="timerArc" cx="60" cy="60" r="52"/>
+            </svg>
+            <div class="timer-inner">
+              <span class="timer-num" id="timerNum">45</span>
+              <span class="timer-unit">sec</span>
+              <span class="timer-label">remaining</span>
+            </div>
+          </div>
+          <p class="timer-msg">Please stay still and relax<br>while we calibrate your wearable.</p>
         </div>
 
-        <div class="calibration-form">
-          <h3>Record Your Baseline</h3>
-          
-          <div class="form-group">
-            <label for="restingHR">Resting Heart Rate (bpm)</label>
-            <input type="number" id="restingHR" placeholder="Enter your resting HR" required>
-          </div>
+        <!-- Calibration Steps -->
+        <div class="cal-steps-card">
 
-          <div class="form-group">
-            <label for="bp">Blood Pressure (Sys/Dia)</label>
-            <div class="input-group">
-              <input type="number" placeholder="120" style="flex: 1;">
-              <span style="align-self: center; padding: 0 var(--spacing-sm);">/</span>
-              <input type="number" placeholder="80" style="flex: 1;">
+          <!-- 1. Heart Rate -->
+          <div class="cal-step-row">
+            <div class="cal-step-icon icon-red">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <span class="cal-step-name">Heart Rate Baseline</span>
+            <span class="cal-step-status status-done">Completed</span>
+            <div class="cal-step-badge badge-done">
+              <i class="fa-solid fa-circle-check"></i>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="respirationRate">Respiration Rate (breaths/min)</label>
-            <input type="number" id="respirationRate" placeholder="Enter your respiration rate" required>
+          <!-- 2. GSR -->
+          <div class="cal-step-row">
+            <div class="cal-step-icon icon-teal">
+              <i class="fa-solid fa-droplet"></i>
+            </div>
+            <span class="cal-step-name">GSR Baseline</span>
+            <span class="cal-step-status status-progress">In Progress</span>
+            <div class="cal-step-badge badge-spin">
+              <svg class="spin-ring" viewBox="0 0 28 28">
+                <circle class="spin-bg" cx="14" cy="14" r="11"/>
+                <circle class="spin-arc" cx="14" cy="14" r="11"/>
+              </svg>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="notes">Additional Notes</label>
-            <textarea id="notes" placeholder="Any other relevant information..."></textarea>
+          <!-- 3. Skin Temp -->
+          <div class="cal-step-row">
+            <div class="cal-step-icon icon-purple">
+              <i class="fa-solid fa-temperature-half"></i>
+            </div>
+            <span class="cal-step-name">Skin Temperature Baseline</span>
+            <span class="cal-step-status status-pending">Pending</span>
+            <div class="cal-step-badge badge-clock">
+              <i class="fa-regular fa-clock"></i>
+            </div>
           </div>
 
-          <button class="btn btn-primary btn-block btn-lg">Save Baseline</button>
+          <!-- 4. Motion -->
+          <div class="cal-step-row">
+            <div class="cal-step-icon icon-blue">
+              <i class="fa-solid fa-person-running"></i>
+            </div>
+            <span class="cal-step-name">Motion Baseline</span>
+            <span class="cal-step-status status-pending">Pending</span>
+            <div class="cal-step-badge badge-clock">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </div>
 
-    <div class="screen-footer">
-      <button class="btn btn-ghost btn-block" onclick="window.location.href='home.html'">Skip Calibration</button>
+        <!-- Tip Card -->
+        <div class="cal-tip-card">
+          <div class="tip-icon">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+          </div>
+          <p class="tip-text">Keep your wrist steady and avoid movement for accurate calibration.</p>
+        </div>
+
+        <!-- Device Info Card -->
+        <div class="cal-device-card">
+          <div class="cal-device-img">
+            <i class="fa-solid fa-watch" style="font-size:28px;color:#2563eb;"></i>
+          </div>
+          <div class="cal-device-info">
+            <div class="cal-device-name">
+              StressCare Band 2.0
+              <span class="device-online-dot"></span>
+            </div>
+            <div class="cal-device-id">SCB-7F3A</div>
+          </div>
+          <div class="cal-device-stats">
+            <div class="cal-stat">
+              <i class="fa-solid fa-battery-three-quarters stat-green"></i>
+              <span class="stat-val">78%</span>
+              <span class="stat-lbl">Battery</span>
+            </div>
+            <div class="cal-stat">
+              <i class="fa-brands fa-bluetooth-b stat-blue"></i>
+              <span class="stat-val">Connected</span>
+              <span class="stat-lbl">BLE</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height: 90px;"></div>
+
+      </div><!-- /cal-scroll -->
+
+      <!-- ── Bottom Buttons ─────────────────────── -->
+      <div class="dp-bottom-btns">
+        <button class="btn-scan-again" onclick="window.location.href='device-pairing.html'">
+          Cancel
+        </button>
+        <button class="btn-continue btn-continue-muted" id="continueBtn" onclick="window.location.href='home.html'">
+          Continue <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item nav-active">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
     </div>
   </div>
+
+  <script>
+    /* ── Countdown Timer ── */
+    const TOTAL = 60;
+    let remaining = 45;
+    const arc = document.getElementById('timerArc');
+    const numEl = document.getElementById('timerNum');
+    const circumference = 2 * Math.PI * 52; // r=52
+
+    arc.style.strokeDasharray = circumference;
+
+    function updateArc() {
+      const progress = remaining / TOTAL;
+      const offset = circumference * (1 - progress);
+      arc.style.strokeDashoffset = offset;
+      numEl.textContent = remaining;
+    }
+    updateArc();
+
+    const interval = setInterval(() => {
+      if (remaining <= 0) {
+        clearInterval(interval);
+        document.getElementById('continueBtn').classList.remove('btn-continue-muted');
+        return;
+      }
+      remaining--;
+      updateArc();
+
+      /* Step transitions */
+      if (remaining === 30) markDone(1);
+      if (remaining === 15) markDone(2);
+      if (remaining === 5)  markDone(3);
+    }, 1000);
+
+    function markDone(stepIndex) {
+      const rows = document.querySelectorAll('.cal-step-row');
+      if (!rows[stepIndex]) return;
+      rows[stepIndex].querySelector('.cal-step-status').textContent = 'Completed';
+      rows[stepIndex].querySelector('.cal-step-status').className = 'cal-step-status status-done';
+      rows[stepIndex].querySelector('.cal-step-badge').innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+      rows[stepIndex].querySelector('.cal-step-badge').className = 'cal-step-badge badge-done';
+      if (rows[stepIndex + 1]) {
+        rows[stepIndex + 1].querySelector('.cal-step-status').textContent = 'In Progress';
+        rows[stepIndex + 1].querySelector('.cal-step-status').className = 'cal-step-status status-progress';
+        rows[stepIndex + 1].querySelector('.cal-step-badge').innerHTML = `
+          <svg class="spin-ring" viewBox="0 0 28 28">
+            <circle class="spin-bg" cx="14" cy="14" r="11"/>
+            <circle class="spin-arc" cx="14" cy="14" r="11"/>
+          </svg>`;
+        rows[stepIndex + 1].querySelector('.cal-step-badge').className = 'cal-step-badge badge-spin';
+      }
+    }
+  </script>
+
 </body>
 </html>

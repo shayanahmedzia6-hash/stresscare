@@ -1,0 +1,328 @@
+/* ── Calibration Screen ───────────────────────────────── */
+
+.cal-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #deeeff 0%, #f0f6ff 20%, #f8faff 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Scrollable ─────────────────────────────────────── */
+.cal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 18px;
+}
+.cal-scroll::-webkit-scrollbar { display: none; }
+
+.cal-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a2b4b;
+  letter-spacing: -0.3px;
+  margin-bottom: 2px;
+}
+
+.cal-sub {
+  font-size: 13px;
+  color: #7a8cad;
+  margin-bottom: 16px;
+}
+
+/* ── Circular Timer ───────────────────────────────────── */
+.timer-wrap {
+  background: #fff;
+  border-radius: 20px;
+  padding: 22px 18px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 14px rgba(37,99,235,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.timer-ring-container {
+  position: relative;
+  width: 130px;
+  height: 130px;
+}
+
+.timer-svg {
+  width: 130px;
+  height: 130px;
+  transform: rotate(-90deg);
+}
+
+.timer-bg-circle {
+  fill: none;
+  stroke: #e8f0fb;
+  stroke-width: 8;
+}
+
+.timer-progress-circle {
+  fill: none;
+  stroke: #2563eb;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.timer-num {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1a2b4b;
+  line-height: 1;
+}
+
+.timer-unit {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2b4b;
+  line-height: 1.2;
+}
+
+.timer-label {
+  font-size: 11px;
+  color: #9aadc9;
+  line-height: 1.2;
+}
+
+.timer-msg {
+  font-size: 13px;
+  color: #5a6882;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── Calibration Steps Card ───────────────────────────── */
+.cal-steps-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 14px rgba(37,99,235,0.07);
+}
+
+.cal-step-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f4fb;
+}
+.cal-step-row:last-child { border-bottom: none; }
+
+/* Colored icon circle */
+.cal-step-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.icon-red    { background: #fee2e2; color: #ef4444; }
+.icon-teal   { background: #ccfbf1; color: #0d9488; }
+.icon-purple { background: #ede9fe; color: #7c3aed; }
+.icon-blue   { background: #dbeafe; color: #2563eb; }
+
+.cal-step-name {
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1a2b4b;
+  min-width: 0;
+}
+
+.cal-step-status {
+  font-size: 11.5px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
+.status-done     { color: #16a34a; }
+.status-progress { color: #2563eb; }
+.status-pending  { color: #9aadc9; }
+
+/* Status badges */
+.cal-step-badge {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-done i {
+  font-size: 20px;
+  color: #16a34a;
+}
+
+.badge-clock i {
+  font-size: 16px;
+  color: #c5d0e0;
+}
+
+/* Spinning dotted ring for "In Progress" */
+.badge-spin {
+  width: 24px; height: 24px;
+}
+
+.spin-ring {
+  width: 24px; height: 24px;
+  animation: spinRing 1.2s linear infinite;
+}
+
+@keyframes spinRing {
+  to { transform: rotate(360deg); }
+}
+
+.spin-bg {
+  fill: none;
+  stroke: #dbeafe;
+  stroke-width: 3;
+  stroke-dasharray: 4 3;
+}
+
+.spin-arc {
+  fill: none;
+  stroke: #2563eb;
+  stroke-width: 3;
+  stroke-dasharray: 18 52;
+  stroke-linecap: round;
+}
+
+/* ── Tip Card ─────────────────────────────────────────── */
+.cal-tip-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #eef6ff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid #c7dffb;
+}
+
+.tip-icon {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #dbeafe;
+  display: flex; align-items: center; justify-content: center;
+  color: #2563eb;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.tip-text {
+  font-size: 12.5px;
+  color: #3a5a8a;
+  line-height: 1.55;
+}
+
+/* ── Device Info Card ─────────────────────────────────── */
+.cal-device-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+  margin-bottom: 8px;
+}
+
+.cal-device-img {
+  width: 52px; height: 52px;
+  background: #f0f4fa;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.cal-device-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cal-device-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2b4b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.device-online-dot {
+  width: 8px; height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.cal-device-id {
+  font-size: 11px;
+  color: #9aadc9;
+  margin-top: 2px;
+}
+
+.cal-device-stats {
+  display: flex;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.cal-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.cal-stat i {
+  font-size: 16px;
+  margin-bottom: 1px;
+}
+
+.stat-green { color: #22c55e; }
+.stat-blue  { color: #2563eb; }
+
+.stat-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a2b4b;
+}
+
+.stat-lbl {
+  font-size: 9.5px;
+  color: #9aadc9;
+}
+
+/* ── Continue button muted variant ───────────────────── */
+.btn-continue-muted {
+  background: #93c5fd !important;
+  box-shadow: none !important;
+  cursor: default;
+}
+
+.btn-continue-muted:hover {
+  transform: none !important;
+  background: #93c5fd !important;
+}
