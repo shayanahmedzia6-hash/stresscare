@@ -4,159 +4,420 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Help & Support</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/help.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="profile.html" class="back-btn">←</a>
-      <h1>Help & Support</h1>
+
+  <div class="phone-frame">
+    <div class="hs-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <a href="notifications.html" class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </a>
+      </div>
+
+      <!-- ── Scrollable ─────────────────────────── -->
+      <div class="hs-scroll">
+
+        <h1 class="hs-page-title">Help &amp; Support</h1>
+
+        <!-- Search Bar -->
+        <div class="hs-search-wrap">
+          <i class="fa-solid fa-magnifying-glass hs-search-icon"></i>
+          <input type="text" class="hs-search-input" placeholder="Search help articles...">
+        </div>
+
+        <!-- Contact Card -->
+        <div class="hs-contact-card">
+          <div class="hs-contact-icon">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <div class="hs-contact-info">
+            <div class="hs-contact-title">We're here to help</div>
+            <div class="hs-contact-sub">Email or chat with our support team.</div>
+            <div class="hs-contact-email">
+              <i class="fa-regular fa-envelope"></i>
+              support@stresscare.app
+            </div>
+            <div class="hs-contact-hours">
+              <i class="fa-regular fa-clock"></i>
+              Available daily, 8:00 AM – 8:00 PM
+            </div>
+          </div>
+          <div class="hs-live-badge">
+            <span class="hs-live-dot"></span>
+            Live Support<br>Available
+          </div>
+        </div>
+
+        <!-- ── Menu Items ──────────────────────── -->
+        <div class="hs-menu-card">
+
+          <div class="hs-row" onclick="openSheet('faqs')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-regular fa-circle-question"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">FAQs</div>
+              <div class="hs-sub">Find answers to common questions.</div>
+            </div>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+          <div class="hs-row" onclick="openSheet('user-guide')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-solid fa-book-open"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">User Guide</div>
+              <div class="hs-sub">Learn how to use StressCare.</div>
+            </div>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+          <div class="hs-row" onclick="openSheet('device-setup')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-regular fa-clock"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">Device Setup Help</div>
+              <div class="hs-sub">Get help setting up and syncing your device.</div>
+            </div>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+          <div class="hs-row" onclick="openSheet('contact-support')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-regular fa-envelope"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">Contact Support</div>
+              <div class="hs-sub">Send us an email and we'll get back to you.</div>
+            </div>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+          <div class="hs-row" onclick="openSheet('live-chat')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-regular fa-comment-dots"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">Live Chat</div>
+              <div class="hs-sub">Chat live with our support team.</div>
+            </div>
+            <span class="hs-online-badge"><span class="hs-online-dot"></span>Online</span>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+          <div class="hs-row" onclick="openSheet('report-issue')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">Report an Issue</div>
+              <div class="hs-sub">Let us know if something isn't working.</div>
+            </div>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+          <div class="hs-row" onclick="openSheet('feedback')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-regular fa-star"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">Feedback</div>
+              <div class="hs-sub">Share your feedback to help us improve.</div>
+            </div>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+          <div class="hs-row hs-row-last" onclick="openSheet('terms')">
+            <div class="hs-icon hs-ic-blue"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="hs-info">
+              <div class="hs-title">Terms &amp; Privacy</div>
+              <div class="hs-sub">View our terms of service and privacy policy.</div>
+            </div>
+            <i class="fa-solid fa-chevron-right hs-chev"></i>
+          </div>
+
+        </div>
+
+        <div style="height:80px;"></div>
+      </div>
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item nav-active">
+          <i class="fa-solid fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
+      <!-- ── Detail Bottom Sheet ────────────────── -->
+      <div class="hs-overlay" id="hsOverlay" onclick="closeSheet()"></div>
+      <div class="hs-sheet" id="hsSheet">
+        <div class="hs-drag-handle"></div>
+        <div id="hsSheetInner"></div>
+      </div>
+
     </div>
-
-    <div class="screen-main">
-      <!-- FAQ Section -->
-      <h3 class="section-title">Frequently Asked Questions</h3>
-      
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-header" onclick="toggleFAQ(this)">
-            <span>How does StressCare measure stress?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-content">
-            <p>StressCare uses advanced AI algorithms to analyze your heart rate variability, respiration rate, and other biometric markers from your connected wearable device to calculate your stress level.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-header" onclick="toggleFAQ(this)">
-            <span>Which devices are supported?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-content">
-            <p>We support most popular wearables including Fitbit, Apple Watch, Garmin, Samsung Galaxy Watch, and many others. Check the Device Management section for a complete list.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-header" onclick="toggleFAQ(this)">
-            <span>Is my data secure?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-content">
-            <p>Yes, all your data is encrypted and stored securely on our servers. We follow HIPAA and GDPR compliance standards to ensure your privacy.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-header" onclick="toggleFAQ(this)">
-            <span>How often should I calibrate?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-content">
-            <p>We recommend calibrating your device weekly for the most accurate stress detection. Calibration ensures the app understands your unique baseline vitals.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-header" onclick="toggleFAQ(this)">
-            <span>Can I export my data?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-content">
-            <p>Yes! You can export your data in CSV or PDF format from the Settings > Advanced menu. Your data is yours to keep.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Contact Support -->
-      <h3 class="section-title">Contact Support</h3>
-      <div class="support-card">
-        <div class="support-option">
-          <span class="support-icon">📧</span>
-          <div class="support-info">
-            <h4>Email Support</h4>
-            <p>support@stresscare.app</p>
-          </div>
-        </div>
-
-        <div class="support-option">
-          <span class="support-icon">💬</span>
-          <div class="support-info">
-            <h4>Live Chat</h4>
-            <p>Available 9 AM - 6 PM EST</p>
-          </div>
-          <button class="btn btn-primary btn-sm">Start Chat</button>
-        </div>
-
-        <div class="support-option">
-          <span class="support-icon">📞</span>
-          <div class="support-info">
-            <h4>Phone Support</h4>
-            <p>+1 (800) STRESS-1</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- App Info -->
-      <h3 class="section-title">App Information</h3>
-      <div class="app-info">
-        <div class="info-row">
-          <span>App Version</span>
-          <strong>2.4.1</strong>
-        </div>
-        <div class="info-row">
-          <span>Build Number</span>
-          <strong>20240605</strong>
-        </div>
-        <div class="info-row">
-          <span>Last Updated</span>
-          <strong>June 5, 2024</strong>
-        </div>
-      </div>
-
-      <!-- Links -->
-      <div class="links-section">
-        <a href="#" class="link-item">Privacy Policy</a>
-        <a href="#" class="link-item">Terms of Service</a>
-        <a href="#" class="link-item">Community Forum</a>
-        <a href="#" class="link-item">Report a Bug</a>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
 
   <script>
-    function toggleFAQ(header) {
-      const item = header.parentElement;
-      item.classList.toggle('open');
-      const icon = header.querySelector('.faq-icon');
-      icon.textContent = item.classList.contains('open') ? '−' : '+';
+  const sheets = {
+    'faqs': {
+      icon: 'fa-regular fa-circle-question', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'FAQs',
+      html: `
+        <div class="hs-faq-item" onclick="toggleFaq(this)">
+          <div class="hs-faq-q">How does StressCare measure stress? <i class="fa-solid fa-chevron-down hs-faq-chev"></i></div>
+          <div class="hs-faq-a">StressCare uses advanced AI to analyze your Heart Rate Variability (HRV), Galvanic Skin Response (GSR), skin temperature, and movement patterns from your wearable device to calculate real-time stress levels.</div>
+        </div>
+        <div class="hs-faq-item" onclick="toggleFaq(this)">
+          <div class="hs-faq-q">Which devices are supported? <i class="fa-solid fa-chevron-down hs-faq-chev"></i></div>
+          <div class="hs-faq-a">We support most popular wearables including Fitbit, Apple Watch, Garmin, Samsung Galaxy Watch, and the StressCare Band. Check Device Management for the full list.</div>
+        </div>
+        <div class="hs-faq-item" onclick="toggleFaq(this)">
+          <div class="hs-faq-q">Is my data secure? <i class="fa-solid fa-chevron-down hs-faq-chev"></i></div>
+          <div class="hs-faq-a">Yes. All data is end-to-end encrypted and stored on HIPAA & GDPR compliant servers. We never sell your data to third parties.</div>
+        </div>
+        <div class="hs-faq-item" onclick="toggleFaq(this)">
+          <div class="hs-faq-q">How often should I calibrate? <i class="fa-solid fa-chevron-down hs-faq-chev"></i></div>
+          <div class="hs-faq-a">We recommend calibrating weekly for the most accurate stress detection. Calibration establishes your unique biometric baseline.</div>
+        </div>
+        <div class="hs-faq-item" onclick="toggleFaq(this)">
+          <div class="hs-faq-q">Can I export my data? <i class="fa-solid fa-chevron-down hs-faq-chev"></i></div>
+          <div class="hs-faq-a">Yes! Export your data in CSV or PDF format from the Report Detail page or Settings > Advanced menu.</div>
+        </div>`
+    },
+    'user-guide': {
+      icon: 'fa-regular fa-book-open', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'User Guide',
+      html: `
+        <div class="hs-guide-step">
+          <div class="hs-step-num">1</div>
+          <div class="hs-step-info"><div class="hs-step-title">Pair Your Device</div><div class="hs-step-desc">Go to Profile → Device Management and pair your wearable via Bluetooth.</div></div>
+        </div>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">2</div>
+          <div class="hs-step-info"><div class="hs-step-title">Calibrate</div><div class="hs-step-desc">Complete the initial calibration to set your personal stress baseline (takes ~3 minutes).</div></div>
+        </div>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">3</div>
+          <div class="hs-step-info"><div class="hs-step-title">Monitor</div><div class="hs-step-desc">View your real-time stress levels from the Home and Monitoring screens.</div></div>
+        </div>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">4</div>
+          <div class="hs-step-info"><div class="hs-step-title">Review Reports</div><div class="hs-step-desc">Check weekly stress reports in the History tab with full breakdown and insights.</div></div>
+        </div>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">5</div>
+          <div class="hs-step-info"><div class="hs-step-title">Use Interventions</div><div class="hs-step-desc">When stress is high, try guided breathing, meditation, or stretching exercises.</div></div>
+        </div>`
+    },
+    'device-setup': {
+      icon: 'fa-regular fa-clock', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'Device Setup Help',
+      html: `
+        <p class="hs-sheet-desc">Follow these steps to set up your StressCare Band or compatible wearable.</p>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">1</div>
+          <div class="hs-step-info"><div class="hs-step-title">Enable Bluetooth</div><div class="hs-step-desc">Turn on Bluetooth on your phone and make sure the band is charged.</div></div>
+        </div>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">2</div>
+          <div class="hs-step-info"><div class="hs-step-title">Open Device Management</div><div class="hs-step-desc">Go to Profile → Device Management and tap "Add Device".</div></div>
+        </div>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">3</div>
+          <div class="hs-step-info"><div class="hs-step-title">Select Your Device</div><div class="hs-step-desc">Choose your band from the list of discovered devices.</div></div>
+        </div>
+        <div class="hs-guide-step">
+          <div class="hs-step-num">4</div>
+          <div class="hs-step-info"><div class="hs-step-title">Confirm Pairing</div><div class="hs-step-desc">Accept the pairing request on both your phone and the device.</div></div>
+        </div>
+        <a href="device-pairing.html" class="hs-action-btn">Open Device Management</a>`
+    },
+    'contact-support': {
+      icon: 'fa-regular fa-envelope', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'Contact Support',
+      html: `
+        <p class="hs-sheet-desc">Our support team typically responds within 24 hours.</p>
+        <div class="hs-contact-form">
+          <div class="hs-form-group">
+            <label class="hs-form-label">Subject</label>
+            <select class="hs-form-input">
+              <option>Select a topic...</option>
+              <option>Device Connectivity</option>
+              <option>Stress Reading Issue</option>
+              <option>Account & Billing</option>
+              <option>Feature Request</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="hs-form-group">
+            <label class="hs-form-label">Message</label>
+            <textarea class="hs-form-input hs-textarea" placeholder="Describe your issue..."></textarea>
+          </div>
+        </div>
+        <button class="hs-action-btn" onclick="alert('Message sent! We will reply within 24 hours.')">Send Message</button>`
+    },
+    'live-chat': {
+      icon: 'fa-regular fa-comment-dots', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'Live Chat',
+      html: `
+        <div class="hs-online-status">
+          <span class="hs-online-dot-lg"></span>
+          <span class="hs-online-text">Support team is online now</span>
+        </div>
+        <div class="hs-chat-preview">
+          <div class="hs-chat-bubble hs-agent">
+            <div class="hs-chat-avatar"><i class="fa-solid fa-headset"></i></div>
+            <div class="hs-chat-msg">Hi! 👋 I'm Sarah from StressCare Support. How can I help you today?</div>
+          </div>
+        </div>
+        <div class="hs-chat-info">
+          <i class="fa-regular fa-clock"></i> Average response time: &lt; 2 minutes
+        </div>
+        <button class="hs-action-btn" onclick="alert('Starting live chat...')">Start Live Chat</button>`
+    },
+    'report-issue': {
+      icon: 'fa-solid fa-triangle-exclamation', iconBg: '#fef3c7', iconColor: '#d97706',
+      title: 'Report an Issue',
+      html: `
+        <p class="hs-sheet-desc">Found a bug? Let us know and we'll fix it as soon as possible.</p>
+        <div class="hs-contact-form">
+          <div class="hs-form-group">
+            <label class="hs-form-label">Issue Type</label>
+            <select class="hs-form-input">
+              <option>Select issue type...</option>
+              <option>App Crash</option>
+              <option>Incorrect Reading</option>
+              <option>Device Not Connecting</option>
+              <option>UI/Display Bug</option>
+              <option>Data Not Syncing</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="hs-form-group">
+            <label class="hs-form-label">Description</label>
+            <textarea class="hs-form-input hs-textarea" placeholder="Describe what happened and when..."></textarea>
+          </div>
+        </div>
+        <button class="hs-action-btn" onclick="alert('Issue reported! Thank you. We will investigate.')">Submit Report</button>`
+    },
+    'feedback': {
+      icon: 'fa-regular fa-star', iconBg: '#fef3c7', iconColor: '#d97706',
+      title: 'Share Feedback',
+      html: `
+        <p class="hs-sheet-desc">We love hearing from you! Rate your experience and share your thoughts.</p>
+        <div class="hs-star-row">
+          <i class="fa-solid fa-star hs-star hs-star-lit" onclick="rate(1)"></i>
+          <i class="fa-solid fa-star hs-star hs-star-lit" onclick="rate(2)"></i>
+          <i class="fa-solid fa-star hs-star hs-star-lit" onclick="rate(3)"></i>
+          <i class="fa-solid fa-star hs-star hs-star-lit" onclick="rate(4)"></i>
+          <i class="fa-regular fa-star hs-star" onclick="rate(5)"></i>
+        </div>
+        <div class="hs-contact-form">
+          <div class="hs-form-group">
+            <label class="hs-form-label">What do you love?</label>
+            <textarea class="hs-form-input hs-textarea hs-textarea-sm" placeholder="Tell us what works great..."></textarea>
+          </div>
+          <div class="hs-form-group">
+            <label class="hs-form-label">What can we improve?</label>
+            <textarea class="hs-form-input hs-textarea hs-textarea-sm" placeholder="Suggestions for improvement..."></textarea>
+          </div>
+        </div>
+        <button class="hs-action-btn" onclick="alert('Thank you for your feedback!')">Submit Feedback</button>`
+    },
+    'terms': {
+      icon: 'fa-solid fa-shield-halved', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'Terms & Privacy',
+      html: `
+        <div class="hs-terms-links">
+          <div class="hs-terms-row" onclick="alert('Opening Terms of Service...')">
+            <i class="fa-solid fa-file-lines" style="color:#2563eb;font-size:18px;"></i>
+            <div class="hs-terms-info">
+              <div class="hs-terms-title">Terms of Service</div>
+              <div class="hs-terms-sub">Last updated: May 12, 2025</div>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="color:#9aadc9;font-size:12px;"></i>
+          </div>
+          <div class="hs-terms-row" onclick="alert('Opening Privacy Policy...')">
+            <i class="fa-solid fa-shield-halved" style="color:#2563eb;font-size:18px;"></i>
+            <div class="hs-terms-info">
+              <div class="hs-terms-title">Privacy Policy</div>
+              <div class="hs-terms-sub">Last updated: May 12, 2025</div>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="color:#9aadc9;font-size:12px;"></i>
+          </div>
+          <div class="hs-terms-row" onclick="alert('Opening Cookie Policy...')">
+            <i class="fa-solid fa-cookie-bite" style="color:#2563eb;font-size:18px;"></i>
+            <div class="hs-terms-info">
+              <div class="hs-terms-title">Cookie Policy</div>
+              <div class="hs-terms-sub">Last updated: May 12, 2025</div>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="color:#9aadc9;font-size:12px;"></i>
+          </div>
+        </div>
+        <p class="hs-sheet-desc" style="text-align:center;margin-top:14px;">StressCare is HIPAA &amp; GDPR compliant. Your data is always protected.</p>`
     }
+  };
+
+  function openSheet(key) {
+    const s = sheets[key];
+    if (!s) return;
+    document.getElementById('hsSheetInner').innerHTML = `
+      <div class="hs-sheet-header">
+        <div class="hs-sheet-icon" style="background:${s.iconBg};">
+          <i class="${s.icon}" style="color:${s.iconColor};font-size:20px;"></i>
+        </div>
+        <div class="hs-sheet-title">${s.title}</div>
+        <button class="hs-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="hs-sheet-divider"></div>
+      <div class="hs-sheet-body">${s.html}</div>
+    `;
+    document.getElementById('hsOverlay').classList.add('hs-show');
+    document.getElementById('hsSheet').classList.add('hs-open');
+  }
+
+  function closeSheet() {
+    document.getElementById('hsOverlay').classList.remove('hs-show');
+    document.getElementById('hsSheet').classList.remove('hs-open');
+  }
+
+  function toggleFaq(el) {
+    el.classList.toggle('hs-faq-open');
+  }
+
+  function rate(n) {
+    const stars = document.querySelectorAll('.hs-star');
+    stars.forEach((s, i) => {
+      s.className = 'hs-star ' + (i < n ? 'fa-solid fa-star hs-star-lit' : 'fa-regular fa-star');
+    });
+  }
   </script>
+
 </body>
 </html>

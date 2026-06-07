@@ -4,136 +4,434 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Settings</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/settings.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="profile.html" class="back-btn">←</a>
-      <h1>Settings</h1>
-    </div>
 
-    <div class="screen-main">
-      <!-- General Settings -->
-      <h3 class="section-title">General</h3>
-      <div class="settings-group">
-        <div class="setting-item">
-          <div class="setting-label">
-            <label for="theme">Theme</label>
+  <div class="phone-frame">
+    <div class="st-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <a href="notifications.html" class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </a>
+      </div>
+
+      <!-- ── Scrollable ─────────────────────────── -->
+      <div class="st-scroll">
+
+        <h1 class="st-page-title">Settings</h1>
+
+        <!-- ── General ───────────────────────────── -->
+        <div class="st-section-label">General</div>
+        <div class="st-menu-card">
+
+          <div class="st-row" onclick="openSheet('general-settings')">
+            <div class="st-icon st-ic-blue"><i class="fa-solid fa-gear"></i></div>
+            <div class="st-info">
+              <div class="st-title">General Settings</div>
+              <div class="st-sub">Manage your app preferences</div>
+            </div>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
           </div>
-          <select id="theme">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="auto">Auto</option>
-          </select>
-        </div>
 
-        <div class="setting-item">
-          <div class="setting-label">
-            <label for="language">Language</label>
+          <div class="st-row" onclick="openSheet('units')">
+            <div class="st-icon st-ic-teal"><i class="fa-solid fa-pencil"></i></div>
+            <div class="st-info">
+              <div class="st-title">Units</div>
+            </div>
+            <span class="st-badge-plain">Metric</span>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
           </div>
-          <select id="language">
-            <option value="en">English</option>
-            <option value="hi">Hindi</option>
-            <option value="es">Spanish</option>
-          </select>
+
+          <div class="st-row st-row-last" onclick="openSheet('notif-settings')">
+            <div class="st-icon st-ic-indigo"><i class="fa-regular fa-bell"></i></div>
+            <div class="st-info">
+              <div class="st-title">Notification Settings</div>
+              <div class="st-sub">Manage alerts and reminders</div>
+            </div>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
         </div>
+
+        <!-- ── Preferences ────────────────────────── -->
+        <div class="st-section-label">Preferences</div>
+        <div class="st-menu-card">
+
+          <div class="st-row" onclick="openSheet('appearance')">
+            <div class="st-icon st-ic-purple"><i class="fa-solid fa-palette"></i></div>
+            <div class="st-info">
+              <div class="st-title">Appearance</div>
+              <div class="st-sub">Customize the look and feel</div>
+            </div>
+            <span class="st-badge-plain">Light Theme</span>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
+          <div class="st-row st-row-last" onclick="openSheet('language')">
+            <div class="st-icon st-ic-blue"><i class="fa-solid fa-globe"></i></div>
+            <div class="st-info">
+              <div class="st-title">Language</div>
+            </div>
+            <span class="st-badge-plain">English</span>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
+        </div>
+
+        <!-- ── Account & Data ─────────────────────── -->
+        <div class="st-section-label">Account &amp; Data</div>
+        <div class="st-menu-card">
+
+          <div class="st-row" onclick="openSheet('privacy')">
+            <div class="st-icon st-ic-green"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="st-info">
+              <div class="st-title">Privacy &amp; Security</div>
+              <div class="st-sub">Manage your data and privacy</div>
+            </div>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
+          <div class="st-row" onclick="openSheet('cloud-sync')">
+            <div class="st-icon st-ic-blue"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <div class="st-info">
+              <div class="st-title">Cloud Sync Settings</div>
+              <div class="st-sub">Backup and sync your data</div>
+            </div>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
+          <div class="st-row st-row-last" onclick="openSheet('permissions')">
+            <div class="st-icon st-ic-amber"><i class="fa-solid fa-lock-open"></i></div>
+            <div class="st-info">
+              <div class="st-title">App Permissions</div>
+              <div class="st-sub">Manage app access permissions</div>
+            </div>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
+        </div>
+
+        <!-- ── About ──────────────────────────────── -->
+        <div class="st-section-label">About</div>
+        <div class="st-menu-card">
+
+          <div class="st-row" onclick="openSheet('about')">
+            <div class="st-icon st-ic-blue"><i class="fa-solid fa-circle-info"></i></div>
+            <div class="st-info">
+              <div class="st-title">About StressCare</div>
+              <div class="st-sub">Learn more about the app</div>
+            </div>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
+          <div class="st-row st-row-last" onclick="openSheet('version')">
+            <div class="st-icon st-ic-gray"><i class="fa-solid fa-code"></i></div>
+            <div class="st-info">
+              <div class="st-title">App Version</div>
+            </div>
+            <span class="st-badge-plain">1.2.0</span>
+            <i class="fa-solid fa-chevron-right st-chev"></i>
+          </div>
+
+        </div>
+
+        <div style="height:80px;"></div>
       </div>
 
-      <!-- Notifications Settings -->
-      <h3 class="section-title">Notifications</h3>
-      <div class="settings-group">
-        <div class="setting-toggle">
-          <label class="toggle-label">
-            <input type="checkbox" checked>
-            <span class="toggle-text">Enable Notifications</span>
-          </label>
-        </div>
-
-        <div class="setting-toggle">
-          <label class="toggle-label">
-            <input type="checkbox" checked>
-            <span class="toggle-text">High Stress Alerts</span>
-          </label>
-        </div>
-
-        <div class="setting-toggle">
-          <label class="toggle-label">
-            <input type="checkbox">
-            <span class="toggle-text">Daily Reminder</span>
-          </label>
-        </div>
-
-        <div class="setting-toggle">
-          <label class="toggle-label">
-            <input type="checkbox" checked>
-            <span class="toggle-text">Achievement Badges</span>
-          </label>
-        </div>
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item nav-active">
+          <i class="fa-solid fa-user"></i>
+          <span>Profile</span>
+        </a>
       </div>
 
-      <!-- Privacy & Data -->
-      <h3 class="section-title">Privacy & Data</h3>
-      <div class="settings-group">
-        <div class="setting-toggle">
-          <label class="toggle-label">
-            <input type="checkbox" checked>
-            <span class="toggle-text">Share Health Data</span>
-          </label>
-        </div>
-
-        <div class="setting-toggle">
-          <label class="toggle-label">
-            <input type="checkbox">
-            <span class="toggle-text">Analytics</span>
-          </label>
-        </div>
-
-        <a href="#" class="setting-link">Privacy Policy →</a>
-        <a href="#" class="setting-link">Terms of Service →</a>
+      <!-- ── Bottom Sheet Overlay ───────────────── -->
+      <div class="st-overlay" id="stOverlay" onclick="closeSheet()"></div>
+      <div class="st-sheet" id="stSheet">
+        <div class="st-drag-handle"></div>
+        <div class="st-sheet-inner" id="stSheetInner"></div>
       </div>
 
-      <!-- Advanced -->
-      <h3 class="section-title">Advanced</h3>
-      <div class="settings-group">
-        <button class="btn btn-outline btn-block btn-sm">Clear Cache</button>
-        <button class="btn btn-outline btn-block btn-sm">Export Data</button>
-        <button class="btn btn-secondary btn-block btn-sm" onclick="deleteAccount()">Delete Account</button>
-      </div>
     </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
 
   <script>
-    function deleteAccount() {
-      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-        alert('Account deletion initiated.');
-      }
+  const sheets = {
+    'general-settings': {
+      icon: 'fa-solid fa-gear', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'General Settings',
+      html: `
+        <div class="st-sheet-row">
+          <span class="st-sl">Auto-Lock Screen</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Background Monitoring</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Sound Effects</span>
+          <label class="st-toggle"><input type="checkbox"><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Haptic Feedback</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Data Refresh Rate</span>
+          <select class="st-select"><option>Every 5 min</option><option>Every 10 min</option><option>Every 30 min</option></select>
+        </div>`
+    },
+    'units': {
+      icon: 'fa-solid fa-pencil', iconBg: '#d1fae5', iconColor: '#059669',
+      title: 'Units',
+      html: `
+        <p class="st-sheet-desc">Choose your preferred measurement units.</p>
+        <div class="st-option-group">
+          <label class="st-opt-row"><input type="radio" name="units" checked> <span>Metric (kg, cm, °C)</span></label>
+          <label class="st-opt-row"><input type="radio" name="units"> <span>Imperial (lb, ft, °F)</span></label>
+        </div>
+        <div class="st-sheet-row st-mt">
+          <span class="st-sl">Distance</span>
+          <select class="st-select"><option>Kilometers</option><option>Miles</option></select>
+        </div>`
+    },
+    'notif-settings': {
+      icon: 'fa-regular fa-bell', iconBg: '#e0e7ff', iconColor: '#4f46e5',
+      title: 'Notification Settings',
+      html: `
+        <div class="st-sheet-row">
+          <span class="st-sl">All Notifications</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">High Stress Alerts</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Migraine Risk Warnings</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Calibration Reminders</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Weekly Reports</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Daily Reminders</span>
+          <label class="st-toggle"><input type="checkbox"><span class="st-slider"></span></label>
+        </div>`
+    },
+    'appearance': {
+      icon: 'fa-solid fa-palette', iconBg: '#ede9fe', iconColor: '#7c3aed',
+      title: 'Appearance',
+      html: `
+        <p class="st-sheet-desc">Choose a theme for the app.</p>
+        <div class="st-theme-grid">
+          <div class="st-theme-opt st-selected" onclick="selectTheme(this)">
+            <div class="st-theme-preview st-tp-light"></div>
+            <span>Light</span>
+          </div>
+          <div class="st-theme-opt" onclick="selectTheme(this)">
+            <div class="st-theme-preview st-tp-dark"></div>
+            <span>Dark</span>
+          </div>
+          <div class="st-theme-opt" onclick="selectTheme(this)">
+            <div class="st-theme-preview st-tp-auto"></div>
+            <span>Auto</span>
+          </div>
+        </div>
+        <div class="st-sheet-row st-mt">
+          <span class="st-sl">Text Size</span>
+          <select class="st-select"><option>Normal</option><option>Large</option><option>Small</option></select>
+        </div>`
+    },
+    'language': {
+      icon: 'fa-solid fa-globe', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'Language',
+      html: `
+        <p class="st-sheet-desc">Select your preferred language.</p>
+        <div class="st-option-group">
+          <label class="st-opt-row"><input type="radio" name="lang" checked> <span>English</span></label>
+          <label class="st-opt-row"><input type="radio" name="lang"> <span>اردو (Urdu)</span></label>
+          <label class="st-opt-row"><input type="radio" name="lang"> <span>हिन्दी (Hindi)</span></label>
+          <label class="st-opt-row"><input type="radio" name="lang"> <span>Español</span></label>
+          <label class="st-opt-row"><input type="radio" name="lang"> <span>Français</span></label>
+          <label class="st-opt-row"><input type="radio" name="lang"> <span>العربية</span></label>
+        </div>`
+    },
+    'privacy': {
+      icon: 'fa-solid fa-shield-halved', iconBg: '#dcfce7', iconColor: '#16a34a',
+      title: 'Privacy & Security',
+      html: `
+        <div class="st-sheet-row">
+          <span class="st-sl">Biometric Lock</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Share Anonymous Data</span>
+          <label class="st-toggle"><input type="checkbox"><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Research Participation</span>
+          <label class="st-toggle"><input type="checkbox"><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row st-link-row" onclick="alert('Opening Privacy Policy...')">
+          <span class="st-sl">View Privacy Policy</span>
+          <i class="fa-solid fa-chevron-right st-chev"></i>
+        </div>
+        <div class="st-sheet-row st-link-row" onclick="alert('Opening Terms...')">
+          <span class="st-sl">Terms of Service</span>
+          <i class="fa-solid fa-chevron-right st-chev"></i>
+        </div>
+        <button class="st-danger-btn" onclick="alert('Data deletion requested.')">Delete My Data</button>`
+    },
+    'cloud-sync': {
+      icon: 'fa-solid fa-cloud-arrow-up', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'Cloud Sync Settings',
+      html: `
+        <div class="st-status-row">
+          <i class="fa-solid fa-circle-check" style="color:#22c55e;font-size:18px;"></i>
+          <span class="st-sl" style="color:#22c55e;font-weight:700;">Synced — Last: Today, 6:10 PM</span>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Auto Sync</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Sync on Wi-Fi Only</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Sync Frequency</span>
+          <select class="st-select"><option>Every hour</option><option>Every 6 hours</option><option>Daily</option></select>
+        </div>
+        <button class="st-action-btn" onclick="alert('Sync started!')"><i class="fa-solid fa-rotate"></i> Sync Now</button>`
+    },
+    'permissions': {
+      icon: 'fa-solid fa-lock-open', iconBg: '#fef3c7', iconColor: '#d97706',
+      title: 'App Permissions',
+      html: `
+        <div class="st-sheet-row">
+          <span class="st-sl">Bluetooth</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Health Data Access</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Notifications</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Background Activity</span>
+          <label class="st-toggle"><input type="checkbox" checked><span class="st-slider"></span></label>
+        </div>
+        <div class="st-sheet-row">
+          <span class="st-sl">Camera (for scanning)</span>
+          <label class="st-toggle"><input type="checkbox"><span class="st-slider"></span></label>
+        </div>`
+    },
+    'about': {
+      icon: 'fa-solid fa-circle-info', iconBg: '#dbeafe', iconColor: '#2563eb',
+      title: 'About StressCare',
+      html: `
+        <div class="st-about-logo">
+          <div class="st-about-icon"><i class="fa-solid fa-brain" style="color:#2563eb;font-size:30px;"></i></div>
+          <div class="st-about-name">StressCare</div>
+          <div class="st-about-tag">AI Stress Monitor</div>
+        </div>
+        <div class="st-about-rows">
+          <div class="st-about-row"><span>Version</span><strong>1.2.0</strong></div>
+          <div class="st-about-row"><span>Build</span><strong>20250522</strong></div>
+          <div class="st-about-row"><span>Developer</span><strong>StressCare Inc.</strong></div>
+          <div class="st-about-row"><span>Released</span><strong>May 12, 2025</strong></div>
+        </div>
+        <p class="st-sheet-desc">StressCare uses advanced biometric AI to monitor, predict, and help manage your stress and migraine risk in real time.</p>`
+    },
+    'version': {
+      icon: 'fa-solid fa-code', iconBg: '#f3f4f6', iconColor: '#6b7280',
+      title: 'App Version',
+      html: `
+        <div class="st-about-rows">
+          <div class="st-about-row"><span>Current Version</span><strong style="color:#2563eb;">1.2.0</strong></div>
+          <div class="st-about-row"><span>Build Number</span><strong>20250522</strong></div>
+          <div class="st-about-row"><span>Last Updated</span><strong>May 22, 2025</strong></div>
+          <div class="st-about-row"><span>Platform</span><strong>Web App</strong></div>
+        </div>
+        <button class="st-action-btn" onclick="alert('You are on the latest version!')"><i class="fa-solid fa-rotate"></i> Check for Updates</button>`
     }
+  };
+
+  function openSheet(key) {
+    const s = sheets[key];
+    if (!s) return;
+    document.getElementById('stSheetInner').innerHTML = `
+      <div class="st-sheet-header">
+        <div class="st-sheet-icon" style="background:${s.iconBg};">
+          <i class="${s.icon}" style="color:${s.iconColor};font-size:22px;"></i>
+        </div>
+        <div class="st-sheet-title">${s.title}</div>
+        <button class="st-close-btn" onclick="closeSheet()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="st-sheet-divider"></div>
+      <div class="st-sheet-body">${s.html}</div>
+      <button class="st-save-btn" onclick="closeSheet()">Save Changes</button>
+    `;
+    document.getElementById('stOverlay').classList.add('st-show');
+    document.getElementById('stSheet').classList.add('st-open');
+  }
+
+  function closeSheet() {
+    document.getElementById('stOverlay').classList.remove('st-show');
+    document.getElementById('stSheet').classList.remove('st-open');
+  }
+
+  function selectTheme(el) {
+    document.querySelectorAll('.st-theme-opt').forEach(o => o.classList.remove('st-selected'));
+    el.classList.add('st-selected');
+  }
   </script>
+
 </body>
 </html>
