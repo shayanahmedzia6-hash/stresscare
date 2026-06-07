@@ -1,87 +1,402 @@
-/* Add to analysis.css */
+/* ── Migraine Risk Screen ──────────────────────────────── */
 
-.risk-factors {
+.mg-screen {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-lg);
+  background: linear-gradient(180deg, #deeeff 0%, #f0f6ff 18%, #f5f8ff 100%);
+  overflow: hidden;
 }
 
-.risk-factor {
-  border-left: 4px solid var(--gray-300);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md) var(--spacing-lg);
+/* ── Scroll ──────────────────────────────────────────── */
+.mg-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 14px;
+}
+.mg-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Page Header ─────────────────────────────────────── */
+.mg-page-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  margin: 4px 0 14px;
+}
+
+.mg-header-left {
+  display: flex;
   align-items: center;
+  gap: 12px;
 }
 
-.risk-factor.high {
-  background-color: rgba(255, 107, 107, 0.1);
-  border-color: var(--secondary-color);
+.mg-back-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid #d0dff0;
+  background: #fff;
+  color: #1a2b4b;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  box-shadow: 0 1px 6px rgba(37,99,235,0.07);
 }
 
-.risk-factor.medium {
-  background-color: rgba(255, 165, 0, 0.1);
-  border-color: var(--warning-color);
+.mg-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a2b4b;
+  margin: 0;
+  line-height: 1.1;
 }
 
-.risk-factor.low {
-  background-color: rgba(81, 207, 102, 0.1);
-  border-color: var(--success-color);
+.mg-date {
+  font-size: 11px;
+  color: #9aadc9;
+  margin-top: 2px;
 }
 
-.factor-label {
-  font-weight: 600;
-  color: var(--dark-color);
+.mg-cal-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid #d0dff0;
+  background: #fff;
+  color: #1a2b4b;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(37,99,235,0.07);
 }
 
-.factor-impact {
-  font-size: var(--font-size-sm);
-  color: var(--gray-600);
+/* ── Card Base ───────────────────────────────────────── */
+.mg-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(37,99,235,0.07);
 }
 
-.preventive-measures {
+.mg-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1a2b4b;
+}
+
+.mg-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* ── Risk Summary Card ───────────────────────────────── */
+.mg-risk-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 18px 14px;
+}
+
+/* Gauge */
+.mg-gauge-wrap {
+  position: relative;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-lg);
+  align-items: center;
 }
 
-.measure {
-  background-color: var(--gray-50);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  display: flex;
-  gap: var(--spacing-md);
-  align-items: flex-start;
+.mg-gauge-label {
+  text-align: center;
+  margin-top: 2px;
 }
 
-.measure-icon {
-  background-color: var(--success-color);
-  color: var(--white);
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+.mg-gauge-level {
+  font-size: 14px;
+  font-weight: 800;
+  color: #22c55e;
+  line-height: 1;
+}
+
+.mg-gauge-pct {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1a2b4b;
+  line-height: 1.1;
+}
+
+.mg-gauge-sign {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.mg-gauge-sub {
+  font-size: 10px;
+  color: #9aadc9;
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+/* Right info */
+.mg-risk-info {
+  flex: 1;
+  padding-left: 14px;
+  border-left: 1.5px solid #f0f4fa;
+}
+
+.mg-risk-info-lbl {
+  font-size: 10.5px;
+  color: #9aadc9;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.mg-risk-level-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: 700;
+  gap: 7px;
+}
+
+.mg-risk-level-val {
+  font-size: 17px;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+.mg-risk-green-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.20);
   flex-shrink: 0;
 }
 
-.measure-text {
+.mg-risk-stable {
+  font-size: 15px;
+  font-weight: 700;
+  color: #22c55e;
+  margin-top: 2px;
+}
+
+/* ── Risk Factors Grid ───────────────────────────────── */
+.mg-factors-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.mg-factor-cell {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #f8faff;
+  border-radius: 13px;
+  padding: 10px 11px;
+}
+
+.mg-factor-icon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.mg-fi-purple { background: #ede9fe; color: #7c3aed; }
+.mg-fi-red    { background: #fee2e2; color: #ef4444; }
+.mg-fi-blue   { background: #dbeafe; color: #2563eb; }
+.mg-fi-orange { background: #ffedd5; color: #f97316; }
+.mg-fi-cyan   { background: #cffafe; color: #0891b2; }
+.mg-fi-green  { background: #dcfce7; color: #16a34a; }
+
+.mg-factor-info { flex: 1; min-width: 0; }
+
+.mg-factor-lbl {
+  font-size: 10px;
+  color: #9aadc9;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.mg-factor-val {
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 1px;
+}
+
+.mg-val-green { color: #22c55e; }
+.mg-val-amber { color: #d97706; }
+.mg-val-red   { color: #ef4444; }
+
+/* ── Weekly Badge ────────────────────────────────────── */
+.mg-weekly-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+/* ── Recent Signals ──────────────────────────────────── */
+.mg-signals-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.mg-signal-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.mg-signal-icon {
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+
+.mg-si-green  { background: #dcfce7; color: #16a34a; }
+.mg-si-amber  { background: #fef3c7; color: #d97706; }
+.mg-si-purple { background: #ede9fe; color: #7c3aed; }
+.mg-si-blue   { background: #dbeafe; color: #2563eb; }
+
+.mg-signal-lbl {
+  font-size: 9.5px;
+  color: #5a6882;
+  font-weight: 500;
+  line-height: 1.3;
+  max-width: 62px;
+}
+
+/* ── Recommendations ─────────────────────────────────── */
+.mg-rec-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.mg-rec-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f4fa;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.mg-rec-icon-wrap {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.mg-ri-blue   { background: #dbeafe; color: #2563eb; }
+.mg-ri-green  { background: #dcfce7; color: #16a34a; }
+.mg-ri-purple { background: #ede9fe; color: #7c3aed; }
+.mg-ri-indigo { background: #e0e7ff; color: #4f46e5; }
+
+.mg-rec-text {
   flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2b4b;
 }
 
-.measure-text strong {
-  display: block;
-  color: var(--dark-color);
-  margin-bottom: var(--spacing-xs);
+.mg-rec-arrow {
+  color: #c5d3e8;
+  font-size: 11px;
+  flex-shrink: 0;
 }
 
-.measure-text p {
-  margin: 0;
-  color: var(--gray-700);
-  font-size: var(--font-size-sm);
+/* ── Set Risk Alerts Button ──────────────────────────── */
+.mg-alert-btn {
+  width: 100%;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.28);
+  transition: all 0.2s;
+  margin-bottom: 4px;
 }
+
+.mg-alert-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* ── Toast ───────────────────────────────────────────── */
+.mg-toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1a2b4b;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 1000;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mg-toast-show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Bottom Nav ──────────────────────────────────────── */
+.dp-bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #fff;
+  border-top: 1px solid #e8f0fb;
+  padding: 8px 0 10px;
+  flex-shrink: 0;
+}
+
+.dp-bottom-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #9aadc9;
+  font-size: 10px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.dp-bottom-nav .nav-item i { font-size: 18px; }
+.dp-bottom-nav .nav-item.nav-active { color: #2563eb; }
