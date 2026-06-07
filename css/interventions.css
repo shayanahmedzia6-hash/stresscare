@@ -1,56 +1,454 @@
-/* Interventions Screen Styles */
+/* ── Interventions Screen ──────────────────────────────── */
 
-.intro-text {
-  text-align: center;
-  color: var(--gray-600);
-  margin-bottom: var(--spacing-lg);
+.intv-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #deeeff 0%, #f0f6ff 18%, #f5f8ff 100%);
+  overflow: hidden;
+  position: relative;
 }
 
-.intervention-card {
-  background-color: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
-  transition: all var(--transition-base);
+/* ── Scrollable ──────────────────────────────────────── */
+.intv-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 16px;
+}
+.intv-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Title & Subtitle ────────────────────────────────── */
+.intv-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a2b4b;
+  margin: 4px 0 4px;
 }
 
-.intervention-card:hover {
-  box-shadow: var(--shadow-lg);
-  border-color: var(--primary-color);
+.intv-subtitle {
+  font-size: 12px;
+  color: #7a8cad;
+  margin-bottom: 14px;
+  line-height: 1.4;
 }
 
-.intervention-header {
+/* ── High Stress Alert Banner ────────────────────────── */
+.intv-alert-banner {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-}
-
-.intervention-icon {
-  font-size: var(--font-size-2xl);
-}
-
-.intervention-header h3 {
-  margin: 0;
-  color: var(--dark-color);
-  font-size: var(--font-size-lg);
-}
-
-.intervention-desc {
-  color: var(--gray-600);
-  font-size: var(--font-size-sm);
-  margin-bottom: var(--spacing-md);
-}
-
-.exercise-details {
-  display: flex;
   justify-content: space-between;
-  margin-bottom: var(--spacing-md);
-  font-size: var(--font-size-sm);
-  color: var(--gray-600);
+  background: linear-gradient(135deg, #fff0f0 0%, #ffe4e4 100%);
+  border: 1.5px solid #fecaca;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px rgba(239,68,68,0.10);
 }
 
-.intervention-card .btn {
-  margin: 0;
+.intv-alert-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
 }
+
+.intv-alert-icon {
+  width: 38px; height: 38px;
+  background: #fee2e2;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #ef4444;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.intv-alert-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #b91c1c;
+  margin-bottom: 4px;
+}
+
+.intv-alert-desc {
+  font-size: 11px;
+  color: #dc2626;
+  line-height: 1.45;
+}
+
+.intv-alert-figure {
+  font-size: 42px;
+  color: #fca5a5;
+  margin-left: 8px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ── Guided Breathing Card ───────────────────────────── */
+.intv-breathing-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #e8f3ff 0%, #dff0ff 100%);
+  border-radius: 20px;
+  padding: 16px 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 14px rgba(37,99,235,0.10);
+}
+
+.intv-breathing-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.intv-breathing-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a2b4b;
+  margin-bottom: 5px;
+}
+
+.intv-breathing-desc {
+  font-size: 11.5px;
+  color: #5a6882;
+  line-height: 1.45;
+  margin-bottom: 9px;
+}
+
+.intv-breathing-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.intv-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #5a6882;
+  font-weight: 500;
+}
+
+.intv-tag i { color: #9aadc9; font-size: 11px; }
+
+.intv-start-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 3px 12px rgba(37,99,235,0.30);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.intv-start-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Breathing circle */
+.intv-breathe-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+
+.intv-breathe-svg {
+  width: 110px;
+  height: 110px;
+}
+
+.intv-breathe-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.intv-breathe-phase {
+  font-size: 10px;
+  color: #7a8cad;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.intv-breathe-count {
+  font-size: 30px;
+  font-weight: 800;
+  color: #1a2b4b;
+  line-height: 1;
+}
+
+.intv-breathe-unit {
+  font-size: 10px;
+  color: #9aadc9;
+}
+
+/* ── 3 Mini Cards ────────────────────────────────────── */
+.intv-mini-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.intv-mini-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px 10px 10px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.intv-mini-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.intv-mini-purple { background: #ede9fe; color: #7c3aed; }
+.intv-mini-green  { background: #d1fae5; color: #059669; }
+.intv-mini-yellow { background: #fef9c3; color: #ca8a04; }
+
+.intv-mini-name {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #1a2b4b;
+  line-height: 1.2;
+}
+
+.intv-mini-desc {
+  font-size: 10px;
+  color: #7a8cad;
+  line-height: 1.35;
+  flex: 1;
+}
+
+.intv-mini-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.intv-mini-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.intv-mini-meta span:first-child {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #1a2b4b;
+}
+
+.intv-mini-tags {
+  font-size: 9.5px;
+  color: #9aadc9;
+}
+
+.intv-mini-play {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.intv-mini-play:hover { transform: scale(1.1); }
+
+.intv-play-blue   { background: #2563eb; color: #fff; }
+.intv-play-green  { background: #059669; color: #fff; }
+.intv-play-yellow { background: #f5f0e0; color: #ca8a04; }
+
+/* ── Section Title ───────────────────────────────────── */
+.intv-section-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1a2b4b;
+  margin-bottom: 10px;
+}
+
+/* ── Recommended Card ────────────────────────────────── */
+.intv-recommend-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 13px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+}
+
+.intv-recommend-icon {
+  width: 40px; height: 40px;
+  background: #e0f2fe;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: #0284c7;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.intv-recommend-info { flex: 1; min-width: 0; }
+
+.intv-recommend-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a2b4b;
+  margin-bottom: 2px;
+}
+
+.intv-recommend-desc {
+  font-size: 10.5px;
+  color: #7a8cad;
+  line-height: 1.35;
+}
+
+.intv-recommend-match {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.intv-match-label {
+  font-size: 9.5px;
+  color: #9aadc9;
+}
+
+.intv-match-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+.intv-try-btn {
+  background: #f0f4ff;
+  color: #2563eb;
+  border: 1.5px solid #dbeafe;
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.intv-try-btn:hover {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* ── Recent Completion ───────────────────────────────── */
+.intv-completion-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 13px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 10px rgba(37,99,235,0.07);
+}
+
+.intv-completion-icon {
+  width: 36px; height: 36px;
+  background: #d1fae5;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #059669;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.intv-completion-info { flex: 1; min-width: 0; }
+
+.intv-completion-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1a2b4b;
+  margin-bottom: 2px;
+}
+
+.intv-completion-time {
+  font-size: 10.5px;
+  color: #9aadc9;
+}
+
+.intv-completion-result {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.intv-result-label {
+  font-size: 10px;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.intv-result-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #2563eb;
+}
+
+.intv-completion-arrow {
+  color: #c5d3e8;
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+/* ── Bottom Nav ─────────────────────────────────────── */
+.dp-bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #fff;
+  border-top: 1px solid #e8f0fb;
+  padding: 8px 0 10px;
+  flex-shrink: 0;
+}
+
+.dp-bottom-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #9aadc9;
+  font-size: 10px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.dp-bottom-nav .nav-item i { font-size: 18px; }
+
+.dp-bottom-nav .nav-item.nav-active { color: #2563eb; }

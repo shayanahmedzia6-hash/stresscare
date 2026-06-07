@@ -4,119 +4,284 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StressCare - Interventions</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="stylesheet" href="../css/device-pairing.css">
   <link rel="stylesheet" href="../css/interventions.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="screen has-footer">
-    <div class="screen-header">
-      <a href="home.html" class="back-btn">←</a>
-      <h1>Wellness Interventions</h1>
+
+  <div class="phone-frame">
+    <div class="intv-screen">
+
+      <!-- ── Status Bar ─────────────────────────── -->
+      <div class="dp-status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
+      </div>
+
+      <!-- ── Top Nav ────────────────────────────── -->
+      <div class="dp-topnav">
+        <img src="../images/logo.png" alt="StressCare" class="dp-logo">
+        <div class="dp-bell">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-dot"></span>
+        </div>
+      </div>
+
+      <!-- ── Scrollable Content ─────────────────── -->
+      <div class="intv-scroll">
+
+        <!-- Title -->
+        <h1 class="intv-title">Interventions</h1>
+        <p class="intv-subtitle">Tools and techniques to help you relax and feel better.</p>
+
+        <!-- High Stress Alert Banner -->
+        <div class="intv-alert-banner">
+          <div class="intv-alert-left">
+            <div class="intv-alert-icon">
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <div>
+              <div class="intv-alert-title">High Stress Detected</div>
+              <div class="intv-alert-desc">Take a moment for yourself. A few minutes of relaxation can help bring you back to balance.</div>
+            </div>
+          </div>
+          <div class="intv-alert-figure">
+            <i class="fa-solid fa-person-praying"></i>
+          </div>
+        </div>
+
+        <!-- Guided Breathing Card -->
+        <div class="intv-breathing-card">
+          <div class="intv-breathing-left">
+            <div class="intv-breathing-title">Guided Breathing</div>
+            <div class="intv-breathing-desc">Calm your mind and body with our breathing exercise.</div>
+            <div class="intv-breathing-tags">
+              <div class="intv-tag">
+                <i class="fa-regular fa-clock"></i>
+                <span>2 min</span>
+              </div>
+              <div class="intv-tag">
+                <i class="fa-solid fa-wave-square"></i>
+                <span>Reduces stress and anxiety</span>
+              </div>
+            </div>
+            <button class="intv-start-btn" id="breatheStartBtn" onclick="startBreathing()">
+              <i class="fa-solid fa-play"></i>
+              Start 2-Min Exercise
+            </button>
+          </div>
+
+          <!-- Breathing Animated Circle -->
+          <div class="intv-breathe-wrap">
+            <svg class="intv-breathe-svg" viewBox="0 0 120 120">
+              <defs>
+                <linearGradient id="breatheGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#a5c8ff"/>
+                  <stop offset="100%" stop-color="#2563eb"/>
+                </linearGradient>
+              </defs>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#e8f0fe" stroke-width="8"/>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="url(#breatheGrad)" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="78"
+                transform="rotate(-90 60 60)" id="breatheArc"/>
+              <!-- Blue dot on arc end -->
+              <circle id="breatheDot" cx="110" cy="60" r="6" fill="#2563eb"/>
+            </svg>
+            <div class="intv-breathe-center">
+              <div class="intv-breathe-phase" id="breathePhase">Breathe In</div>
+              <div class="intv-breathe-count" id="breatheCount">4</div>
+              <div class="intv-breathe-unit">seconds</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 mini cards -->
+        <div class="intv-mini-row">
+
+          <div class="intv-mini-card">
+            <div class="intv-mini-icon intv-mini-purple">
+              <i class="fa-solid fa-spa"></i>
+            </div>
+            <div class="intv-mini-name">Meditation Session</div>
+            <div class="intv-mini-desc">Guided meditations to help you relax and reset.</div>
+            <div class="intv-mini-footer">
+              <div class="intv-mini-meta">
+                <span>10 min</span>
+                <span class="intv-mini-tags">Focus · Calm</span>
+              </div>
+              <button class="intv-mini-play intv-play-blue">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="intv-mini-card">
+            <div class="intv-mini-icon intv-mini-green">
+              <i class="fa-solid fa-music"></i>
+            </div>
+            <div class="intv-mini-name">Relaxation Audio</div>
+            <div class="intv-mini-desc">Soothing sounds to ease your mind and body.</div>
+            <div class="intv-mini-footer">
+              <div class="intv-mini-meta">
+                <span>15 min</span>
+                <span class="intv-mini-tags">Sleep · Relax</span>
+              </div>
+              <button class="intv-mini-play intv-play-green">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="intv-mini-card">
+            <div class="intv-mini-icon intv-mini-yellow">
+              <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <div class="intv-mini-name">Wellness Tips</div>
+            <div class="intv-mini-desc">Practical tips to manage stress in daily life.</div>
+            <div class="intv-mini-footer">
+              <div class="intv-mini-meta">
+                <span>5 min read</span>
+                <span class="intv-mini-tags">Learn · Grow</span>
+              </div>
+              <button class="intv-mini-play intv-play-yellow">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Recommended Section -->
+        <div class="intv-section-title">Recommended for your current stress level</div>
+
+        <div class="intv-recommend-card">
+          <div class="intv-recommend-icon">
+            <i class="fa-solid fa-wind"></i>
+          </div>
+          <div class="intv-recommend-info">
+            <div class="intv-recommend-name">Box Breathing</div>
+            <div class="intv-recommend-desc">4-4-4-4 breathing technique to restore balance.</div>
+          </div>
+          <div class="intv-recommend-match">
+            <div class="intv-match-label">Match</div>
+            <div class="intv-match-val">95%</div>
+          </div>
+          <button class="intv-try-btn">Try Now</button>
+        </div>
+
+        <!-- Recent Completion -->
+        <div class="intv-section-title">Recent Completion</div>
+
+        <div class="intv-completion-card">
+          <div class="intv-completion-icon">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <div class="intv-completion-info">
+            <div class="intv-completion-name">Guided Breathing – 2 Min</div>
+            <div class="intv-completion-time">Completed today at 9:45 AM</div>
+          </div>
+          <div class="intv-completion-result">
+            <div class="intv-result-label">Reduced Stress</div>
+            <div class="intv-result-val">↓ -12%</div>
+          </div>
+          <i class="fa-solid fa-chevron-right intv-completion-arrow"></i>
+        </div>
+
+        <div style="height:80px;"></div>
+
+      </div><!-- /intv-scroll -->
+
+      <!-- ── Bottom Navigation ──────────────────── -->
+      <div class="dp-bottom-nav">
+        <a href="home.html" class="nav-item">
+          <i class="fa-solid fa-house"></i>
+          <span>Home</span>
+        </a>
+        <a href="monitoring.html" class="nav-item">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span>Monitoring</span>
+        </a>
+        <a href="history.html" class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>History</span>
+        </a>
+        <a href="interventions.html" class="nav-item nav-active">
+          <i class="fa-solid fa-spa"></i>
+          <span>Interventions</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <i class="fa-regular fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </div>
+
     </div>
-
-    <div class="screen-main">
-      <p class="intro-text">Choose a relaxation technique to reduce your stress level.</p>
-
-      <!-- Breathing Exercise -->
-      <div class="intervention-card">
-        <div class="intervention-header">
-          <span class="intervention-icon">🫁</span>
-          <h3>Guided Breathing</h3>
-        </div>
-        <p class="intervention-desc">Slow, controlled breathing to calm your nervous system.</p>
-        <div class="exercise-details">
-          <span>⏱️ 5-10 minutes</span>
-          <span>★★★★★</span>
-        </div>
-        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('breathing')">Start Exercise</a>
-      </div>
-
-      <!-- Meditation -->
-      <div class="intervention-card">
-        <div class="intervention-header">
-          <span class="intervention-icon">🧘</span>
-          <h3>Mindfulness Meditation</h3>
-        </div>
-        <p class="intervention-desc">Guided meditation to focus your mind and reduce anxiety.</p>
-        <div class="exercise-details">
-          <span>⏱️ 10-15 minutes</span>
-          <span>★★★★☆</span>
-        </div>
-        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('meditation')">Start Exercise</a>
-      </div>
-
-      <!-- Progressive Relaxation -->
-      <div class="intervention-card">
-        <div class="intervention-header">
-          <span class="intervention-icon">💪</span>
-          <h3>Progressive Muscle Relaxation</h3>
-        </div>
-        <p class="intervention-desc">Tense and relax different muscle groups for physical relaxation.</p>
-        <div class="exercise-details">
-          <span>⏱️ 15-20 minutes</span>
-          <span>★★★★★</span>
-        </div>
-        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('pmr')">Start Exercise</a>
-      </div>
-
-      <!-- Visualization -->
-      <div class="intervention-card">
-        <div class="intervention-header">
-          <span class="intervention-icon">🌅</span>
-          <h3>Guided Visualization</h3>
-        </div>
-        <p class="intervention-desc">Imagine calming scenes to transport your mind to peaceful places.</p>
-        <div class="exercise-details">
-          <span>⏱️ 10 minutes</span>
-          <span>★★★★☆</span>
-        </div>
-        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('visualization')">Start Exercise</a>
-      </div>
-
-      <!-- Yoga -->
-      <div class="intervention-card">
-        <div class="intervention-header">
-          <span class="intervention-icon">🧘‍♀️</span>
-          <h3>Gentle Yoga</h3>
-        </div>
-        <p class="intervention-desc">Easy yoga poses to stretch and calm your body.</p>
-        <div class="exercise-details">
-          <span>⏱️ 12 minutes</span>
-          <span>★★★★☆</span>
-        </div>
-        <a href="#" class="btn btn-primary btn-block" onclick="startExercise('yoga')">Start Exercise</a>
-      </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <nav class="nav-bottom">
-      <a href="home.html" class="nav-item">
-        <span>🏠</span>
-        <span>Home</span>
-      </a>
-      <a href="history.html" class="nav-item">
-        <span>📊</span>
-        <span>History</span>
-      </a>
-      <a href="monitoring.html" class="nav-item">
-        <span>📱</span>
-        <span>Monitor</span>
-      </a>
-      <a href="insights.html" class="nav-item">
-        <span>💡</span>
-        <span>Insights</span>
-      </a>
-      <a href="profile.html" class="nav-item">
-        <span>👤</span>
-        <span>Profile</span>
-      </a>
-    </nav>
   </div>
 
   <script>
-    function startExercise(type) {
-      alert('Starting ' + type + ' exercise...');
+    /* ── Breathing Exercise Animation ── */
+    const phases = [
+      { label: 'Breathe In',  secs: 4, offset: 78  },
+      { label: 'Hold',        secs: 4, offset: 157 },
+      { label: 'Breathe Out', secs: 4, offset: 236 },
+      { label: 'Hold',        secs: 4, offset: 314 },
+    ];
+    let phaseIdx = 0, countdown = 4, running = false, timer = null;
+
+    const phaseEl  = document.getElementById('breathePhase');
+    const countEl  = document.getElementById('breatheCount');
+    const arc      = document.getElementById('breatheArc');
+    const dot      = document.getElementById('breatheDot');
+
+    function updateDot(offset) {
+      const pct  = 1 - offset / 314;
+      const angle= pct * 2 * Math.PI - Math.PI / 2;
+      const r    = 50, cx = 60, cy = 60;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      dot.setAttribute('cx', x.toFixed(2));
+      dot.setAttribute('cy', y.toFixed(2));
     }
+
+    function tick() {
+      const phase = phases[phaseIdx];
+      phaseEl.textContent = phase.label;
+      countEl.textContent = countdown;
+
+      const used    = phase.secs - countdown;
+      const prevOff = phaseIdx > 0 ? phases[phaseIdx-1].offset : 78;
+      const curOff  = phase.offset;
+      const stepOff = prevOff + (curOff - prevOff) * (used / phase.secs);
+      arc.style.strokeDashoffset = stepOff;
+      updateDot(stepOff);
+
+      countdown--;
+      if (countdown < 0) {
+        phaseIdx = (phaseIdx + 1) % phases.length;
+        countdown = phases[phaseIdx].secs;
+        if (phaseIdx === 0) arc.style.strokeDashoffset = 78;
+      }
+    }
+
+    function startBreathing() {
+      if (running) { clearInterval(timer); running = false; document.getElementById('breatheStartBtn').innerHTML = '<i class="fa-solid fa-play"></i> Start 2-Min Exercise'; return; }
+      running = true;
+      document.getElementById('breatheStartBtn').innerHTML = '<i class="fa-solid fa-stop"></i> Stop Exercise';
+      phaseIdx = 0; countdown = 4;
+      tick();
+      timer = setInterval(tick, 1000);
+    }
+
+    /* Init dot position */
+    updateDot(78);
   </script>
+
 </body>
 </html>
