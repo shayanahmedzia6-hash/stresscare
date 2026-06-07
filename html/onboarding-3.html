@@ -3,31 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StressCare - Onboarding 3</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/onboarding.css">
+  <title>StressCare - Onboarding</title>
+  <link rel="stylesheet" href="../css/onboarding.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <div class="onboarding-container">
-    <header class="onboarding-header">
-      <img src="images/logo.png" alt="StressCare Logo" class="logo">
-      <a href="register.html" class="skip">Skip</a>
-    </header>
 
-    <main class="onboarding-main">
-      <h1>Get Sleep & Migraine Insights</h1>
-      <p>Understand sleep quality, stress patterns and migraine risk with personalized AI insights and early warnings.</p>
-      <img src="images/onboarding3.png" alt="Meditating person" class="onboarding-image">
-    </main>
+  <div class="phone-frame">
+    <div class="ob-screen">
 
-    <footer class="onboarding-footer">
-      <div class="dots">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot active"></span>
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span class="status-time">10:30</span>
+        <div class="status-icons">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-three-quarters"></i>
+          <span class="battery-text">88%</span>
+        </div>
       </div>
-      <a href="register.html" class="btn-next">Get Started ></a>
-    </footer>
+
+      <!-- Header: Logo + Skip -->
+      <div class="ob-header">
+        <div class="logo-wrap">
+          <img src="../images/logo.png" alt="StressCare Logo">
+        </div>
+        <a href="register.html" class="skip-btn">Skip</a>
+      </div>
+
+      <!-- Title -->
+      <div class="ob-text">
+        <h1 class="ob-title">Get Sleep &amp; Migraine<br>Insights</h1>
+        <p class="ob-subtitle">Understand sleep quality, stress patterns and<br>migraine risk with personalized AI insights<br>and early warnings.</p>
+      </div>
+
+      <!-- Illustration -->
+      <div class="illustration-wrap">
+        <img src="../images/onboarding3.png" alt="Meditating person" class="ob-illus-full">
+      </div>
+
+      <!-- Footer -->
+      <div class="ob-footer">
+        <div class="dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot active"></span>
+        </div>
+        <a href="register.html" class="btn-next">
+          Get Started <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </div>
+
+    </div>
   </div>
+
 </body>
 </html>
