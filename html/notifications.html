@@ -56,8 +56,13 @@
         <!-- ── Today ─────────────────────────────── -->
         <div class="notif-section-label">Today</div>
 
-        <!-- High Stress Alert -->
-        <div class="notif-row" data-type="alert" id="n1">
+        <div class="notif-row" data-type="alert"
+          data-icon="fa-solid fa-heart" data-icon-class="notif-icon-red"
+          data-title="High Stress Alert" data-time="Today, 2:45 PM"
+          data-detail="Your stress level is high (78%). This may be due to elevated cortisol and reduced HRV. Consider taking a short break, stepping away from screens, and trying a guided breathing exercise."
+          data-tag="Alert" data-tag-color="red"
+          data-action-label="Try Breathing Exercise" data-action-href="interventions.html"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-red">
             <i class="fa-solid fa-heart"></i>
           </div>
@@ -71,8 +76,13 @@
           </div>
         </div>
 
-        <!-- Migraine Risk Warning -->
-        <div class="notif-row" data-type="alert" id="n2">
+        <div class="notif-row" data-type="alert"
+          data-icon="fa-solid fa-brain" data-icon-class="notif-icon-teal"
+          data-title="Migraine Risk Warning" data-time="Today, 1:25 PM"
+          data-detail="Migraine risk is elevated (72%) due to changes in your GSR and sleep patterns. Your HRV has dropped 18% and sleep quality was Poor last night. Consider resting in a quiet, dark room and staying well hydrated."
+          data-tag="Alert" data-tag-color="red"
+          data-action-label="View Migraine Risk" data-action-href="migraine-risk.html"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-teal">
             <i class="fa-solid fa-brain"></i>
           </div>
@@ -86,8 +96,13 @@
           </div>
         </div>
 
-        <!-- Weekly Report Ready -->
-        <div class="notif-row" data-type="system" id="n3">
+        <div class="notif-row" data-type="system"
+          data-icon="fa-solid fa-chart-bar" data-icon-class="notif-icon-blue"
+          data-title="Weekly Report Ready" data-time="Today, 9:00 AM"
+          data-detail="Your weekly stress report for May 16 – May 22 is ready to view. This week your average stress was 58% (Moderate), with 3 high-stress episodes and 4 low-stress days. Tap below to read the full report."
+          data-tag="Report" data-tag-color="blue"
+          data-action-label="View Full Report" data-action-href="report-detail.html"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-blue">
             <i class="fa-solid fa-chart-bar"></i>
           </div>
@@ -101,8 +116,13 @@
           </div>
         </div>
 
-        <!-- Calibration Reminder -->
-        <div class="notif-row" data-type="reminder" id="n4">
+        <div class="notif-row" data-type="reminder"
+          data-icon="fa-solid fa-clock" data-icon-class="notif-icon-purple"
+          data-title="Calibration Reminder" data-time="Today, 8:30 AM"
+          data-detail="It's time to calibrate your StressCare Band for more accurate stress and HRV readings. Calibration takes about 3 minutes and should be done weekly. Tap below to start the calibration process."
+          data-tag="Reminder" data-tag-color="purple"
+          data-action-label="Start Calibration" data-action-href="calibration.html"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-purple">
             <i class="fa-solid fa-clock"></i>
           </div>
@@ -119,8 +139,13 @@
         <!-- ── Yesterday ───────────────────────────── -->
         <div class="notif-section-label">Yesterday</div>
 
-        <!-- Device Connected -->
-        <div class="notif-row" data-type="system" id="n5">
+        <div class="notif-row" data-type="system"
+          data-icon="fa-brands fa-bluetooth-b" data-icon-class="notif-icon-teal"
+          data-title="Device Connected" data-time="Yesterday, 7:45 PM"
+          data-detail="Your StressCare Band has been successfully connected via Bluetooth and is now actively monitoring your stress levels, HRV, GSR, and skin temperature in real time."
+          data-tag="System" data-tag-color="teal"
+          data-action-label="Manage Devices" data-action-href="device-pairing.html"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-teal">
             <i class="fa-brands fa-bluetooth-b"></i>
           </div>
@@ -134,8 +159,13 @@
           </div>
         </div>
 
-        <!-- Cloud Sync Complete -->
-        <div class="notif-row" data-type="system" id="n6">
+        <div class="notif-row" data-type="system"
+          data-icon="fa-solid fa-cloud-arrow-up" data-icon-class="notif-icon-blue"
+          data-title="Cloud Sync Complete" data-time="Yesterday, 6:10 PM"
+          data-detail="All your health data including stress readings, HRV trends, sleep logs, and session history has been securely synced to the cloud. Your data is encrypted and backed up safely."
+          data-tag="System" data-tag-color="blue"
+          data-action-label="View History" data-action-href="history.html"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-blue">
             <i class="fa-solid fa-cloud-arrow-up"></i>
           </div>
@@ -149,8 +179,13 @@
           </div>
         </div>
 
-        <!-- Feedback Reminder -->
-        <div class="notif-row" data-type="reminder" id="n7">
+        <div class="notif-row" data-type="reminder"
+          data-icon="fa-regular fa-comment-dots" data-icon-class="notif-icon-amber"
+          data-title="Feedback Reminder" data-time="Yesterday, 3:20 PM"
+          data-detail="How are you feeling about StressCare? Your feedback helps us improve the app, add new features, and make stress monitoring more accurate. It only takes 2 minutes — we'd love to hear from you."
+          data-tag="Reminder" data-tag-color="amber"
+          data-action-label="Give Feedback" data-action-href="feedback.html"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-amber">
             <i class="fa-regular fa-comment-dots"></i>
           </div>
@@ -164,8 +199,13 @@
           </div>
         </div>
 
-        <!-- Model Update Available -->
-        <div class="notif-row" data-type="system" id="n8">
+        <div class="notif-row" data-type="system"
+          data-icon="fa-solid fa-circle-arrow-down" data-icon-class="notif-icon-purple"
+          data-title="Model Update Available" data-time="Yesterday, 11:05 AM"
+          data-detail="StressCare AI version 2.4.1 is now available. This update includes improved stress detection accuracy (+12%), better migraine risk prediction, and reduced false alerts. Update now to enjoy the latest improvements."
+          data-tag="Update" data-tag-color="purple"
+          data-action-label="Update Now" data-action-href="#"
+          onclick="openDetail(this)">
           <div class="notif-icon-wrap notif-icon-purple">
             <i class="fa-solid fa-circle-arrow-down"></i>
           </div>
@@ -215,10 +255,37 @@
         </a>
       </div>
 
+      <!-- ── Detail Bottom Sheet ────────────────── -->
+      <div class="nd-overlay" id="ndOverlay" onclick="closeDetail()"></div>
+      <div class="nd-sheet" id="ndSheet">
+        <div class="nd-drag-handle"></div>
+
+        <div class="nd-sheet-header">
+          <div class="nd-sheet-icon-wrap" id="ndIcon">
+            <i class="fa-solid fa-bell"></i>
+          </div>
+          <div class="nd-sheet-meta">
+            <div class="nd-sheet-tag" id="ndTag">Alert</div>
+            <div class="nd-sheet-time" id="ndTime">Today, 2:45 PM</div>
+          </div>
+          <button class="nd-close-btn" onclick="closeDetail()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="nd-sheet-title" id="ndTitle">High Stress Alert</div>
+        <div class="nd-sheet-divider"></div>
+        <div class="nd-sheet-detail" id="ndDetail">Detail text goes here.</div>
+
+        <a href="#" class="nd-action-btn" id="ndActionBtn">View Details</a>
+        <button class="nd-dismiss-btn" onclick="closeDetail()">Dismiss</button>
+      </div>
+
     </div>
   </div>
 
   <script>
+    /* ── Filter Tabs ──────────────────────────────── */
     function filterTab(btn, type) {
       document.querySelectorAll('.notif-ftab').forEach(t => t.classList.remove('notif-ftab-active'));
       btn.classList.add('notif-ftab-active');
@@ -228,13 +295,52 @@
         row.style.display = match ? 'flex' : 'none';
       });
 
-      document.querySelectorAll('.notif-section-label').forEach(lbl => {
-        lbl.style.display = 'block';
-      });
-
       const visible = document.querySelectorAll('.notif-row:not([style*="display: none"])');
       document.getElementById('notifEmpty').style.display =
         visible.length === 0 ? 'flex' : 'none';
+    }
+
+    /* ── Detail Sheet ─────────────────────────────── */
+    const colorMap = {
+      red:    { bg: '#fee2e2', color: '#ef4444', tagBg: '#fee2e2', tagColor: '#ef4444' },
+      blue:   { bg: '#dbeafe', color: '#2563eb', tagBg: '#eff6ff', tagColor: '#2563eb' },
+      teal:   { bg: '#d1fae5', color: '#059669', tagBg: '#d1fae5', tagColor: '#059669' },
+      purple: { bg: '#ede9fe', color: '#7c3aed', tagBg: '#ede9fe', tagColor: '#7c3aed' },
+      amber:  { bg: '#fef3c7', color: '#d97706', tagBg: '#fef3c7', tagColor: '#d97706' },
+    };
+
+    function openDetail(row) {
+      const d = row.dataset;
+      const col = colorMap[d.tagColor] || colorMap.blue;
+
+      // Icon
+      const iconWrap = document.getElementById('ndIcon');
+      iconWrap.className = 'nd-sheet-icon-wrap';
+      iconWrap.style.background = col.bg;
+      iconWrap.innerHTML = `<i class="${d.icon}" style="color:${col.color}"></i>`;
+
+      // Tag
+      const tag = document.getElementById('ndTag');
+      tag.textContent = d.tag;
+      tag.style.background = col.tagBg;
+      tag.style.color = col.tagColor;
+
+      document.getElementById('ndTime').textContent = d.time;
+      document.getElementById('ndTitle').textContent = d.title;
+      document.getElementById('ndDetail').textContent = d.detail;
+
+      const btn = document.getElementById('ndActionBtn');
+      btn.textContent = d.actionLabel;
+      btn.href = d.actionHref;
+
+      // Open
+      document.getElementById('ndOverlay').classList.add('nd-show');
+      document.getElementById('ndSheet').classList.add('nd-open');
+    }
+
+    function closeDetail() {
+      document.getElementById('ndOverlay').classList.remove('nd-show');
+      document.getElementById('ndSheet').classList.remove('nd-open');
     }
   </script>
 
