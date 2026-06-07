@@ -37,14 +37,54 @@
       <!-- ── Scrollable Content ─────────────────── -->
       <div class="hist-scroll">
 
-        <!-- Title -->
-        <h1 class="hist-title">History</h1>
+        <!-- Title Row -->
+        <div class="hist-title-row">
+          <h1 class="hist-title">History</h1>
+          <button class="hist-filter-btn" id="filterBtn" onclick="openCalendar()">
+            <i class="fa-regular fa-calendar"></i>
+            <span id="filterLabel">Filter</span>
+          </button>
+        </div>
+
+        <!-- Active filter chip -->
+        <div id="filterChip" class="hist-filter-chip" style="display:none;">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span id="filterChipLabel"></span>
+          <button class="hist-chip-clear" onclick="clearFilter()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
 
         <!-- Day / Week / Month Toggle -->
         <div class="hist-toggle">
           <button class="hist-tab" id="tabDay" onclick="switchTab('Day')">Day</button>
           <button class="hist-tab hist-tab-active" id="tabWeek" onclick="switchTab('Week')">Week</button>
           <button class="hist-tab" id="tabMonth" onclick="switchTab('Month')">Month</button>
+        </div>
+
+        <!-- Calendar Modal -->
+        <div id="calModal" class="hist-cal-overlay" style="display:none;" onclick="calOverlayClick(event)">
+          <div class="hist-cal-modal">
+            <div class="hist-cal-header">
+              <button class="hist-cal-nav" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+              <span class="hist-cal-month-label" id="calMonthLabel"></span>
+              <button class="hist-cal-nav" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+
+            <div class="hist-cal-weekdays">
+              <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+              <span>Th</span><span>Fr</span><span>Sa</span>
+            </div>
+
+            <div class="hist-cal-grid" id="calGrid"></div>
+
+            <div class="hist-cal-legend">
+              <span class="hist-cal-dot-green"></span><span>Has session</span>
+            </div>
+
+            <div class="hist-cal-actions">
+              <button class="hist-cal-cancel" onclick="closeCalendar()">Cancel</button>
+              <button class="hist-cal-apply" id="calApplyBtn" onclick="applyFilter()" disabled>Apply</button>
+            </div>
+          </div>
         </div>
 
         <!-- Stress Trend Chart -->
@@ -207,7 +247,7 @@
 
         <div class="hist-sessions-list">
 
-          <a href="report-detail.html" class="hist-session-row">
+          <a href="report-detail.html" class="hist-session-row" data-date="2025-05-22">
             <div class="hist-session-date">
               <i class="fa-regular fa-calendar-days" style="color:#9aadc9;font-size:13px;"></i>
               <div>
@@ -229,7 +269,7 @@
             <i class="fa-solid fa-chevron-right hist-session-arrow"></i>
           </a>
 
-          <a href="report-detail.html" class="hist-session-row">
+          <a href="report-detail.html" class="hist-session-row" data-date="2025-05-21">
             <div class="hist-session-date">
               <i class="fa-regular fa-calendar-days" style="color:#9aadc9;font-size:13px;"></i>
               <div>
@@ -251,7 +291,7 @@
             <i class="fa-solid fa-chevron-right hist-session-arrow"></i>
           </a>
 
-          <a href="report-detail.html" class="hist-session-row">
+          <a href="report-detail.html" class="hist-session-row" data-date="2025-05-20">
             <div class="hist-session-date">
               <i class="fa-regular fa-calendar-days" style="color:#9aadc9;font-size:13px;"></i>
               <div>
@@ -272,6 +312,12 @@
             </div>
             <i class="fa-solid fa-chevron-right hist-session-arrow"></i>
           </a>
+
+          <!-- Empty state (shown when filter has no results) -->
+          <div id="noSessionMsg" class="hist-no-session" style="display:none;">
+            <i class="fa-regular fa-calendar-xmark"></i>
+            <div>No sessions found for this date</div>
+          </div>
 
         </div>
 
@@ -334,6 +380,120 @@
         const el = document.getElementById('tab' + t);
         el.classList.toggle('hist-tab-active', t === tab);
       });
+    }
+
+    /* ── Calendar ── */
+    const SESSION_DATES = ['2025-05-22','2025-05-21','2025-05-20'];
+    const MONTHS = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+
+    let calYear  = 2025;
+    let calMonth = 4; // 0-indexed → May
+    let selectedDate = null;
+
+    function openCalendar() {
+      renderCalendar();
+      document.getElementById('calModal').style.display = 'flex';
+    }
+
+    function closeCalendar() {
+      document.getElementById('calModal').style.display = 'none';
+    }
+
+    function calOverlayClick(e) {
+      if (e.target === document.getElementById('calModal')) closeCalendar();
+    }
+
+    function changeMonth(dir) {
+      calMonth += dir;
+      if (calMonth < 0)  { calMonth = 11; calYear--; }
+      if (calMonth > 11) { calMonth = 0;  calYear++; }
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      document.getElementById('calMonthLabel').textContent = MONTHS[calMonth] + ' ' + calYear;
+
+      const grid = document.getElementById('calGrid');
+      grid.innerHTML = '';
+
+      const firstDay = new Date(calYear, calMonth, 1).getDay();
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+      const today = new Date();
+
+      // blank cells before first day
+      for (let i = 0; i < firstDay; i++) {
+        const blank = document.createElement('div');
+        blank.className = 'hist-cal-cell hist-cal-blank';
+        grid.appendChild(blank);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cell = document.createElement('button');
+        cell.className = 'hist-cal-cell';
+        cell.textContent = d;
+
+        const iso = calYear + '-' +
+          String(calMonth + 1).padStart(2,'0') + '-' +
+          String(d).padStart(2,'0');
+
+        const isToday = (today.getFullYear() === calYear &&
+                         today.getMonth() === calMonth &&
+                         today.getDate() === d);
+        const hasSession = SESSION_DATES.includes(iso);
+        const isSelected = (selectedDate === iso);
+        const isFuture = new Date(iso) > today;
+
+        if (isToday) cell.classList.add('hist-cal-today');
+        if (hasSession) cell.classList.add('hist-cal-has-session');
+        if (isSelected) cell.classList.add('hist-cal-selected');
+        if (isFuture) { cell.classList.add('hist-cal-future'); cell.disabled = true; }
+
+        cell.addEventListener('click', () => selectDate(iso, cell));
+        grid.appendChild(cell);
+      }
+
+      document.getElementById('calApplyBtn').disabled = !selectedDate;
+    }
+
+    function selectDate(iso, cell) {
+      selectedDate = iso;
+      document.querySelectorAll('.hist-cal-cell').forEach(c => c.classList.remove('hist-cal-selected'));
+      cell.classList.add('hist-cal-selected');
+      document.getElementById('calApplyBtn').disabled = false;
+    }
+
+    function applyFilter() {
+      if (!selectedDate) return;
+      closeCalendar();
+
+      const [y, m, d] = selectedDate.split('-');
+      const label = MONTHS[parseInt(m)-1] + ' ' + parseInt(d) + ', ' + y;
+
+      document.getElementById('filterChipLabel').textContent = label;
+      document.getElementById('filterChip').style.display = 'flex';
+      document.getElementById('filterLabel').textContent = label;
+
+      filterSessions(selectedDate);
+    }
+
+    function filterSessions(dateStr) {
+      const rows = document.querySelectorAll('.hist-session-row');
+      let found = 0;
+      rows.forEach(row => {
+        const match = row.dataset.date === dateStr;
+        row.style.display = match ? 'flex' : 'none';
+        if (match) found++;
+      });
+      document.getElementById('noSessionMsg').style.display = found === 0 ? 'flex' : 'none';
+    }
+
+    function clearFilter() {
+      selectedDate = null;
+      document.getElementById('filterChip').style.display = 'none';
+      document.getElementById('filterLabel').textContent = 'Filter';
+      document.querySelectorAll('.hist-session-row').forEach(r => r.style.display = 'flex');
+      document.getElementById('noSessionMsg').style.display = 'none';
     }
   </script>
 
