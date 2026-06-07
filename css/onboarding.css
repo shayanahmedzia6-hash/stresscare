@@ -19,7 +19,7 @@ body {
 /* ─── Phone Frame ─────────────────────────────────────── */
 .phone-frame {
   width: 390px;
-  min-height: 844px;
+  height: 844px;
   background: #ffffff;
   border-radius: 50px;
   box-shadow:
@@ -30,6 +30,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 /* Notch */
@@ -54,7 +55,8 @@ body {
   flex-direction: column;
   padding: 0;
   animation: fadeSlideIn 0.4s ease forwards;
-  min-height: 844px;
+  height: 100%;
+  overflow: hidden;
 }
 
 @keyframes fadeSlideIn {
@@ -129,24 +131,24 @@ body {
 
 /* ─── Title Block ─────────────────────────────────────── */
 .ob-text {
-  padding: 4px 28px 10px;
+  padding: 2px 28px 8px;
   text-align: center;
 }
 
 .ob-title {
-  font-size: 26px;
+  font-size: 25px;
   font-weight: 800;
   color: #1a2b4b;
-  line-height: 1.25;
-  margin-bottom: 10px;
+  line-height: 1.2;
+  margin-bottom: 8px;
   letter-spacing: -0.3px;
 }
 
 .ob-subtitle {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 400;
   color: #7a8cad;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 /* ─── Illustration Area ───────────────────────────────── */
@@ -154,7 +156,9 @@ body {
   position: relative;
   flex: 1;
   margin: 0 10px;
-  min-height: 320px;
+  overflow: hidden;
+  min-height: 0;
+  max-height: 380px;
 }
 
 .ob-illus {
@@ -173,6 +177,7 @@ body {
   height: 100%;
   object-fit: contain;
   display: block;
+  max-height: 100%;
 }
 
 /* ─── Metric Cards (Screen 1) ─────────────────────────── */
@@ -342,7 +347,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 28px 36px;
+  padding: 16px 28px 32px;
+  flex-shrink: 0;
 }
 
 .dots {
@@ -396,11 +402,12 @@ body {
   body {
     background: linear-gradient(175deg, #eaf3ff 0%, #f5faff 45%, #ffffff 100%);
     padding: 0;
+    align-items: flex-start;
   }
 
   .phone-frame {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     border-radius: 0;
     box-shadow: none;
   }
@@ -408,8 +415,11 @@ body {
   .phone-frame::before {
     display: none;
   }
+}
 
-  .ob-screen {
-    min-height: 100vh;
+/* Tall screens - give a bit more breathing room */
+@media (min-height: 900px) {
+  body {
+    padding: 40px 20px;
   }
 }
